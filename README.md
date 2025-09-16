@@ -4,7 +4,7 @@
 
 ## 功能特点
 
-- 🎵 **丰富的练习内容**: 包含大七、小七、属七琶音，五声音阶，自然音阶，Legato等多种即兴思路
+- 🎵 **丰富的练习内容**: 包含琶音、五声音阶、自然音阶、Legato等多种即兴思路
 - ⏰ **定时播放**: 可自定义间隔时间，自动切换练习内容
 - 👀 **预览功能**: 类似KTV歌词显示，可以提前看到下一个即将到来的练习内容
 - 📊 **进度显示**: 直观的进度条和完成状态显示
@@ -42,7 +42,7 @@
 1. Fork 此项目到您的 GitHub 账户
 2. 在项目设置中启用 GitHub Pages
 3. 选择主分支作为发布源
-4. 访问 `https://yourusername.github.io/improvisation-tool/` 即可使用
+4. 访问 `https://yourusername.github.io/improv-prompt/` 即可使用
 
 ## 本地运行
 
@@ -50,7 +50,7 @@
 
 ## 自定义练习内容
 
-如需添加或修改练习内容，请编辑 `index.html` 文件中的 `improvisationIdeas` 数组。
+如需添加或修改练习内容，请编辑 `index.html` 文件中的 `improvisationTree` 对象。
 
 ## 许可证
 
