@@ -163,6 +163,56 @@
             text-align: left;
         }
 
+        .audio-list {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #28a745;
+        }
+
+        .audio-list h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .track-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .track-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .track-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .track-item.active {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .track-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .track-meta {
+            font-size: 0.85em;
+            color: #666;
+        }
+
         .scale-category {
             margin-bottom: 10px;
         }
@@ -209,22 +259,26 @@
             font-size: 14px;
         }
 
-        input, button {
+        input, button, select {
             padding: 10px 16px;
             border: none;
             border-radius: 8px;
             font-size: 14px;
         }
 
-        input {
+        input, select {
             background: #f8f9fa;
             border: 2px solid #e9ecef;
             transition: border-color 0.3s;
         }
 
-        input:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: #667eea;
+        }
+
+        select {
+            cursor: pointer;
         }
 
         button {
@@ -406,12 +460,20 @@
         <div class="audio-section">
             <h2>🎸 背景音轨</h2>
             <div class="audio-controls">
-                <button class="audio-button" id="randomPlayBtn">🔀 随机播放</button>
+                <div class="control-group">
+                    <label for="playMode">播放模式:</label>
+                    <select id="playMode">
+                        <option value="random">🔀 随机播放</option>
+                        <option value="sequential">🔄 顺序播放</option>
+                        <option value="repeat">🔂 单曲循环</option>
+                    </select>
+                </div>
+                <button class="audio-button" id="playBtn">▶️ 播放</button>
                 <button class="audio-button" id="pauseBtn" disabled>⏸️ 暂停</button>
                 <button class="audio-button" id="resumeBtn" disabled>▶️ 继续</button>
                 <button class="audio-button" id="stopAudioBtn" disabled>⏹️ 停止</button>
                 <button class="audio-button" id="nextTrackBtn" disabled>⏭️ 下一首</button>
-            </div>
+            </div></div>
             <div class="track-details" id="trackDetails" style="display: none;">
                 <div class="track-title" id="trackTitle"></div>
                 <div class="track-info">
@@ -428,6 +490,12 @@
                 <div class="scale-category">
                     <h4>Primary Scale Options</h4>
                     <div class="scale-list">选择音轨后显示音阶提示</div>
+                </div>
+            </div>
+            <div class="audio-list" id="audioList">
+                <h3>🎵 音频列表</h3>
+                <div class="track-list" id="trackList">
+                    <!-- 音频列表将由JavaScript动态生成 -->
                 </div>
             </div>
             <audio id="audioPlayer" preload="metadata"></audio>
@@ -473,13 +541,16 @@
         class AudioManager {
             constructor() {
                 this.audioPlayer = document.getElementById('audioPlayer');
+                this.currentIndex = 0;
+                this.isPlaying = false;
                 this.scaleHints = document.getElementById('scaleHints');
                 this.trackDetails = document.getElementById('trackDetails');
                 this.trackTitle = document.getElementById('trackTitle');
                 this.trackTempo = document.getElementById('trackTempo');
                 this.trackChordsSection = document.getElementById('trackChordsSection');
                 
-                this.randomPlayBtn = document.getElementById('randomPlayBtn');
+                this.playModeSelect = document.getElementById('playMode');
+                this.playBtn = document.getElementById('playBtn');
                 this.pauseBtn = document.getElementById('pauseBtn');
                 this.resumeBtn = document.getElementById('resumeBtn');
                 this.stopAudioBtn = document.getElementById('stopAudioBtn');
@@ -840,7 +911,9 @@
                 this.isPlaying = false;
                 this.shuffleArray(this.audioFiles);
 
+                // 初始化音频事件和列表显示
                 this.initAudioEvents();
+                this.initTrackList();
             }
 
             shuffleArray(array) {
@@ -851,19 +924,55 @@
             }
 
             initAudioEvents() {
-                this.randomPlayBtn.addEventListener('click', () => this.randomPlay());
+                this.playBtn.addEventListener('click', () => this.play());
                 this.pauseBtn.addEventListener('click', () => this.pause());
                 this.resumeBtn.addEventListener('click', () => this.resume());
                 this.stopAudioBtn.addEventListener('click', () => this.stop());
                 this.nextTrackBtn.addEventListener('click', () => this.nextTrack());
 
-                this.audioPlayer.addEventListener('ended', () => this.nextTrack());
+                this.audioPlayer.addEventListener('ended', () => this.handleTrackEnd());
                 this.audioPlayer.addEventListener('error', () => this.handleError());
             }
 
-            randomPlay() {
-                this.currentIndex = Math.floor(Math.random() * this.audioFiles.length);
+            play() {
+                const playMode = this.playModeSelect.value;
+                if (playMode === 'random') {
+                    this.currentIndex = Math.floor(Math.random() * this.audioFiles.length);
+                } else if (playMode === 'sequential') {
+                    // 保持当前索引，顺序播放
+                }
+                // repeat 模式也保持当前索引
                 this.playCurrentTrack();
+            }
+
+            initTrackList() {
+                const trackList = document.getElementById('trackList');
+                trackList.innerHTML = '';
+
+                this.audioFiles.forEach((track, index) => {
+                    const trackItem = document.createElement('div');
+                    trackItem.className = 'track-item';
+                    trackItem.dataset.index = index;
+                    
+                    trackItem.innerHTML = `
+                        <div class="track-name">${track.name}</div>
+                        <div class="track-meta">${track.tempo} | ${track.title}</div>
+                    `;
+                    
+                    trackItem.addEventListener('click', () => {
+                        this.currentIndex = index;
+                        this.playCurrentTrack();
+                    });
+                    
+                    trackList.appendChild(trackItem);
+                });
+            }
+
+            updateTrackListUI() {
+                const trackItems = document.querySelectorAll('.track-item');
+                trackItems.forEach((item, index) => {
+                    item.classList.toggle('active', index === this.currentIndex && this.isPlaying);
+                });
             }
 
             playCurrentTrack() {
@@ -903,7 +1012,14 @@
             }
 
             nextTrack() {
-                this.currentIndex = (this.currentIndex + 1) % this.audioFiles.length;
+                const playMode = this.playModeSelect.value;
+                
+                if (playMode === 'random') {
+                    this.currentIndex = Math.floor(Math.random() * this.audioFiles.length);
+                } else {
+                    // sequential 和 repeat 模式都使用顺序切换
+                    this.currentIndex = (this.currentIndex + 1) % this.audioFiles.length;
+                }
                 this.playCurrentTrack();
             }
 
@@ -914,11 +1030,14 @@
             }
 
             updateUI() {
-                this.randomPlayBtn.disabled = this.isPlaying;
+                this.playBtn.disabled = this.isPlaying;
                 this.pauseBtn.disabled = !this.isPlaying;
                 this.resumeBtn.disabled = this.isPlaying;
                 this.stopAudioBtn.disabled = !this.isPlaying && this.audioPlayer.currentTime === 0;
                 this.nextTrackBtn.disabled = !this.isPlaying && this.audioPlayer.currentTime === 0;
+
+                // 更新音频列表UI
+                this.updateTrackListUI();
 
                 if (this.isPlaying) {
                     const track = this.audioFiles[this.currentIndex];
@@ -989,6 +1108,52 @@
                         <div class="scale-list">选择音轨后显示音阶提示</div>
                     </div>
                 `;
+            }
+
+            initTrackList() {
+                const trackList = document.getElementById('trackList');
+                trackList.innerHTML = '';
+
+                this.audioFiles.forEach((track, index) => {
+                    const trackItem = document.createElement('div');
+                    trackItem.className = 'track-item';
+                    trackItem.dataset.index = index;
+                    
+                    trackItem.innerHTML = `
+                        <div class="track-name">${track.name}</div>
+                        <div class="track-meta">${track.tempo} | ${track.title}</div>
+                    `;
+                    
+                    trackItem.addEventListener('click', () => {
+                        this.currentIndex = index;
+                        this.playCurrentTrack();
+                    });
+                    
+                    trackList.appendChild(trackItem);
+                });
+            }
+
+            updateTrackListUI() {
+                const trackItems = document.querySelectorAll('.track-item');
+                trackItems.forEach((item, index) => {
+                    item.classList.toggle('active', index === this.currentIndex && this.isPlaying);
+                });
+            }
+
+            handleTrackEnd() {
+                const playMode = this.playModeSelect.value;
+                
+                if (playMode === 'repeat') {
+                    // 单曲循环，重新播放当前曲目
+                    this.playCurrentTrack();
+                } else if (playMode === 'sequential') {
+                    // 顺序播放下一首
+                    this.nextTrack();
+                } else if (playMode === 'random') {
+                    // 随机选择下一首
+                    this.currentIndex = Math.floor(Math.random() * this.audioFiles.length);
+                    this.playCurrentTrack();
+                }
             }
         }
 
