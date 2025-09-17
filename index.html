@@ -44,8 +44,7 @@
         .audio-section {
             background: #f8f9fa;
             border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             text-align: center;
         }
 
@@ -117,12 +116,43 @@
         }
 
         .track-chords {
-            flex: 1;
-            min-width: 200px;
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ffc107;
+            text-align: left;
         }
 
         .track-chords strong {
             color: #333;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .chord-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+
+        .chord-table td {
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .chord-names td {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .chord-functions td {
+            background: #e9ecef;
+            color: #555;
         }
 
         .scale-hints {
@@ -284,45 +314,6 @@
             transition: width 0.1s linear;
         }
 
-        .status {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 18px;
-            color: #555;
-        }
-
-        .category-list {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .category-list h3 {
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .category-item {
-            background: white;
-            padding: 10px 15px;
-            margin: 8px 0;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .category-item.completed {
-            opacity: 0.6;
-            border-left-color: #28a745;
-        }
-
-        .category-item.current {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border-left-color: #fff;
-        }
-
         @media (max-width: 600px) {
             .container {
                 padding: 15px;
@@ -335,9 +326,10 @@
             }
             
             .controls, .audio-controls {
-                flex-direction: column;
+                flex-direction: row;
                 gap: 10px;
                 margin-bottom: 15px;
+                justify-content: center;
             }
             
             .control-group {
@@ -348,13 +340,15 @@
             .button-group, .audio-controls {
                 width: 100%;
                 justify-content: center;
+                flex-wrap: wrap;
             }
 
             .button-group button, .audio-controls button {
-                flex: 1;
-                max-width: 100px;
-                font-size: 13px;
+                flex: 0 1 auto;
+                min-width: 80px;
+                font-size: 12px;
                 padding: 8px 12px;
+                margin: 2px;
             }
 
             .current-prompt .prompt-text {
@@ -380,38 +374,6 @@
     <div class="container">
         <h1>🎵 即兴提示工具</h1>
         
-        <!-- 音频播放区域 -->
-        <div class="audio-section">
-            <h2>🎸 背景音轨</h2>
-            <div class="audio-info">
-                <div class="current-track" id="currentTrack">点击随机播放开始</div>
-                <div class="track-details" id="trackDetails" style="display: none;">
-                    <div class="track-title" id="trackTitle"></div>
-                    <div class="track-info">
-                        <div class="track-tempo" id="trackTempo"></div>
-                        <div class="track-chords">
-                            <strong>和弦进行：</strong>
-                            <span id="trackChords"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="scale-hints" id="scaleHints">
-                    <div class="scale-category">
-                        <h4>Primary Scale Options</h4>
-                        <div class="scale-list">选择音轨后显示音阶提示</div>
-                    </div>
-                </div>
-            </div>
-            <div class="audio-controls">
-                <button class="audio-button" id="randomPlayBtn">🔀 随机播放</button>
-                <button class="audio-button" id="pauseBtn" disabled>⏸️ 暂停</button>
-                <button class="audio-button" id="resumeBtn" disabled>▶️ 继续</button>
-                <button class="audio-button" id="stopAudioBtn" disabled>⏹️ 停止</button>
-                <button class="audio-button" id="nextTrackBtn" disabled>⏭️ 下一首</button>
-            </div>
-            <audio id="audioPlayer" preload="metadata"></audio>
-        </div>
-
         <div class="controls">
             <div class="control-group">
                 <label for="interval">间隔时间 (秒):</label>
@@ -423,8 +385,6 @@
                 <button id="nextBtn" disabled>下一个</button>
             </div>
         </div>
-
-        <div class="status" id="status">点击"开始练习"开始您的即兴训练</div>
 
         <div class="progress-bar">
             <div class="progress-fill" id="progressFill"></div>
@@ -442,9 +402,35 @@
             </div>
         </div>
 
-        <div class="category-list">
-            <h3>📝 练习内容列表</h3>
-            <div id="categoryList"></div>
+        <!-- 音频播放区域移到这里 -->
+        <div class="audio-section">
+            <h2>🎸 背景音轨</h2>
+            <div class="audio-controls">
+                <button class="audio-button" id="randomPlayBtn">🔀 随机播放</button>
+                <button class="audio-button" id="pauseBtn" disabled>⏸️ 暂停</button>
+                <button class="audio-button" id="resumeBtn" disabled>▶️ 继续</button>
+                <button class="audio-button" id="stopAudioBtn" disabled>⏹️ 停止</button>
+                <button class="audio-button" id="nextTrackBtn" disabled>⏭️ 下一首</button>
+            </div>
+            <div class="track-details" id="trackDetails" style="display: none;">
+                <div class="track-title" id="trackTitle"></div>
+                <div class="track-info">
+                    <div class="track-tempo" id="trackTempo"></div>
+                </div>
+            </div>
+            <div class="track-chords" id="trackChordsSection" style="display: none;">
+                <strong>和弦进行：</strong>
+                <table class="chord-table" id="chordTable">
+                    <!-- 表格内容将由JavaScript动态生成 -->
+                </table>
+            </div>
+            <div class="scale-hints" id="scaleHints">
+                <div class="scale-category">
+                    <h4>Primary Scale Options</h4>
+                    <div class="scale-list">选择音轨后显示音阶提示</div>
+                </div>
+            </div>
+            <audio id="audioPlayer" preload="metadata"></audio>
         </div>
     </div>
 
@@ -487,12 +473,11 @@
         class AudioManager {
             constructor() {
                 this.audioPlayer = document.getElementById('audioPlayer');
-                this.currentTrack = document.getElementById('currentTrack');
                 this.scaleHints = document.getElementById('scaleHints');
                 this.trackDetails = document.getElementById('trackDetails');
                 this.trackTitle = document.getElementById('trackTitle');
                 this.trackTempo = document.getElementById('trackTempo');
-                this.trackChords = document.getElementById('trackChords');
+                this.trackChordsSection = document.getElementById('trackChordsSection');
                 
                 this.randomPlayBtn = document.getElementById('randomPlayBtn');
                 this.pauseBtn = document.getElementById('pauseBtn');
@@ -506,7 +491,8 @@
                         name: 'BBBT001 - E Blues',
                         title: 'Track 1 - 12-Bar Blues Shuffle in E',
                         tempo: '♩ = 108',
-                        chordProgression: 'E7 (I) | E7 (I) | E7 (I) | E7 (I) | A7 (IV) | A7 (IV) | E7 (I) | E7 (I) | B7 (V) | A7 (IV) | E7 (I) | B7 (V)',
+                        chordNames: 'E7 | E7 | E7 | E7 | A7 | A7 | E7 | E7 | B7 | A7 | E7 | B7',
+                        chordFunctions: 'I | I | I | I | IV | IV | I | I | V | IV | I | V',
                         scaleHints: {
                             primary: [
                                 'E minor pentatonic scale',
@@ -532,7 +518,8 @@
                     name: 'BBBT010 - G Funky Blues',
                     title: 'Track 10 - 12-Bar Funky Blues in G',
                     tempo: '♩ = 92',
-                    chordProgression: 'G9 (I) | G9 (I) | G9 (I) | G9 (I) | C9 (IV) | C9 (IV) | G9 (I) | G9 (I) | D9 (V) | C9 (IV) | G9 (I) | G9 (I)',
+                    chordNames: 'G9 | G9 | G9 | G9 | C9 | C9 | G9 | G9 | D9 | C9 | G9 | G9',
+                    chordFunctions: 'I | I | I | I | IV | IV | I | I | V | IV | I | I',
                     scaleHints: {
                         primary: [
                             'G minor pentatonic scale',
@@ -557,7 +544,8 @@
                     name: 'BBBT016 - C Blues Rock',
                     title: 'Track 16 - 12-Bar Blues Rock in C',
                     tempo: '♩ = 160',
-                    chordProgression: 'C7 (I) | C7 (I) | C7 (I) | C7 (I) | F7 (IV) | F7 (IV) | C7 (I) | C7 (I) | G7 (V) | F7 (IV) | C7 (I) | G7 (V)',
+                    chordNames: 'C7 | C7 | C7 | C7 | F7 | F7 | C7 | C7 | G7 | F7 | C7 | G7',
+                    chordFunctions: 'I | I | I | I | IV | IV | I | I | V | IV | I | V',
                     scaleHints: {
                         primary: [
                             'C minor pentatonic scale',
@@ -581,7 +569,8 @@
                     name: 'BBBT032 - A Minor Blues',
                     title: 'Track 32 - 12-Bar Minor Blues in A Minor: Straight 8th Feel',
                     tempo: '♩ = 108',
-                    chordProgression: 'Am (i) | Am (i) | Am (i) | Am (i) | Dm (iv) | Dm (iv) | Am (i) | Am (i) | Fmaj7 (♭VI) | E7 (V) | Am (i) | Am (i)',
+                    chordNames: 'Am | Am | Am | Am | Dm | Dm | Am | Am | Fmaj7 | E7 | Am | Am',
+                    chordFunctions: 'i | i | i | i | iv | iv | i | i | ♭VI | V | i | i',
                     scaleHints: {
                         primary: [
                             'A minor pentatonic scale',
@@ -603,7 +592,8 @@
                     name: 'BBBT099 - C Two-Chord Rock',
                     title: 'Track 99 - Two-Chord Rock in C',
                     tempo: '♩ = 120',
-                    chordProgression: 'C (I) | C (I) | C (I) | C (I) | F (IV) | F (IV) | F (IV) | F (IV) | C (I) | C (I) | C (I) | C (I) | F (IV) | F (IV) | F (IV) | F (IV)',
+                    chordNames: 'C | C | C | C | F | F | F | F | C | C | C | C | F | F | F | F',
+                    chordFunctions: 'I | I | I | I | IV | IV | IV | IV | I | I | I | I | IV | IV | IV | IV',
                     scaleHints: {
                         primary: [
                             'C major scale',
@@ -624,7 +614,8 @@
                     name: 'BBBT105 - E Dorian Jam',
                     title: 'Track 105 - Dorian Jam in E Minor',
                     tempo: '♩ = 108',
-                    chordProgression: 'Em (i) | Em (i) | Em (i) | Em (i) | A (IV) | A (IV) | A (IV) | A (IV) | Em (i) | Em (i) | Em (i) | Em (i) | A (IV) | A (IV) | A (IV) | A (IV)',
+                    chordNames: 'Em | Em | Em | Em | A | A | A | A | Em | Em | Em | Em | A | A | A | A',
+                    chordFunctions: 'i | i | i | i | IV | IV | IV | IV | i | i | i | i | IV | IV | IV | IV',
                     scaleHints: {
                         primary: [
                             'E Dorian'
@@ -643,7 +634,8 @@
                     name: 'BBBT106 - D Dorian Jam',
                     title: 'Track 106 - Dorian Jam in D Minor',
                     tempo: '♩ = 80',
-                    chordProgression: 'Dm (i) | Dm (i) | Dm (i) | Dm (i) | G (IV) | G (IV) | G (IV) | G (IV) | Dm (i) | Dm (i) | Dm (i) | Dm (i) | G (IV) | G (IV) | G (IV) | G (IV)',
+                    chordNames: 'Dm | Dm | Dm | Dm | G | G | G | G | Dm | Dm | Dm | Dm | G | G | G | G',
+                    chordFunctions: 'i | i | i | i | IV | IV | IV | IV | i | i | i | i | IV | IV | IV | IV',
                     scaleHints: {
                         primary: [
                             'D Dorian'
@@ -662,7 +654,8 @@
                     name: 'BBBT121 - D U2 Groove',
                     title: 'Track 121 - U2 Groove in D',
                     tempo: '♩ = 104',
-                    chordProgression: 'D (I) | D (I) | D (I) | D (I) | A (V) | A (V) | A (V) | A (V) | Bm (vi) | Bm (vi) | Bm (vi) | Bm (vi) | G (IV) | G (IV) | G (IV) | G (IV)',
+                    chordNames: 'D | D | D | D | A | A | A | A | Bm | Bm | Bm | Bm | G | G | G | G',
+                    chordFunctions: 'I | I | I | I | V | V | V | V | vi | vi | vi | vi | IV | IV | IV | IV',
                     scaleHints: {
                         primary: [
                             'D major scale',
@@ -678,7 +671,8 @@
                     name: 'BBBT122 - F Let It Groove',
                     title: 'Track 122 - "Let It Groove" in F',
                     tempo: '♩ = 76',
-                    chordProgression: 'F (I) | F (I) | F (I) | F (I) | C (V) | C (V) | C (V) | C (V) | Dm (vi) | Dm (vi) | Dm (vi) | Dm (vi) | B♭ (IV) | B♭ (IV) | B♭ (IV) | B♭ (IV)',
+                    chordNames: 'F | F | F | F | C | C | C | C | Dm | Dm | Dm | Dm | B♭ | B♭ | B♭ | B♭',
+                    chordFunctions: 'I | I | I | I | V | V | V | V | vi | vi | vi | vi | IV | IV | IV | IV',
                     scaleHints: {
                         primary: [
                             'F major scale',
@@ -694,7 +688,8 @@
                     name: 'BBBT124 - E Minor Big Metal Jam',
                     title: 'Track 124 - Big Metal Jam in E Minor',
                     tempo: '♩ = 126',
-                    chordProgression: 'E5 (i) | E5 (i) | E5 (i) | E5 (i) | D5 (♭VII) | D5 (♭VII) | D5 (♭VII) | D5 (♭VII) | C5 (♭VI) | C5 (♭VI) | C5 (♭VI) | C5 (♭VI) | D5 (♭VII) | D5 (♭VII) | D5 (♭VII) | D5 (♭VII)',
+                    chordNames: 'E5 | E5 | E5 | E5 | D5 | D5 | D5 | D5 | C5 | C5 | C5 | C5 | D5 | D5 | D5 | D5',
+                    chordFunctions: 'i | i | i | i | ♭VII | ♭VII | ♭VII | ♭VII | ♭VI | ♭VI | ♭VI | ♭VI | ♭VII | ♭VII | ♭VII | ♭VII',
                     scaleHints: {
                         primary: [
                             'E minor scale',
@@ -712,7 +707,8 @@
                     name: 'BBBT125 - F# Minor Hard Rock',
                     title: 'Track 125 - Three-Chord Hard Rock in F# Minor',
                     tempo: '♩ = 140',
-                    chordProgression: 'F#5 (i) | F#5 (i) | F#5 (i) | F#5 (i) | D5 (♭VI) | D5 (♭VI) | D5 (♭VI) | D5 (♭VI) | E5 (♭VII) | E5 (♭VII) | E5 (♭VII) | E5 (♭VII) | F#5 (i) | F#5 (i) | F#5 (i) | F#5 (i)',
+                    chordNames: 'F#5 | F#5 | F#5 | F#5 | D5 | D5 | D5 | D5 | E5 | E5 | E5 | E5 | F#5 | F#5 | F#5 | F#5',
+                    chordFunctions: 'i | i | i | i | ♭VI | ♭VI | ♭VI | ♭VI | ♭VII | ♭VII | ♭VII | ♭VII | i | i | i | i',
                     scaleHints: {
                         primary: [
                             'F# minor scale',
@@ -730,7 +726,8 @@
                     name: 'BBBT126 - A Minor Metal Gallop',
                     title: 'Track 126 - Metal Gallop in A Minor',
                     tempo: '♩ = 108',
-                    chordProgression: 'A5 (i) | A5 (i) | A5 (i) | A5 (i) | F5 (♭VI) | F5 (♭VI) | F5 (♭VI) | F5 (♭VI) | G5 (♭VII) | G5 (♭VII) | G5 (♭VII) | G5 (♭VII) | A5 (i) | A5 (i) | A5 (i) | A5 (i)',
+                    chordNames: 'A5 | A5 | A5 | A5 | F5 | F5 | F5 | F5 | G5 | G5 | G5 | G5 | A5 | A5 | A5 | A5',
+                    chordFunctions: 'i | i | i | i | ♭VI | ♭VI | ♭VI | ♭VI | ♭VII | ♭VII | ♭VII | ♭VII | i | i | i | i',
                     scaleHints: {
                         primary: [
                             'A minor scale',
@@ -748,7 +745,8 @@
                     name: 'BBBT128 - A Minor Strut',
                     title: 'Track 128 - A Minor Strut',
                     tempo: '♩ = 126',
-                    chordProgression: 'Am (i) | Am (i) | Am (i) | Am (i) | G (♭VII) | G (♭VII) | G (♭VII) | G (♭VII) | F (♭VI) | F (♭VI) | F (♭VI) | F (♭VI) | E (V) | E (V) | E (V) | E (V)',
+                    chordNames: 'Am | Am | Am | Am | G | G | G | G | F | F | F | F | E | E | E | E',
+                    chordFunctions: 'i | i | i | i | ♭VII | ♭VII | ♭VII | ♭VII | ♭VI | ♭VI | ♭VI | ♭VI | V | V | V | V',
                     scaleHints: {
                         primary: [
                             'A minor scale',
@@ -767,7 +765,8 @@
                     name: 'BBBT129 - C Minor Strut',
                     title: 'Track 129 - C Minor Strut',
                     tempo: '♩ = 120',
-                    chordProgression: 'Cm (i) | Cm (i) | Cm (i) | Cm (i) | B♭ (♭VII) | B♭ (♭VII) | B♭ (♭VII) | B♭ (♭VII) | A♭ (♭VI) | A♭ (♭VI) | A♭ (♭VI) | A♭ (♭VI) | G (V) | G (V) | G (V) | G (V)',
+                    chordNames: 'Cm | Cm | Cm | Cm | B♭ | B♭ | B♭ | B♭ | A♭ | A♭ | A♭ | A♭ | G | G | G | G',
+                    chordFunctions: 'i | i | i | i | ♭VII | ♭VII | ♭VII | ♭VII | ♭VI | ♭VI | ♭VI | ♭VI | V | V | V | V',
                     scaleHints: {
                         primary: [
                             'C minor scale',
@@ -786,7 +785,8 @@
                     name: 'BBBT136 - A Lydian Rock',
                     title: 'Track 136 - Lydian Rock in A',
                     tempo: '♩ = 100',
-                    chordProgression: 'A (I) | A (I) | A (I) | A (I) | B/A (II) | B/A (II) | B/A (II) | B/A (II) | A (I) | A (I) | A (I) | A (I) | B/A (II) | B/A (II) | B/A (II) | B/A (II)',
+                    chordNames: 'A | A | A | A | B/A | B/A | B/A | B/A | A | A | A | A | B/A | B/A | B/A | B/A',
+                    chordFunctions: 'I | I | I | I | II | II | II | II | I | I | I | I | II | II | II | II',
                     scaleHints: {
                         primary: [
                             'A Lydian',
@@ -804,7 +804,8 @@
                     name: 'BBBT137 - G Lydian Rock',
                     title: 'Track 137 - Lydian Rock in G',
                     tempo: '♩ = 136',
-                    chordProgression: 'G (I) | G (I) | G (I) | G (I) | A/G (II) | A/G (II) | A/G (II) | A/G (II) | G (I) | G (I) | G (I) | G (I) | A/G (II) | A/G (II) | A/G (II) | A/G (II)',
+                    chordNames: 'G | G | G | G | A/G | A/G | A/G | A/G | G | G | G | G | A/G | A/G | A/G | A/G',
+                    chordFunctions: 'I | I | I | I | II | II | II | II | I | I | I | I | II | II | II | II',
                     scaleHints: {
                         primary: [
                             'G Lydian',
@@ -822,7 +823,8 @@
                     name: 'BBBT149 - B Minor Funky Jam',
                     title: 'Track 149 - One-Chord Funky Jam in B minor',
                     tempo: '♩ = 88',
-                    chordProgression: 'Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i)',
+                    chordNames: 'Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7',
+                    chordFunctions: 'i | i | i | i | i | i | i | i | i | i | i | i | i | i | i | i',
                     scaleHints: {
                         primary: [
                             'B Dorian',
@@ -896,7 +898,6 @@
                 this.audioPlayer.currentTime = 0;
                 this.isPlaying = false;
                 this.updateUI();
-                this.currentTrack.textContent = '已停止播放';
                 this.trackDetails.style.display = 'none';
                 this.resetScaleHints();
             }
@@ -909,7 +910,6 @@
             handleError() {
                 this.isPlaying = false;
                 this.updateUI();
-                this.currentTrack.textContent = '播放出错，请重试';
                 this.trackDetails.style.display = 'none';
             }
 
@@ -922,16 +922,48 @@
 
                 if (this.isPlaying) {
                     const track = this.audioFiles[this.currentIndex];
-                    this.currentTrack.textContent = `🎵 正在播放: ${track.name}`;
                     this.updateTrackDetails(track);
                 }
             }
 
             updateTrackDetails(track) {
                 this.trackDetails.style.display = 'block';
+                this.trackChordsSection.style.display = 'block';
                 this.trackTitle.textContent = track.title;
                 this.trackTempo.textContent = track.tempo;
-                this.trackChords.textContent = track.chordProgression;
+                
+                // 生成和弦表格，每行4个
+                const chordNames = track.chordNames.split(' | ');
+                const chordFunctions = track.chordFunctions.split(' | ');
+                
+                // 清空现有内容
+                const chordTable = document.getElementById('chordTable');
+                chordTable.innerHTML = '';
+                
+                // 创建表格结构，每行4个和弦
+                const chordsPerRow = 4;
+                
+                for (let i = 0; i < chordNames.length; i += chordsPerRow) {
+                    // 和弦名称行
+                    const nameRow = document.createElement('tr');
+                    nameRow.className = 'chord-names';
+                    for (let j = 0; j < chordsPerRow && i + j < chordNames.length; j++) {
+                        const td = document.createElement('td');
+                        td.textContent = chordNames[i + j];
+                        nameRow.appendChild(td);
+                    }
+                    chordTable.appendChild(nameRow);
+                    
+                    // 级数分析行
+                    const functionRow = document.createElement('tr');
+                    functionRow.className = 'chord-functions';
+                    for (let j = 0; j < chordsPerRow && i + j < chordFunctions.length; j++) {
+                        const td = document.createElement('td');
+                        td.textContent = chordFunctions[i + j];
+                        functionRow.appendChild(td);
+                    }
+                    chordTable.appendChild(functionRow);
+                }
             }
 
             updateScaleHints(track) {
@@ -1059,16 +1091,13 @@
                 this.intervalInput = document.getElementById('interval');
                 this.currentPrompt = document.getElementById('currentPrompt');
                 this.nextPrompt = document.getElementById('nextPrompt');
-                this.status = document.getElementById('status');
                 this.progressFill = document.getElementById('progressFill');
-                this.categoryList = document.getElementById('categoryList');
 
                 this.startBtn.addEventListener('click', () => this.start());
                 this.stopBtn.addEventListener('click', () => this.stop());
                 this.nextBtn.addEventListener('click', () => this.next());
                 this.intervalInput.addEventListener('change', () => this.updateInterval());
 
-                this.renderCategoryList();
                 this.updateDisplay();
             }
 
@@ -1089,7 +1118,6 @@
 
                 this.updateDisplay();
                 this.startTimer();
-                this.status.textContent = `练习进行中... (${this.intervalTime / 1000}秒间隔)`;
             }
 
             stop() {
@@ -1109,7 +1137,6 @@
                 }
 
                 this.progressFill.style.width = '0%';
-                this.status.textContent = '练习已停止，点击"开始练习"继续';
             }
 
             next() {
@@ -1165,24 +1192,8 @@
                     <h3>即将到来</h3>
                     <div class="prompt-text">${next.fullName}</div>
                 `;
-
-                this.renderCategoryList();
             }
 
-            renderCategoryList() {
-                const listHtml = this.ideas.map((idea, index) => {
-                    let className = 'category-item';
-                    if (index < this.currentIndex) {
-                        className += ' completed';
-                    } else if (index === this.currentIndex) {
-                        className += ' current';
-                    }
-
-                    return `<div class="${className}">${idea.fullName}</div>`;
-                }).join('');
-
-                this.categoryList.innerHTML = listHtml;
-            }
         }
 
         // 初始化应用
