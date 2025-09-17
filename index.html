@@ -58,26 +58,21 @@
             </div>
             <div class="track-details" id="trackDetails" style="display: none;">
                 <div class="track-title" id="trackTitle"></div>
-                <div class="track-info">
-                    <div class="track-tempo" id="trackTempo"></div>
-                </div>
+                <div class="track-tempo" id="trackTempo"></div>
                 <div class="track-chords-container">
                     <table class="chord-table" id="chordTable">
                         <!-- 表格内容将由JavaScript动态生成 -->
                     </table>
                 </div>
-            </div>
-            <div class="scale-hints" id="scaleHints">
-                <div class="scale-category">
-                    <h4>Primary Scale Options</h4>
-                    <div class="scale-list">选择音轨后显示音阶提示</div>
+                <div class="scale-hints" id="scaleHints" style="display: none;">
+                    <div class="scale-category">
+                        <h4>Primary Scale Options</h4>
+                        <div class="scale-list">选择音轨后显示音阶提示</div>
+                    </div>
                 </div>
             </div>
-            <div class="audio-list" id="audioList">
-                <h3>🎵 音频列表</h3>
-                <div class="track-list" id="trackList">
-                    <!-- 音频列表将由JavaScript动态生成 -->
-                </div>
+            <div class="track-list" id="trackList">
+                <!-- 音频列表将由JavaScript动态生成 -->
             </div>
             <audio id="audioPlayer" preload="metadata"></audio>
         </div>

@@ -54,7 +54,8 @@
                     {
                         file: 'BBBT001.mp3',
                         name: 'BBBT001 - E Blues',
-                        title: 'Track 1 - 12-Bar Blues Shuffle in E',
+                        title: '12-Bar Blues Shuffle in E',
+                        trackNumber: 1,
                         tempo: '♩ = 108',
                         chordNames: 'E7 | E7 | E7 | E7 | A7 | A7 | E7 | E7 | B7 | A7 | E7 | B7',
                         chordFunctions: 'I | I | I | I | IV | IV | I | I | V | IV | I | V',
@@ -81,7 +82,8 @@
                 this.audioFiles.push({
                     file: 'BBBT010.mp3',
                     name: 'BBBT010 - G Funky Blues',
-                    title: 'Track 10 - 12-Bar Funky Blues in G',
+                    title: '12-Bar Funky Blues in G',
+                    trackNumber: 10,
                     tempo: '♩ = 92',
                     chordNames: 'G9 | G9 | G9 | G9 | C9 | C9 | G9 | G9 | D9 | C9 | G9 | G9',
                     chordFunctions: 'I | I | I | I | IV | IV | I | I | V | IV | I | I',
@@ -107,7 +109,8 @@
                 this.audioFiles.push({
                     file: 'BBBT016.mp3',
                     name: 'BBBT016 - C Blues Rock',
-                    title: 'Track 16 - 12-Bar Blues Rock in C',
+                    title: '12-Bar Blues Rock in C',
+                    trackNumber: 16,
                     tempo: '♩ = 160',
                     chordNames: 'C7 | C7 | C7 | C7 | F7 | F7 | C7 | C7 | G7 | F7 | C7 | G7',
                     chordFunctions: 'I | I | I | I | IV | IV | I | I | V | IV | I | V',
@@ -132,7 +135,8 @@
                 this.audioFiles.push({
                     file: 'BBBT032.mp3',
                     name: 'BBBT032 - A Minor Blues',
-                    title: 'Track 32 - 12-Bar Minor Blues in A Minor: Straight 8th Feel',
+                    title: '12-Bar Minor Blues in A Minor: Straight 8th Feel',
+                    trackNumber: 32,
                     tempo: '♩ = 108',
                     chordNames: 'Am | Am | Am | Am | Dm | Dm | Am | Am | Fmaj7 | E7 | Am | Am',
                     chordFunctions: 'i | i | i | i | iv | iv | i | i | ♭VI | V | i | i',
@@ -155,7 +159,8 @@
                 this.audioFiles.push({
                     file: 'BBBT099.mp3',
                     name: 'BBBT099 - C Two-Chord Rock',
-                    title: 'Track 99 - Two-Chord Rock in C',
+                    title: 'Two-Chord Rock in C',
+                    trackNumber: 99,
                     tempo: '♩ = 120',
                     chordNames: 'C | C | C | C | F | F | F | F | C | C | C | C | F | F | F | F',
                     chordFunctions: 'I | I | I | I | IV | IV | IV | IV | I | I | I | I | IV | IV | IV | IV',
@@ -177,7 +182,8 @@
                 this.audioFiles.push({
                     file: 'BBBT105.mp3',
                     name: 'BBBT105 - E Dorian Jam',
-                    title: 'Track 105 - Dorian Jam in E Minor',
+                    title: 'Dorian Jam in E Minor',
+                    trackNumber: 105,
                     tempo: '♩ = 108',
                     chordNames: 'Em | Em | Em | Em | A | A | A | A | Em | Em | Em | Em | A | A | A | A',
                     chordFunctions: 'i | i | i | i | IV | IV | IV | IV | i | i | i | i | IV | IV | IV | IV',
@@ -197,7 +203,8 @@
                 this.audioFiles.push({
                     file: 'BBBT106.mp3',
                     name: 'BBBT106 - D Dorian Jam',
-                    title: 'Track 106 - Dorian Jam in D Minor',
+                    title: 'Dorian Jam in D Minor',
+                    trackNumber: 106,
                     tempo: '♩ = 80',
                     chordNames: 'Dm | Dm | Dm | Dm | G | G | G | G | Dm | Dm | Dm | Dm | G | G | G | G',
                     chordFunctions: 'i | i | i | i | IV | IV | IV | IV | i | i | i | i | IV | IV | IV | IV',
@@ -217,7 +224,8 @@
                 this.audioFiles.push({
                     file: 'BBBT121.mp3',
                     name: 'BBBT121 - D U2 Groove',
-                    title: 'Track 121 - U2 Groove in D',
+                    title: 'U2 Groove in D',
+                    trackNumber: 121,
                     tempo: '♩ = 104',
                     chordNames: 'D | D | D | D | A | A | A | A | Bm | Bm | Bm | Bm | G | G | G | G',
                     chordFunctions: 'I | I | I | I | V | V | V | V | vi | vi | vi | vi | IV | IV | IV | IV',
@@ -234,7 +242,8 @@
                 this.audioFiles.push({
                     file: 'BBBT122.mp3',
                     name: 'BBBT122 - F Let It Groove',
-                    title: 'Track 122 - "Let It Groove" in F',
+                    title: '"Let It Groove" in F',
+                    trackNumber: 122,
                     tempo: '♩ = 76',
                     chordNames: 'F | F | F | F | C | C | C | C | Dm | Dm | Dm | Dm | B♭ | B♭ | B♭ | B♭',
                     chordFunctions: 'I | I | I | I | V | V | V | V | vi | vi | vi | vi | IV | IV | IV | IV',
@@ -251,7 +260,8 @@
                 this.audioFiles.push({
                     file: 'BBBT124.mp3',
                     name: 'BBBT124 - E Minor Big Metal Jam',
-                    title: 'Track 124 - Big Metal Jam in E Minor',
+                    title: 'Big Metal Jam in E Minor',
+                    trackNumber: 124,
                     tempo: '♩ = 126',
                     chordNames: 'E5 | E5 | E5 | E5 | D5 | D5 | D5 | D5 | C5 | C5 | C5 | C5 | D5 | D5 | D5 | D5',
                     chordFunctions: 'i | i | i | i | ♭VII | ♭VII | ♭VII | ♭VII | ♭VI | ♭VI | ♭VI | ♭VI | ♭VII | ♭VII | ♭VII | ♭VII',
@@ -270,7 +280,8 @@
                 this.audioFiles.push({
                     file: 'BBBT125.mp3',
                     name: 'BBBT125 - F# Minor Hard Rock',
-                    title: 'Track 125 - Three-Chord Hard Rock in F# Minor',
+                    title: 'Three-Chord Hard Rock in F# Minor',
+                    trackNumber: 125,
                     tempo: '♩ = 140',
                     chordNames: 'F#5 | F#5 | F#5 | F#5 | D5 | D5 | D5 | D5 | E5 | E5 | E5 | E5 | F#5 | F#5 | F#5 | F#5',
                     chordFunctions: 'i | i | i | i | ♭VI | ♭VI | ♭VI | ♭VI | ♭VII | ♭VII | ♭VII | ♭VII | i | i | i | i',
@@ -289,7 +300,8 @@
                 this.audioFiles.push({
                     file: 'BBBT126.mp3',
                     name: 'BBBT126 - A Minor Metal Gallop',
-                    title: 'Track 126 - Metal Gallop in A Minor',
+                    title: 'Metal Gallop in A Minor',
+                    trackNumber: 126,
                     tempo: '♩ = 108',
                     chordNames: 'A5 | A5 | A5 | A5 | F5 | F5 | F5 | F5 | G5 | G5 | G5 | G5 | A5 | A5 | A5 | A5',
                     chordFunctions: 'i | i | i | i | ♭VI | ♭VI | ♭VI | ♭VI | ♭VII | ♭VII | ♭VII | ♭VII | i | i | i | i',
@@ -308,7 +320,8 @@
                 this.audioFiles.push({
                     file: 'BBBT128.mp3',
                     name: 'BBBT128 - A Minor Strut',
-                    title: 'Track 128 - A Minor Strut',
+                    title: 'A Minor Strut',
+                    trackNumber: 128,
                     tempo: '♩ = 126',
                     chordNames: 'Am | Am | Am | Am | G | G | G | G | F | F | F | F | E | E | E | E',
                     chordFunctions: 'i | i | i | i | ♭VII | ♭VII | ♭VII | ♭VII | ♭VI | ♭VI | ♭VI | ♭VI | V | V | V | V',
@@ -328,7 +341,8 @@
                 this.audioFiles.push({
                     file: 'BBBT129.mp3',
                     name: 'BBBT129 - C Minor Strut',
-                    title: 'Track 129 - C Minor Strut',
+                    title: 'C Minor Strut',
+                    trackNumber: 129,
                     tempo: '♩ = 120',
                     chordNames: 'Cm | Cm | Cm | Cm | B♭ | B♭ | B♭ | B♭ | A♭ | A♭ | A♭ | A♭ | G | G | G | G',
                     chordFunctions: 'i | i | i | i | ♭VII | ♭VII | ♭VII | ♭VII | ♭VI | ♭VI | ♭VI | ♭VI | V | V | V | V',
@@ -348,7 +362,8 @@
                 this.audioFiles.push({
                     file: 'BBBT136.mp3',
                     name: 'BBBT136 - A Lydian Rock',
-                    title: 'Track 136 - Lydian Rock in A',
+                    title: 'Lydian Rock in A',
+                    trackNumber: 136,
                     tempo: '♩ = 100',
                     chordNames: 'A | A | A | A | B/A | B/A | B/A | B/A | A | A | A | A | B/A | B/A | B/A | B/A',
                     chordFunctions: 'I | I | I | I | II | II | II | II | I | I | I | I | II | II | II | II',
@@ -367,7 +382,8 @@
                 this.audioFiles.push({
                     file: 'BBBT137.mp3',
                     name: 'BBBT137 - G Lydian Rock',
-                    title: 'Track 137 - Lydian Rock in G',
+                    title: 'Lydian Rock in G',
+                    trackNumber: 137,
                     tempo: '♩ = 136',
                     chordNames: 'G | G | G | G | A/G | A/G | A/G | A/G | G | G | G | G | A/G | A/G | A/G | A/G',
                     chordFunctions: 'I | I | I | I | II | II | II | II | I | I | I | I | II | II | II | II',
@@ -386,7 +402,8 @@
                 this.audioFiles.push({
                     file: 'BBBT149.mp3',
                     name: 'BBBT149 - B Minor Funky Jam',
-                    title: 'Track 149 - One-Chord Funky Jam in B minor',
+                    title: 'One-Chord Funky Jam in B minor',
+                    trackNumber: 149,
                     tempo: '♩ = 88',
                     chordNames: 'Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7',
                     chordFunctions: 'i | i | i | i | i | i | i | i | i | i | i | i | i | i | i | i',
@@ -502,7 +519,7 @@
                 this.isPlaying = false;
                 this.updateUI();
                 this.trackDetails.style.display = 'none';
-                this.resetScaleHints();
+                this.scaleHints.style.display = 'none';
             }
 
             nextTrack() {
@@ -579,8 +596,9 @@
             }
 
             updateScaleHints(track) {
-                const primaryHtml = track.scaleHints.primary.map(hint => `• ${hint}`).join('<br>');
-                const alternateHtml = track.scaleHints.alternate.map(hint => `• ${hint}`).join('<br>');
+                this.scaleHints.style.display = 'block';
+                const primaryHtml = track.scaleHints.primary.map(hint => `${hint}`).join('<br>');
+                const alternateHtml = track.scaleHints.alternate.map(hint => `${hint}`).join('<br>');
 
                 this.scaleHints.innerHTML = `
                     <div class="scale-category">
@@ -590,15 +608,6 @@
                     <div class="scale-category">
                         <h4>Alternate Scale Options</h4>
                         <div class="scale-list">${alternateHtml}</div>
-                    </div>
-                `;
-            }
-
-            resetScaleHints() {
-                this.scaleHints.innerHTML = `
-                    <div class="scale-category">
-                        <h4>Primary Scale Options</h4>
-                        <div class="scale-list">选择音轨后显示音阶提示</div>
                     </div>
                 `;
             }

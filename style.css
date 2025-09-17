@@ -78,31 +78,26 @@
         }
 
         .track-details {
-            background: #f8f9fa;
-            padding: 12px;
             border-radius: 8px;
+            padding: 16px;
             margin-bottom: 15px;
-            border-left: 4px solid #28a745;
+            background: white;
         }
 
         .track-title {
             font-weight: bold;
             color: #333;
-            margin-bottom: 8px;
             font-size: 1.1em;
-        }
-
-        .track-info {
-            display: flex;
-            gap: 20px;
+            text-align: center;
             margin-bottom: 8px;
-            flex-wrap: wrap;
         }
 
         .track-tempo {
             color: #555;
             font-size: 0.95em;
             font-weight: bold;
+            text-align: left;
+            margin-bottom: 8px;
         }
 
         .track-chords-container {
@@ -134,30 +129,14 @@
         }
 
         .scale-hints {
-            background: #f0f4ff;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
             text-align: left;
-        }
-
-        .audio-list {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border-left: 4px solid #28a745;
-        }
-
-        .audio-list h3 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.1em;
+            padding-top: 15px;
         }
 
         .track-list {
             max-height: 300px;
             overflow-y: auto;
+            margin-top: 15px;
         }
 
         .track-item {
