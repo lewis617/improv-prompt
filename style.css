@@ -99,29 +99,14 @@
             flex-wrap: wrap;
         }
 
-        .track-tempo, .track-chords {
+        .track-tempo {
             color: #555;
             font-size: 0.95em;
-        }
-
-        .track-tempo {
             font-weight: bold;
         }
 
-        .track-chords {
-            background: #fff3cd;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 4px solid #ffc107;
-            text-align: left;
-        }
-
-        .track-chords strong {
-            color: #333;
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.9em;
+        .track-chords-container {
+            margin-top: 10px;
         }
 
         .chord-table {

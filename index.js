@@ -42,7 +42,6 @@
                 this.trackDetails = document.getElementById('trackDetails');
                 this.trackTitle = document.getElementById('trackTitle');
                 this.trackTempo = document.getElementById('trackTempo');
-                this.trackChordsSection = document.getElementById('trackChordsSection');
                 
                 this.playModeSelect = document.getElementById('playMode');
                 this.playBtn = document.getElementById('playBtn');
@@ -542,7 +541,6 @@
 
             updateTrackDetails(track) {
                 this.trackDetails.style.display = 'block';
-                this.trackChordsSection.style.display = 'block';
                 this.trackTitle.textContent = track.title;
                 this.trackTempo.textContent = track.tempo;
                 
