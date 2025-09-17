@@ -27,7 +27,7 @@
             border-radius: 20px;
             padding: 40px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
         }
 
@@ -39,6 +39,115 @@
             background: linear-gradient(45deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        .audio-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .audio-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .audio-info {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .audio-info h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .current-track {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .track-details {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #28a745;
+        }
+
+        .track-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .track-info {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .track-tempo, .track-chords {
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .track-tempo {
+            font-weight: bold;
+        }
+
+        .track-chords {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .track-chords strong {
+            color: #333;
+        }
+
+        .scale-hints {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            text-align: left;
+        }
+
+        .scale-category {
+            margin-bottom: 10px;
+        }
+
+        .scale-category h4 {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1em;
+        }
+
+        .scale-list {
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.4;
+            margin-left: 10px;
         }
 
         .controls {
@@ -106,6 +215,10 @@
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
+        }
+
+        .audio-button {
+            background: linear-gradient(45deg, #28a745, #20c997);
         }
 
         .display-area {
@@ -221,7 +334,7 @@
                 margin-bottom: 20px;
             }
             
-            .controls {
+            .controls, .audio-controls {
                 flex-direction: column;
                 gap: 10px;
                 margin-bottom: 15px;
@@ -232,12 +345,12 @@
                 justify-content: space-between;
             }
 
-            .button-group {
+            .button-group, .audio-controls {
                 width: 100%;
                 justify-content: center;
             }
 
-            .button-group button {
+            .button-group button, .audio-controls button {
                 flex: 1;
                 max-width: 100px;
                 font-size: 13px;
@@ -267,6 +380,38 @@
     <div class="container">
         <h1>🎵 即兴提示工具</h1>
         
+        <!-- 音频播放区域 -->
+        <div class="audio-section">
+            <h2>🎸 背景音轨</h2>
+            <div class="audio-info">
+                <div class="current-track" id="currentTrack">点击随机播放开始</div>
+                <div class="track-details" id="trackDetails" style="display: none;">
+                    <div class="track-title" id="trackTitle"></div>
+                    <div class="track-info">
+                        <div class="track-tempo" id="trackTempo"></div>
+                        <div class="track-chords">
+                            <strong>和弦进行：</strong>
+                            <span id="trackChords"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="scale-hints" id="scaleHints">
+                    <div class="scale-category">
+                        <h4>Primary Scale Options</h4>
+                        <div class="scale-list">选择音轨后显示音阶提示</div>
+                    </div>
+                </div>
+            </div>
+            <div class="audio-controls">
+                <button class="audio-button" id="randomPlayBtn">🔀 随机播放</button>
+                <button class="audio-button" id="pauseBtn" disabled>⏸️ 暂停</button>
+                <button class="audio-button" id="resumeBtn" disabled>▶️ 继续</button>
+                <button class="audio-button" id="stopAudioBtn" disabled>⏹️ 停止</button>
+                <button class="audio-button" id="nextTrackBtn" disabled>⏭️ 下一首</button>
+            </div>
+            <audio id="audioPlayer" preload="metadata"></audio>
+        </div>
+
         <div class="controls">
             <div class="control-group">
                 <label for="interval">间隔时间 (秒):</label>
@@ -338,6 +483,483 @@
             }
         }
 
+        // 音频管理类
+        class AudioManager {
+            constructor() {
+                this.audioPlayer = document.getElementById('audioPlayer');
+                this.currentTrack = document.getElementById('currentTrack');
+                this.scaleHints = document.getElementById('scaleHints');
+                this.trackDetails = document.getElementById('trackDetails');
+                this.trackTitle = document.getElementById('trackTitle');
+                this.trackTempo = document.getElementById('trackTempo');
+                this.trackChords = document.getElementById('trackChords');
+                
+                this.randomPlayBtn = document.getElementById('randomPlayBtn');
+                this.pauseBtn = document.getElementById('pauseBtn');
+                this.resumeBtn = document.getElementById('resumeBtn');
+                this.stopAudioBtn = document.getElementById('stopAudioBtn');
+                this.nextTrackBtn = document.getElementById('nextTrackBtn');
+
+                this.audioFiles = [
+                    {
+                        file: 'BBBT001-E-Blues.mp3',
+                        name: 'BBBT001 - E Blues',
+                        title: 'Track 1 - 12-Bar Blues Shuffle in E',
+                        tempo: '♩ = 108',
+                        chordProgression: 'E7 (I) | E7 (I) | E7 (I) | E7 (I) | A7 (IV) | A7 (IV) | E7 (I) | E7 (I) | B7 (V) | A7 (IV) | E7 (I) | B7 (V)',
+                        scaleHints: {
+                            primary: [
+                                'E minor pentatonic scale',
+                                'E blues scale',
+                                'E major pentatonic scale (for a brighter, country blues sound)'
+                            ],
+                            alternate: [
+                                'E Mixolydian (over the I chord)',
+                                'A Mixolydian (over the IV chord)',
+                                'B Mixolydian (over the V chord)',
+                                'A major pentatonic scale (over the IV chord)',
+                                'B minor pentatonic scale (over the V chord)',
+                                'B major pentatonic scale (over the V chord)'
+                            ]
+                        }
+                    }
+                ];
+
+                // 添加其他音频文件（暂时没有音阶提示）
+                // 添加BBBT010
+                this.audioFiles.push({
+                    file: 'BBBT010.mp3',
+                    name: 'BBBT010 - G Funky Blues',
+                    title: 'Track 10 - 12-Bar Funky Blues in G',
+                    tempo: '♩ = 92',
+                    chordProgression: 'G9 (I) | G9 (I) | G9 (I) | G9 (I) | C9 (IV) | C9 (IV) | G9 (I) | G9 (I) | D9 (V) | C9 (IV) | G9 (I) | G9 (I)',
+                    scaleHints: {
+                        primary: [
+                            'G minor pentatonic scale',
+                            'G blues scale',
+                            'G major pentatonic scale (for a brighter, country blues sound)',
+                            'G composite blues scale'
+                        ],
+                        alternate: [
+                            'G Mixolydian (over the I chord)',
+                            'C Mixolydian (over the IV chord)',
+                            'D Mixolydian (over the V chord)',
+                            'C major pentatonic scale (over the IV chord)',
+                            'D minor pentatonic scale (over the V chord)',
+                            'D major pentatonic scale (over the V chord)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT016
+                this.audioFiles.push({
+                    file: 'BBBT016.mp3',
+                    name: 'BBBT016 - C Blues Rock',
+                    title: 'Track 16 - 12-Bar Blues Rock in C',
+                    tempo: '♩ = 160',
+                    chordProgression: 'C7 (I) | C7 (I) | C7 (I) | C7 (I) | F7 (IV) | F7 (IV) | C7 (I) | C7 (I) | G7 (V) | F7 (IV) | C7 (I) | G7 (V)',
+                    scaleHints: {
+                        primary: [
+                            'C minor pentatonic scale',
+                            'C blues scale',
+                            'C major pentatonic scale (for a brighter, country blues sound)'
+                        ],
+                        alternate: [
+                            'C Mixolydian (over the I chord)',
+                            'F Mixolydian (over the IV chord)',
+                            'G Mixolydian (over the V chord)',
+                            'F major pentatonic scale (over the IV chord)',
+                            'G minor pentatonic scale (over the V chord)',
+                            'G major pentatonic scale (over the V chord)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT032
+                this.audioFiles.push({
+                    file: 'BBBT032-A-Minor Blues.mp3',
+                    name: 'BBBT032 - A Minor Blues',
+                    title: 'Track 32 - 12-Bar Minor Blues in A Minor: Straight 8th Feel',
+                    tempo: '♩ = 108',
+                    chordProgression: 'Am (i) | Am (i) | Am (i) | Am (i) | Dm (iv) | Dm (iv) | Am (i) | Am (i) | Fmaj7 (♭VI) | E7 (V) | Am (i) | Am (i)',
+                    scaleHints: {
+                        primary: [
+                            'A minor pentatonic scale',
+                            'A blues scale',
+                            'A minor scale (over the ♭VI chord)',
+                            'A harmonic minor scale (over the V chord)'
+                        ],
+                        alternate: [
+                            'A Dorian (over the i chord)',
+                            'D minor pentatonic scale (over the iv chord)',
+                            'E minor pentatonic scale (over the V chord)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT099
+                this.audioFiles.push({
+                    file: 'BBBT099-C-14-Rock.mp3',
+                    name: 'BBBT099 - C Two-Chord Rock',
+                    title: 'Track 99 - Two-Chord Rock in C',
+                    tempo: '♩ = 120',
+                    chordProgression: 'C (I) | C (I) | C (I) | C (I) | F (IV) | F (IV) | F (IV) | F (IV) | C (I) | C (I) | C (I) | C (I) | F (IV) | F (IV) | F (IV) | F (IV)',
+                    scaleHints: {
+                        primary: [
+                            'C major scale',
+                            'C major pentatonic scale'
+                        ],
+                        alternate: [
+                            'C minor pentatonic scale (for a bluesy sound)',
+                            'C blues scale (for a bluesy sound)',
+                            'C Mixolydian (for a funky or jazzier sound)',
+                            'F major pentatonic scale (over the IV chord)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT105
+                this.audioFiles.push({
+                    file: 'BBBT105-E-Dorian.mp3',
+                    name: 'BBBT105 - E Dorian Jam',
+                    title: 'Track 105 - Dorian Jam in E Minor',
+                    tempo: '♩ = 108',
+                    chordProgression: 'Em (i) | Em (i) | Em (i) | Em (i) | A (IV) | A (IV) | A (IV) | A (IV) | Em (i) | Em (i) | Em (i) | Em (i) | A (IV) | A (IV) | A (IV) | A (IV)',
+                    scaleHints: {
+                        primary: [
+                            'E Dorian'
+                        ],
+                        alternate: [
+                            'E minor pentatonic scale',
+                            'E blues scale',
+                            'E melodic minor scale (for an outside sound)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT106
+                this.audioFiles.push({
+                    file: 'BBBT106-D-Dorian.mp3',
+                    name: 'BBBT106 - D Dorian Jam',
+                    title: 'Track 106 - Dorian Jam in D Minor',
+                    tempo: '♩ = 80',
+                    chordProgression: 'Dm (i) | Dm (i) | Dm (i) | Dm (i) | G (IV) | G (IV) | G (IV) | G (IV) | Dm (i) | Dm (i) | Dm (i) | Dm (i) | G (IV) | G (IV) | G (IV) | G (IV)',
+                    scaleHints: {
+                        primary: [
+                            'D Dorian'
+                        ],
+                        alternate: [
+                            'D minor pentatonic scale',
+                            'D blues scale',
+                            'D melodic minor scale (for an outside sound)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT121
+                this.audioFiles.push({
+                    file: 'BBBT121.mp3',
+                    name: 'BBBT121 - D U2 Groove',
+                    title: 'Track 121 - U2 Groove in D',
+                    tempo: '♩ = 104',
+                    chordProgression: 'D (I) | D (I) | D (I) | D (I) | A (V) | A (V) | A (V) | A (V) | Bm (vi) | Bm (vi) | Bm (vi) | Bm (vi) | G (IV) | G (IV) | G (IV) | G (IV)',
+                    scaleHints: {
+                        primary: [
+                            'D major scale',
+                            'D major pentatonic scale'
+                        ],
+                        alternate: []
+                    }
+                });
+
+                // 添加BBBT122
+                this.audioFiles.push({
+                    file: 'BBBT122.mp3',
+                    name: 'BBBT122 - F Let It Groove',
+                    title: 'Track 122 - "Let It Groove" in F',
+                    tempo: '♩ = 76',
+                    chordProgression: 'F (I) | F (I) | F (I) | F (I) | C (V) | C (V) | C (V) | C (V) | Dm (vi) | Dm (vi) | Dm (vi) | Dm (vi) | B♭ (IV) | B♭ (IV) | B♭ (IV) | B♭ (IV)',
+                    scaleHints: {
+                        primary: [
+                            'F major scale',
+                            'F major pentatonic scale'
+                        ],
+                        alternate: []
+                    }
+                });
+
+                // 添加BBBT124
+                this.audioFiles.push({
+                    file: 'BBBT124.mp3',
+                    name: 'BBBT124 - E Minor Big Metal Jam',
+                    title: 'Track 124 - Big Metal Jam in E Minor',
+                    tempo: '♩ = 126',
+                    chordProgression: 'E5 (i) | E5 (i) | E5 (i) | E5 (i) | D5 (♭VII) | D5 (♭VII) | D5 (♭VII) | D5 (♭VII) | C5 (♭VI) | C5 (♭VI) | C5 (♭VI) | C5 (♭VI) | D5 (♭VII) | D5 (♭VII) | D5 (♭VII) | D5 (♭VII)',
+                    scaleHints: {
+                        primary: [
+                            'E minor scale',
+                            'E minor pentatonic scale'
+                        ],
+                        alternate: [
+                            'E blues scale (for a bluesy sound)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT125
+                this.audioFiles.push({
+                    file: 'BBBT125.mp3',
+                    name: 'BBBT125 - F# Minor Hard Rock',
+                    title: 'Track 125 - Three-Chord Hard Rock in F# Minor',
+                    tempo: '♩ = 140',
+                    chordProgression: 'F#5 (i) | F#5 (i) | F#5 (i) | F#5 (i) | D5 (♭VI) | D5 (♭VI) | D5 (♭VI) | D5 (♭VI) | E5 (♭VII) | E5 (♭VII) | E5 (♭VII) | E5 (♭VII) | F#5 (i) | F#5 (i) | F#5 (i) | F#5 (i)',
+                    scaleHints: {
+                        primary: [
+                            'F# minor scale',
+                            'F# minor pentatonic scale'
+                        ],
+                        alternate: [
+                            'F# blues scale (for a bluesy sound)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT126
+                this.audioFiles.push({
+                    file: 'BBBT126.mp3',
+                    name: 'BBBT126 - A Minor Metal Gallop',
+                    title: 'Track 126 - Metal Gallop in A Minor',
+                    tempo: '♩ = 108',
+                    chordProgression: 'A5 (i) | A5 (i) | A5 (i) | A5 (i) | F5 (♭VI) | F5 (♭VI) | F5 (♭VI) | F5 (♭VI) | G5 (♭VII) | G5 (♭VII) | G5 (♭VII) | G5 (♭VII) | A5 (i) | A5 (i) | A5 (i) | A5 (i)',
+                    scaleHints: {
+                        primary: [
+                            'A minor scale',
+                            'A minor pentatonic scale'
+                        ],
+                        alternate: [
+                            'A blues scale (for a bluesy sound)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT128
+                this.audioFiles.push({
+                    file: 'BBBT128.mp3',
+                    name: 'BBBT128 - A Minor Strut',
+                    title: 'Track 128 - A Minor Strut',
+                    tempo: '♩ = 126',
+                    chordProgression: 'Am (i) | Am (i) | Am (i) | Am (i) | G (♭VII) | G (♭VII) | G (♭VII) | G (♭VII) | F (♭VI) | F (♭VI) | F (♭VI) | F (♭VI) | E (V) | E (V) | E (V) | E (V)',
+                    scaleHints: {
+                        primary: [
+                            'A minor scale',
+                            'A minor pentatonic scale',
+                            'A harmonic minor scale (over the V chord)'
+                        ],
+                        alternate: [
+                            'A blues scale (for a bluesy sound)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT129
+                this.audioFiles.push({
+                    file: 'BBBT129.mp3',
+                    name: 'BBBT129 - C Minor Strut',
+                    title: 'Track 129 - C Minor Strut',
+                    tempo: '♩ = 120',
+                    chordProgression: 'Cm (i) | Cm (i) | Cm (i) | Cm (i) | B♭ (♭VII) | B♭ (♭VII) | B♭ (♭VII) | B♭ (♭VII) | A♭ (♭VI) | A♭ (♭VI) | A♭ (♭VI) | A♭ (♭VI) | G (V) | G (V) | G (V) | G (V)',
+                    scaleHints: {
+                        primary: [
+                            'C minor scale',
+                            'C minor pentatonic scale',
+                            'C harmonic minor scale (over the V chord)'
+                        ],
+                        alternate: [
+                            'C blues scale (for a bluesy sound)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT136
+                this.audioFiles.push({
+                    file: 'BBBT136-A-Lydian.mp3',
+                    name: 'BBBT136 - A Lydian Rock',
+                    title: 'Track 136 - Lydian Rock in A',
+                    tempo: '♩ = 100',
+                    chordProgression: 'A (I) | A (I) | A (I) | A (I) | B/A (II) | B/A (II) | B/A (II) | B/A (II) | A (I) | A (I) | A (I) | A (I) | B/A (II) | B/A (II) | B/A (II) | B/A (II)',
+                    scaleHints: {
+                        primary: [
+                            'A Lydian',
+                            'A major pentatonic scale'
+                        ],
+                        alternate: [
+                            'B major pentatonic scale (to highlight the #4th and 7th tones)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT137
+                this.audioFiles.push({
+                    file: 'BBBT137-G-Lydian.mp3',
+                    name: 'BBBT137 - G Lydian Rock',
+                    title: 'Track 137 - Lydian Rock in G',
+                    tempo: '♩ = 136',
+                    chordProgression: 'G (I) | G (I) | G (I) | G (I) | A/G (II) | A/G (II) | A/G (II) | A/G (II) | G (I) | G (I) | G (I) | G (I) | A/G (II) | A/G (II) | A/G (II) | A/G (II)',
+                    scaleHints: {
+                        primary: [
+                            'G Lydian',
+                            'G major pentatonic scale'
+                        ],
+                        alternate: [
+                            'A major pentatonic scale (to highlight the #4th and 7th tones)'
+                        ]
+                    }
+                });
+
+                // 添加BBBT149
+                this.audioFiles.push({
+                    file: 'BBBT149-Bm7-Funky.mp3',
+                    name: 'BBBT149 - B Minor Funky Jam',
+                    title: 'Track 149 - One-Chord Funky Jam in B minor',
+                    tempo: '♩ = 88',
+                    chordProgression: 'Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i) | Bm7 (i)',
+                    scaleHints: {
+                        primary: [
+                            'B Dorian',
+                            'B minor pentatonic scale'
+                        ],
+                        alternate: [
+                            'B blues scale (for a bluesy sound)'
+                        ]
+                    }
+                });
+
+                this.currentIndex = 0;
+                this.isPlaying = false;
+                this.shuffleArray(this.audioFiles);
+
+                this.initAudioEvents();
+            }
+
+            shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            initAudioEvents() {
+                this.randomPlayBtn.addEventListener('click', () => this.randomPlay());
+                this.pauseBtn.addEventListener('click', () => this.pause());
+                this.resumeBtn.addEventListener('click', () => this.resume());
+                this.stopAudioBtn.addEventListener('click', () => this.stop());
+                this.nextTrackBtn.addEventListener('click', () => this.nextTrack());
+
+                this.audioPlayer.addEventListener('ended', () => this.nextTrack());
+                this.audioPlayer.addEventListener('error', () => this.handleError());
+            }
+
+            randomPlay() {
+                this.currentIndex = Math.floor(Math.random() * this.audioFiles.length);
+                this.playCurrentTrack();
+            }
+
+            playCurrentTrack() {
+                const track = this.audioFiles[this.currentIndex];
+                this.audioPlayer.src = `audio/${track.file}`;
+                
+                this.audioPlayer.play().then(() => {
+                    this.isPlaying = true;
+                    this.updateUI();
+                    this.updateScaleHints(track);
+                }).catch(error => {
+                    console.error('播放失败:', error);
+                    this.handleError();
+                });
+            }
+
+            pause() {
+                this.audioPlayer.pause();
+                this.isPlaying = false;
+                this.updateUI();
+            }
+
+            resume() {
+                this.audioPlayer.play().then(() => {
+                    this.isPlaying = true;
+                    this.updateUI();
+                });
+            }
+
+            stop() {
+                this.audioPlayer.pause();
+                this.audioPlayer.currentTime = 0;
+                this.isPlaying = false;
+                this.updateUI();
+                this.currentTrack.textContent = '已停止播放';
+                this.trackDetails.style.display = 'none';
+                this.resetScaleHints();
+            }
+
+            nextTrack() {
+                this.currentIndex = (this.currentIndex + 1) % this.audioFiles.length;
+                this.playCurrentTrack();
+            }
+
+            handleError() {
+                this.isPlaying = false;
+                this.updateUI();
+                this.currentTrack.textContent = '播放出错，请重试';
+                this.trackDetails.style.display = 'none';
+            }
+
+            updateUI() {
+                this.randomPlayBtn.disabled = this.isPlaying;
+                this.pauseBtn.disabled = !this.isPlaying;
+                this.resumeBtn.disabled = this.isPlaying;
+                this.stopAudioBtn.disabled = !this.isPlaying && this.audioPlayer.currentTime === 0;
+                this.nextTrackBtn.disabled = !this.isPlaying && this.audioPlayer.currentTime === 0;
+
+                if (this.isPlaying) {
+                    const track = this.audioFiles[this.currentIndex];
+                    this.currentTrack.textContent = `🎵 正在播放: ${track.name}`;
+                    this.updateTrackDetails(track);
+                }
+            }
+
+            updateTrackDetails(track) {
+                this.trackDetails.style.display = 'block';
+                this.trackTitle.textContent = track.title;
+                this.trackTempo.textContent = track.tempo;
+                this.trackChords.textContent = track.chordProgression;
+            }
+
+            updateScaleHints(track) {
+                const primaryHtml = track.scaleHints.primary.map(hint => `• ${hint}`).join('<br>');
+                const alternateHtml = track.scaleHints.alternate.map(hint => `• ${hint}`).join('<br>');
+
+                this.scaleHints.innerHTML = `
+                    <div class="scale-category">
+                        <h4>Primary Scale Options</h4>
+                        <div class="scale-list">${primaryHtml}</div>
+                    </div>
+                    <div class="scale-category">
+                        <h4>Alternate Scale Options</h4>
+                        <div class="scale-list">${alternateHtml}</div>
+                    </div>
+                `;
+            }
+
+            resetScaleHints() {
+                this.scaleHints.innerHTML = `
+                    <div class="scale-category">
+                        <h4>Primary Scale Options</h4>
+                        <div class="scale-list">选择音轨后显示音阶提示</div>
+                    </div>
+                `;
+            }
+        }
+
         // 即兴提示工具类
         class ImprovisationTool {
             constructor() {
@@ -351,6 +973,9 @@
                 
                 this.initializeData();
                 this.initializeUI();
+                
+                // 初始化音频管理器
+                this.audioManager = new AudioManager();
             }
 
             initializeData() {
