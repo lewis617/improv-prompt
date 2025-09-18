@@ -57,8 +57,8 @@
                         title: '12-Bar Blues Shuffle in E',
                         trackNumber: 1,
                         tempo: '♩ = 108',
-                        chordNames: 'E7 | E7 | E7 | E7 | A7 | A7 | E7 | E7 | B7 | A7 | E7 | B7',
-                        chordFunctions: 'I | I | I | I | IV | IV | I | I | V | IV | I | V',
+                        chordNames: 'E7 | - | - | - | A7 | - | E7 | - | B7 | A7 | E7 | B7',
+                        chordFunctions: 'I | - | - | - | IV | - | I | - | V | IV | I | V',
                         scaleHints: {
                             primary: [
                                 'E minor pentatonic scale',
@@ -85,8 +85,8 @@
                     title: '12-Bar Funky Blues in G',
                     trackNumber: 10,
                     tempo: '♩ = 92',
-                    chordNames: 'G9 | G9 | G9 | G9 | C9 | C9 | G9 | G9 | D9 | C9 | G9 | G9',
-                    chordFunctions: 'I | I | I | I | IV | IV | I | I | V | IV | I | I',
+                    chordNames: 'G9 | - | - | - | C9 | - | G9 | - | D9 | C9 | G9 | -',
+                    chordFunctions: 'I | - | - | - | IV | - | I | - | V | IV | I | -',
                     scaleHints: {
                         primary: [
                             'G minor pentatonic scale',
@@ -112,8 +112,8 @@
                     title: '12-Bar Blues Rock in C',
                     trackNumber: 16,
                     tempo: '♩ = 160',
-                    chordNames: 'C7 | C7 | C7 | C7 | F7 | F7 | C7 | C7 | G7 | F7 | C7 | G7',
-                    chordFunctions: 'I | I | I | I | IV | IV | I | I | V | IV | I | V',
+                    chordNames: 'C7 | - | - | - | F7 | - | C7 | - | G7 | F7 | C7 | G7',
+                    chordFunctions: 'I | - | - | - | IV | - | I | - | V | IV | I | V',
                     scaleHints: {
                         primary: [
                             'C minor pentatonic scale',
@@ -138,8 +138,8 @@
                     title: '12-Bar Minor Blues in A Minor: Straight 8th Feel',
                     trackNumber: 32,
                     tempo: '♩ = 108',
-                    chordNames: 'Am | Am | Am | Am | Dm | Dm | Am | Am | Fmaj7 | E7 | Am | Am',
-                    chordFunctions: 'i | i | i | i | iv | iv | i | i | ♭VI | V | i | i',
+                    chordNames: 'Am | - | - | - | Dm | - | Am | - | Fmaj7 | E7 | Am | -',
+                    chordFunctions: 'i | - | - | - | iv | - | i | - | ♭VI | V | i | -',
                     scaleHints: {
                         primary: [
                             'A minor pentatonic scale',
@@ -162,8 +162,8 @@
                     title: 'Two-Chord Rock in C',
                     trackNumber: 99,
                     tempo: '♩ = 120',
-                    chordNames: 'C | C | C | C | F | F | F | F | C | C | C | C | F | F | F | F',
-                    chordFunctions: 'I | I | I | I | IV | IV | IV | IV | I | I | I | I | IV | IV | IV | IV',
+                    chordNames: 'C | F | C | F',
+                    chordFunctions: 'I | IV | I | IV',
                     scaleHints: {
                         primary: [
                             'C major scale',
@@ -185,8 +185,8 @@
                     title: 'Dorian Jam in E Minor',
                     trackNumber: 105,
                     tempo: '♩ = 108',
-                    chordNames: 'Em | Em | Em | Em | A | A | A | A | Em | Em | Em | Em | A | A | A | A',
-                    chordFunctions: 'i | i | i | i | IV | IV | IV | IV | i | i | i | i | IV | IV | IV | IV',
+                    chordNames: 'Em | A | Em | A',
+                    chordFunctions: 'i | IV | i | IV',
                     scaleHints: {
                         primary: [
                             'E Dorian'
@@ -206,8 +206,8 @@
                     title: 'Dorian Jam in D Minor',
                     trackNumber: 106,
                     tempo: '♩ = 80',
-                    chordNames: 'Dm | Dm | Dm | Dm | G | G | G | G | Dm | Dm | Dm | Dm | G | G | G | G',
-                    chordFunctions: 'i | i | i | i | IV | IV | IV | IV | i | i | i | i | IV | IV | IV | IV',
+                    chordNames: 'Dm | G | Dm | G',
+                    chordFunctions: 'i | IV | i | IV',
                     scaleHints: {
                         primary: [
                             'D Dorian'
@@ -227,8 +227,8 @@
                     title: 'U2 Groove in D',
                     trackNumber: 121,
                     tempo: '♩ = 104',
-                    chordNames: 'D | D | D | D | A | A | A | A | Bm | Bm | Bm | Bm | G | G | G | G',
-                    chordFunctions: 'I | I | I | I | V | V | V | V | vi | vi | vi | vi | IV | IV | IV | IV',
+                    chordNames: 'D | A | Bm | G',
+                    chordFunctions: 'I | V | vi | IV',
                     scaleHints: {
                         primary: [
                             'D major scale',
@@ -245,8 +245,8 @@
                     title: '"Let It Groove" in F',
                     trackNumber: 122,
                     tempo: '♩ = 76',
-                    chordNames: 'F | F | F | F | C | C | C | C | Dm | Dm | Dm | Dm | B♭ | B♭ | B♭ | B♭',
-                    chordFunctions: 'I | I | I | I | V | V | V | V | vi | vi | vi | vi | IV | IV | IV | IV',
+                    chordNames: 'F | C | Dm | B♭',
+                    chordFunctions: 'I | V | vi | IV',
                     scaleHints: {
                         primary: [
                             'F major scale',
@@ -263,8 +263,8 @@
                     title: 'Big Metal Jam in E Minor',
                     trackNumber: 124,
                     tempo: '♩ = 126',
-                    chordNames: 'E5 | E5 | E5 | E5 | D5 | D5 | D5 | D5 | C5 | C5 | C5 | C5 | D5 | D5 | D5 | D5',
-                    chordFunctions: 'i | i | i | i | ♭VII | ♭VII | ♭VII | ♭VII | ♭VI | ♭VI | ♭VI | ♭VI | ♭VII | ♭VII | ♭VII | ♭VII',
+                    chordNames: 'E5 | D5 | C5 | D5',
+                    chordFunctions: 'i | ♭VII | ♭VI | ♭VII',
                     scaleHints: {
                         primary: [
                             'E minor scale',
@@ -283,8 +283,8 @@
                     title: 'Three-Chord Hard Rock in F# Minor',
                     trackNumber: 125,
                     tempo: '♩ = 140',
-                    chordNames: 'F#5 | F#5 | F#5 | F#5 | D5 | D5 | D5 | D5 | E5 | E5 | E5 | E5 | F#5 | F#5 | F#5 | F#5',
-                    chordFunctions: 'i | i | i | i | ♭VI | ♭VI | ♭VI | ♭VI | ♭VII | ♭VII | ♭VII | ♭VII | i | i | i | i',
+                    chordNames: 'F#5 | D5 | E5 | F#5',
+                    chordFunctions: 'i | ♭VI | ♭VII | i',
                     scaleHints: {
                         primary: [
                             'F# minor scale',
@@ -303,8 +303,8 @@
                     title: 'Metal Gallop in A Minor',
                     trackNumber: 126,
                     tempo: '♩ = 108',
-                    chordNames: 'A5 | A5 | A5 | A5 | F5 | F5 | F5 | F5 | G5 | G5 | G5 | G5 | A5 | A5 | A5 | A5',
-                    chordFunctions: 'i | i | i | i | ♭VI | ♭VI | ♭VI | ♭VI | ♭VII | ♭VII | ♭VII | ♭VII | i | i | i | i',
+                    chordNames: 'A5 | F5 | G5 | A5',
+                    chordFunctions: 'i | ♭VI | ♭VII | i',
                     scaleHints: {
                         primary: [
                             'A minor scale',
@@ -323,8 +323,8 @@
                     title: 'A Minor Strut',
                     trackNumber: 128,
                     tempo: '♩ = 126',
-                    chordNames: 'Am | Am | Am | Am | G | G | G | G | F | F | F | F | E | E | E | E',
-                    chordFunctions: 'i | i | i | i | ♭VII | ♭VII | ♭VII | ♭VII | ♭VI | ♭VI | ♭VI | ♭VI | V | V | V | V',
+                    chordNames: 'Am | G | F | E',
+                    chordFunctions: 'i | ♭VII | ♭VI | V',
                     scaleHints: {
                         primary: [
                             'A minor scale',
@@ -344,8 +344,8 @@
                     title: 'C Minor Strut',
                     trackNumber: 129,
                     tempo: '♩ = 120',
-                    chordNames: 'Cm | Cm | Cm | Cm | B♭ | B♭ | B♭ | B♭ | A♭ | A♭ | A♭ | A♭ | G | G | G | G',
-                    chordFunctions: 'i | i | i | i | ♭VII | ♭VII | ♭VII | ♭VII | ♭VI | ♭VI | ♭VI | ♭VI | V | V | V | V',
+                    chordNames: 'Cm | B♭ | A♭ | G',
+                    chordFunctions: 'i | ♭VII | ♭VI | V',
                     scaleHints: {
                         primary: [
                             'C minor scale',
@@ -365,8 +365,8 @@
                     title: 'Lydian Rock in A',
                     trackNumber: 136,
                     tempo: '♩ = 100',
-                    chordNames: 'A | A | A | A | B/A | B/A | B/A | B/A | A | A | A | A | B/A | B/A | B/A | B/A',
-                    chordFunctions: 'I | I | I | I | II | II | II | II | I | I | I | I | II | II | II | II',
+                    chordNames: 'A | B/A | A | B/A',
+                    chordFunctions: 'I | II | I | II',
                     scaleHints: {
                         primary: [
                             'A Lydian',
@@ -385,8 +385,8 @@
                     title: 'Lydian Rock in G',
                     trackNumber: 137,
                     tempo: '♩ = 136',
-                    chordNames: 'G | G | G | G | A/G | A/G | A/G | A/G | G | G | G | G | A/G | A/G | A/G | A/G',
-                    chordFunctions: 'I | I | I | I | II | II | II | II | I | I | I | I | II | II | II | II',
+                    chordNames: 'G | A/G | G | A/G',
+                    chordFunctions: 'I | II | I | II',
                     scaleHints: {
                         primary: [
                             'G Lydian',
@@ -405,8 +405,8 @@
                     title: 'One-Chord Funky Jam in B minor',
                     trackNumber: 149,
                     tempo: '♩ = 88',
-                    chordNames: 'Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7 | Bm7',
-                    chordFunctions: 'i | i | i | i | i | i | i | i | i | i | i | i | i | i | i | i',
+                    chordNames: 'Bm7',
+                    chordFunctions: 'i',
                     scaleHints: {
                         primary: [
                             'B Dorian',
