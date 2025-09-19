@@ -678,64 +678,91 @@
             }
 
             initializeData() {
-                // 使用通用树结构支持不定层级
-                const improvisationTree = {
-                    "琶音": {
-                        "三音组": ["川", "之"],
-                        "四音组": ["川", "之"],
-                        "隔一音": ["川", "之"]
-                    },
-                    "五声音阶": {
-                        "三音组": ["川", "之"],
-                        "四音组": ["川", "之"],
-                        "六音组": ["川", "之"],
-                        "隔一音": ["川", "之"],
-                        "隔两音": ["川", "之"]
-                    },
-                    "自然音阶": {
-                        "三音组": ["川", "之"],
-                        "四音组": ["川", "之"],
-                        "三度": ["川", "之"],
-                        "四度": ["川", "之"]
-                    },
-                    "Legato": {
-                        "三音组": ["123", "132"],
-                        "四音组": ["1323", "川"],
-                        "六音组": ["132124", "川"],
-                        "三度": ["川"]
-                    }
-                };
+                // 创建树节点的辅助函数
+                const createNode = (name, children = []) => ({ name, children });
+                
+                // 创建叶子节点
+                const createLeaf = (name) => ({ name, children: [] });
+                
+                // 定义通用的模进结构
+                const createSequencePatterns = () => [
+                    createNode("模进", [
+                        createLeaf("上行"),
+                        createLeaf("下行")
+                    ]),
+                    createNode("之字模进", [
+                        createLeaf("上行"),
+                        createLeaf("下行")
+                    ])
+                ];
 
-                // 递归遍历树结构，支持不定层级
+                // 使用标准树节点结构
+                const improvisationTree = createNode("根节点", [
+                    createNode("琶音", [
+                        createNode("三音组", createSequencePatterns()),
+                        createNode("四音组", createSequencePatterns()),
+                        createNode("隔一音", createSequencePatterns())
+                    ]),
+                    createNode("五声音阶", [
+                        createNode("三音组", createSequencePatterns()),
+                        createNode("四音组", createSequencePatterns()),
+                        createNode("六音组", createSequencePatterns()),
+                        createNode("隔一音", createSequencePatterns()),
+                        createNode("隔两音", createSequencePatterns())
+                    ]),
+                    createNode("自然音阶", [
+                        createNode("三音组", createSequencePatterns()),
+                        createNode("四音组", createSequencePatterns()),
+                        createNode("三度", createSequencePatterns()),
+                        createNode("四度", createSequencePatterns())
+                    ]),
+                    createNode("Legato", [
+                        createNode("三音组", [
+                            createLeaf("123"),
+                            createLeaf("132")
+                        ]),
+                        createNode("四音组", [
+                            createLeaf("1323"),
+                            createNode("模进", [
+                                createLeaf("上行"),
+                                createLeaf("下行")
+                            ])
+                        ]),
+                        createNode("六音组", [
+                            createLeaf("132124"),
+                            createNode("模进", [
+                                createLeaf("上行"),
+                                createLeaf("下行")
+                            ])
+                        ]),
+                        createNode("三度", [
+                            createNode("模进", [
+                                createLeaf("上行"),
+                                createLeaf("下行")
+                            ])
+                        ])
+                    ])
+                ]);
+
+                // 递归遍历树结构，支持标准节点格式
                 let index = 0;
                 const traverseTree = (node, path = []) => {
-                    if (Array.isArray(node)) {
-                        // 叶子节点：数组形式
-                        node.forEach(item => {
-                            const fullPath = [...path, item];
-                            const fullName = fullPath.join(' - ');
-                            this.trie.insert(fullPath, { 
-                                path: fullPath, 
-                                index, 
-                                fullName 
-                            });
-                            index++;
-                        });
-                    } else if (typeof node === 'object' && node !== null) {
-                        // 中间节点：对象形式，继续递归
-                        Object.entries(node).forEach(([key, value]) => {
-                            traverseTree(value, [...path, key]);
-                        });
-                    } else {
-                        // 叶子节点：基本类型
-                        const fullPath = [...path, node];
-                        const fullName = fullPath.join(' - ');
-                        this.trie.insert(fullPath, { 
-                            path: fullPath, 
+                    const currentPath = [...path, node.name];
+                    
+                    if (node.children.length === 0) {
+                        // 叶子节点
+                        const fullName = currentPath.slice(1).join(' - '); // 跳过根节点
+                        this.trie.insert(currentPath, { 
+                            path: currentPath, 
                             index, 
                             fullName 
                         });
                         index++;
+                    } else {
+                        // 中间节点，继续递归遍历子节点
+                        node.children.forEach(child => {
+                            traverseTree(child, currentPath);
+                        });
                     }
                 };
 
