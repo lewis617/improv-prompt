@@ -729,7 +729,7 @@
                             ])
                         ]),
                         createNode("六音组", [
-                            createLeaf("132124"),
+                            createLeaf("132123"),
                             createNode("模进", [
                                 createLeaf("上行"),
                                 createLeaf("下行")
