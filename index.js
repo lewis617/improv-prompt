@@ -1,4 +1,6 @@
- // 字典树节点类
+import { createImprovisationData } from './data.js';
+
+// 字典树节点类
         class TrieNode {
             constructor() {
                 this.children = new Map();
@@ -678,73 +680,8 @@
             }
 
             initializeData() {
-                // 创建树节点的辅助函数
-                const createNode = (name, children = []) => ({ name, children });
-                
-                // 创建叶子节点
-                const createLeaf = (name) => ({ name, children: [] });
-                
-                // 定义通用的模进结构
-                const createSequencePatterns = () => [
-                    createNode("模进", [
-                        createLeaf("上行"),
-                        createLeaf("下行")
-                    ]),
-                    createNode("之字模进", [
-                        createLeaf("上行"),
-                        createLeaf("下行")
-                    ])
-                ];
-
-                // 使用标准树节点结构
-                const improvisationTree = createNode("根节点", [
-                    createNode("琶音", [
-                        createNode("三音组", createSequencePatterns()),
-                        createNode("四音组", createSequencePatterns()),
-                        createNode("隔一音", createSequencePatterns())
-                    ]),
-                    createNode("五声音阶", [
-                        createNode("三音组", createSequencePatterns()),
-                        createNode("四音组", createSequencePatterns()),
-                        createNode("六音组", createSequencePatterns()),
-                        createNode("隔一音", createSequencePatterns()),
-                        createNode("隔两音", createSequencePatterns())
-                    ]),
-                    createNode("自然音阶", [
-                        createNode("三音组", createSequencePatterns()),
-                        createNode("四音组", createSequencePatterns()),
-                        createNode("三度", createSequencePatterns()),
-                        createNode("四度", createSequencePatterns())
-                    ]),
-                    createNode("Legato", [
-                        createNode("三音组", [
-                            createLeaf("123"),
-                            createLeaf("132")
-                        ]),
-                        createNode("四音组", [
-                            createLeaf("1323"),
-                            createLeaf("3231"),
-                            createNode("模进", [
-                                createLeaf("上行"),
-                                createLeaf("下行")
-                            ])
-                        ]),
-                        createNode("六音组", [
-                            createLeaf("132123"),
-                            createLeaf("312321"),
-                            createNode("模进", [
-                                createLeaf("上行"),
-                                createLeaf("下行")
-                            ])
-                        ]),
-                        createNode("三度", [
-                            createNode("模进", [
-                                createLeaf("上行"),
-                                createLeaf("下行")
-                            ])
-                        ])
-                    ])
-                ]);
+                // 获取即兴练习数据
+                const improvisationTree = createImprovisationData();
 
                 // 递归遍历树结构，支持标准节点格式
                 let index = 0;
