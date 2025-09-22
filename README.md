@@ -50,7 +50,21 @@
 
 ## 自定义练习内容
 
-如需添加或修改练习内容，请编辑 `index.html` 文件中的 `improvisationTree` 对象。
+如需添加或修改练习内容，请编辑 `js/data.js` 文件中的即兴练习数据结构。
+
+## 项目结构
+
+```
+.
+├── index.html          # 主页面
+├── css/
+│   └── style.css      # 样式文件
+├── js/
+│   ├── index.js       # 主逻辑
+│   ├── data.js        # 即兴练习数据
+│   └── audio-data.js  # 背景音轨数据
+└── audio/             # 音频文件目录
+```
 
 ## 许可证
 
