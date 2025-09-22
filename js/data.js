@@ -6,16 +6,16 @@ export function createImprovisationData() {
     // 创建叶子节点
     const createLeaf = (name) => ({ name, children: [] });
     
+    // 创建上行下行模式
+    const createDirectionalPattern = (name) => createNode(name, [
+        createLeaf("上行"),
+        createLeaf("下行")
+    ]);
+    
     // 定义通用的模进结构
     const createSequencePatterns = () => [
-        createNode("模进", [
-            createLeaf("上行"),
-            createLeaf("下行")
-        ]),
-        createNode("之字模进", [
-            createLeaf("上行"),
-            createLeaf("下行")
-        ])
+        createDirectionalPattern("模进"),
+        createDirectionalPattern("之字模进")
     ];
 
     // 使用标准树节点结构
@@ -46,24 +46,15 @@ export function createImprovisationData() {
             createNode("四音组", [
                 createLeaf("1323"),
                 createLeaf("3231"),
-                createNode("模进", [
-                    createLeaf("上行"),
-                    createLeaf("下行")
-                ])
+                createDirectionalPattern("模进")
             ]),
             createNode("六音组", [
                 createLeaf("132123"),
                 createLeaf("312321"),
-                createNode("模进", [
-                    createLeaf("上行"),
-                    createLeaf("下行")
-                ])
+                createDirectionalPattern("模进")
             ]),
             createNode("三度", [
-                createNode("模进", [
-                    createLeaf("上行"),
-                    createLeaf("下行")
-                ])
+                createDirectionalPattern("模进")
             ])
         ])
     ]);
