@@ -9,6 +9,7 @@ export function createAudioData() {
             tempo: '♩ = 108',
             chordNames: 'E7 | - | - | - | A7 | - | E7 | - | B7 | A7 | E7 | B7',
             chordFunctions: 'I | - | - | - | IV | - | I | - | V | IV | I | V',
+            skip: ['自然音阶', 'Legato'],
             scaleHints: {
                 primary: [
                     'E minor pentatonic scale',
@@ -58,6 +59,7 @@ export function createAudioData() {
             tempo: '♩ = 160',
             chordNames: 'C7 | - | - | - | F7 | - | C7 | - | G7 | F7 | C7 | G7',
             chordFunctions: 'I | - | - | - | IV | - | I | - | V | IV | I | V',
+            skip: ['自然音阶', 'Legato'],
             scaleHints: {
                 primary: [
                     'C minor pentatonic scale',

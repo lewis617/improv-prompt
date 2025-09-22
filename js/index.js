@@ -45,6 +45,7 @@ import { createAudioData } from './audio-data.js';
                 this.trackDetails = document.getElementById('trackDetails');
                 this.trackTitle = document.getElementById('trackTitle');
                 this.trackTempo = document.getElementById('trackTempo');
+                this.improvisationTool = null; // 即兴提示工具的引用
                 
                 this.playModeSelect = document.getElementById('playMode');
                 this.playBtn = document.getElementById('playBtn');
@@ -62,6 +63,11 @@ import { createAudioData } from './audio-data.js';
                 // 初始化音频事件和列表显示
                 this.initAudioEvents();
                 this.initTrackList();
+            }
+
+            // 设置即兴提示工具的引用
+            setImprovisationTool(improvisationTool) {
+                this.improvisationTool = improvisationTool;
             }
 
             shuffleArray(array) {
@@ -127,6 +133,13 @@ import { createAudioData } from './audio-data.js';
                 const track = this.audioFiles[this.currentIndex];
                 this.audioPlayer.src = `audio/${track.file}`;
                 
+                // 通知即兴提示工具更新跳过列表
+                if (this.improvisationTool && track.skip) {
+                    this.improvisationTool.setSkipList(track.skip);
+                } else if (this.improvisationTool) {
+                    this.improvisationTool.setSkipList([]);
+                }
+                
                 this.audioPlayer.play().then(() => {
                     this.isPlaying = true;
                     this.updateUI();
@@ -157,6 +170,11 @@ import { createAudioData } from './audio-data.js';
                 this.updateUI();
                 this.trackDetails.style.display = 'none';
                 this.scaleHints.style.display = 'none';
+                
+                // 清除跳过列表
+                if (this.improvisationTool) {
+                    this.improvisationTool.setSkipList([]);
+                }
             }
 
             nextTrack() {
@@ -306,12 +324,16 @@ import { createAudioData } from './audio-data.js';
                 this.progressTimer = null;
                 this.intervalTime = 10000; // 默认10秒
                 this.startTime = 0;
+                this.allIdeas = []; // 存储所有练习内容
+                this.currentSkipList = []; // 当前需要跳过的练习类型
                 
-                this.initializeData();
+                // 先初始化UI，再初始化数据
                 this.initializeUI();
+                this.initializeData();
                 
-                // 初始化音频管理器
+                // 初始化音频管理器并建立通信
                 this.audioManager = new AudioManager();
+                this.audioManager.setImprovisationTool(this);
             }
 
             initializeData() {
@@ -326,11 +348,13 @@ import { createAudioData } from './audio-data.js';
                     if (node.children.length === 0) {
                         // 叶子节点
                         const fullName = currentPath.slice(1).join(' - '); // 跳过根节点
-                        this.trie.insert(currentPath, { 
+                        const itemData = { 
                             path: currentPath, 
                             index, 
-                            fullName 
-                        });
+                            fullName,
+                            category: currentPath[1] // 第一级分类，如"琶音"、"自然音阶"等
+                        };
+                        this.trie.insert(currentPath, itemData);
                         index++;
                     } else {
                         // 中间节点，继续递归遍历子节点
@@ -341,8 +365,42 @@ import { createAudioData } from './audio-data.js';
                 };
 
                 traverseTree(improvisationTree);
-                this.ideas = this.trie.getAllItems();
+                this.allIdeas = this.trie.getAllItems();
+                this.updateFilteredIdeas();
+                
+                // 数据初始化完成后更新显示
+                if (this.currentPrompt && this.ideas.length > 0) {
+                    this.updateDisplay();
+                }
+            }
+
+            // 根据跳过列表更新过滤后的练习内容
+            updateFilteredIdeas() {
+                if (this.currentSkipList.length === 0) {
+                    this.ideas = [...this.allIdeas];
+                } else {
+                    this.ideas = this.allIdeas.filter(idea => 
+                        !this.currentSkipList.includes(idea.category)
+                    );
+                }
+                
                 this.shuffleArray(this.ideas);
+                
+                // 如果当前索引超出了新的数组范围，重置为0
+                if (this.currentIndex >= this.ideas.length) {
+                    this.currentIndex = 0;
+                }
+                
+                // 只有在UI元素存在时才更新显示
+                if (this.currentPrompt && this.ideas.length > 0) {
+                    this.updateDisplay();
+                }
+            }
+
+            // 设置需要跳过的练习类型
+            setSkipList(skipList) {
+                this.currentSkipList = skipList || [];
+                this.updateFilteredIdeas();
             }
 
             shuffleArray(array) {
@@ -366,7 +424,15 @@ import { createAudioData } from './audio-data.js';
                 this.nextBtn.addEventListener('click', () => this.next());
                 this.intervalInput.addEventListener('change', () => this.updateInterval());
 
-                this.updateDisplay();
+                // 初始显示
+                this.currentPrompt.innerHTML = `
+                    <h2>当前练习</h2>
+                    <div class="prompt-text">准备开始...</div>
+                `;
+                this.nextPrompt.innerHTML = `
+                    <h3>即将到来</h3>
+                    <div class="prompt-text">等待中...</div>
+                `;
             }
 
             updateInterval() {
@@ -408,6 +474,10 @@ import { createAudioData } from './audio-data.js';
             }
 
             next() {
+                if (this.ideas.length === 0) {
+                    return; // 没有可用的练习内容时不执行切换
+                }
+                
                 this.currentIndex = (this.currentIndex + 1) % this.ideas.length;
                 this.updateDisplay();
                 if (this.isPlaying) {
@@ -442,6 +512,19 @@ import { createAudioData } from './audio-data.js';
             }
 
             updateDisplay() {
+                if (this.ideas.length === 0) {
+                    // 如果没有可用的练习内容
+                    this.currentPrompt.innerHTML = `
+                        <h2>当前练习</h2>
+                        <div class="prompt-text">当前音轨跳过了所有练习类型</div>
+                    `;
+                    this.nextPrompt.innerHTML = `
+                        <h3>即将到来</h3>
+                        <div class="prompt-text">-</div>
+                    `;
+                    return;
+                }
+
                 const current = this.ideas[this.currentIndex];
                 const next = this.ideas[(this.currentIndex + 1) % this.ideas.length];
 
