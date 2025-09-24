@@ -58,7 +58,11 @@ import { createAudioData } from './audio-data.js';
 
                 this.currentIndex = 0;
                 this.isPlaying = false;
-                this.shuffleArray(this.audioFiles);
+                
+                // 随机播放相关属性
+                this.randomIndexArray = []; // 存储随机索引数组
+                this.randomArrayIndex = 0;  // 当前在随机数组中的位置
+                this.generateRandomIndexArray(); // 初始化随机数组
 
                 // 初始化音频事件和列表显示
                 this.initAudioEvents();
@@ -68,6 +72,27 @@ import { createAudioData } from './audio-data.js';
             // 设置即兴提示工具的引用
             setImprovisationTool(improvisationTool) {
                 this.improvisationTool = improvisationTool;
+            }
+
+            // 生成随机索引数组
+            generateRandomIndexArray() {
+                this.randomIndexArray = Array.from({ length: this.audioFiles.length }, (_, i) => i);
+                this.shuffleArray(this.randomIndexArray);
+                this.randomArrayIndex = 0;
+            }
+
+            // 获取随机播放模式下的当前索引
+            getCurrentRandomIndex() {
+                if (this.randomIndexArray.length === 0) {
+                    this.generateRandomIndexArray();
+                }
+                return this.randomIndexArray[this.randomArrayIndex];
+            }
+
+            // 随机播放模式下移动到下一个索引
+            moveToNextRandomIndex() {
+                this.randomArrayIndex = (this.randomArrayIndex + 1) % this.randomIndexArray.length;
+                return this.getCurrentRandomIndex();
             }
 
             shuffleArray(array) {
@@ -91,7 +116,7 @@ import { createAudioData } from './audio-data.js';
             play() {
                 const playMode = this.playModeSelect.value;
                 if (playMode === 'random') {
-                    this.currentIndex = Math.floor(Math.random() * this.audioFiles.length);
+                    this.currentIndex = this.getCurrentRandomIndex();
                 } else if (playMode === 'sequential') {
                     // 保持当前索引，顺序播放
                 }
@@ -181,7 +206,7 @@ import { createAudioData } from './audio-data.js';
                 const playMode = this.playModeSelect.value;
                 
                 if (playMode === 'random') {
-                    this.currentIndex = Math.floor(Math.random() * this.audioFiles.length);
+                    this.currentIndex = this.moveToNextRandomIndex();
                 } else {
                     // sequential 和 repeat 模式都使用顺序切换
                     this.currentIndex = (this.currentIndex + 1) % this.audioFiles.length;
@@ -307,8 +332,8 @@ import { createAudioData } from './audio-data.js';
                     // 顺序播放下一首
                     this.nextTrack();
                 } else if (playMode === 'random') {
-                    // 随机选择下一首
-                    this.currentIndex = Math.floor(Math.random() * this.audioFiles.length);
+                    // 按照随机数组播放下一首
+                    this.currentIndex = this.moveToNextRandomIndex();
                     this.playCurrentTrack();
                 }
             }
