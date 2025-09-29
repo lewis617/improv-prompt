@@ -17,6 +17,7 @@ export function createAudioData() {
                     'E major pentatonic scale (for a brighter, country blues sound)'
                 ],
                 alternate: [
+                    'E Dorian (for a jazzy, soulful sound)',
                     'E Mixolydian (over the I chord)',
                     'A Mixolydian (over the IV chord)',
                     'B Mixolydian (over the V chord)',
@@ -42,6 +43,7 @@ export function createAudioData() {
                     'G composite blues scale'
                 ],
                 alternate: [
+                    'G Dorian (for a jazzy, funky sound)',
                     'G Mixolydian (over the I chord)',
                     'C Mixolydian (over the IV chord)',
                     'D Mixolydian (over the V chord)',
@@ -67,6 +69,7 @@ export function createAudioData() {
                     'C major pentatonic scale (for a brighter, country blues sound)'
                 ],
                 alternate: [
+                    'C Dorian (for a jazzy, rock sound)',
                     'C Mixolydian (over the I chord)',
                     'F Mixolydian (over the IV chord)',
                     'G Mixolydian (over the V chord)',
