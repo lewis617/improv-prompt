@@ -1,4 +1,4 @@
-// 背景音轨数据模块
+// Background audio track data module
 export function createAudioData() {
     return [
         {

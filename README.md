@@ -1,75 +1,75 @@
-# 即兴提示工具
+# Improvisation Practice Tool
 
-一个专为音乐即兴练习设计的网页工具，帮助您系统性地进行各种即兴技巧训练。
+A web-based tool specifically designed for music improvisation practice, helping you systematically train various improvisation techniques.
 
-## 功能特点
+## Features
 
-- 🎵 **丰富的练习内容**: 包含琶音、五声音阶、自然音阶、Legato等多种即兴思路
-- ⏰ **定时播放**: 可自定义间隔时间，自动切换练习内容
-- 👀 **预览功能**: 类似KTV歌词显示，可以提前看到下一个即将到来的练习内容
-- 📊 **进度显示**: 直观的进度条和完成状态显示
-- 🌟 **现代界面**: 美观的渐变设计，支持移动端适配
-- 🔀 **随机播放**: 打乱练习顺序，避免形成固定记忆模式
+- 🎵 **Rich Practice Content**: Includes arpeggios, pentatonic scales, natural scales, legato and other improvisation ideas
+- ⏰ **Timed Playback**: Customizable interval timing with automatic switching between practice content
+- 👀 **Preview Functionality**: Like karaoke lyrics display, you can preview the next upcoming practice content
+- 📊 **Progress Display**: Intuitive progress bar and completion status display
+- 🌟 **Modern Interface**: Beautiful gradient design with mobile device support
+- 🔀 **Random Playback**: Shuffle practice order to avoid forming fixed memory patterns
 
-## 练习内容
+## Practice Content
 
-### 琶音系列
-- **琶音**: 三音组（川、之）、四音组（川、之）、隔一音（川、之）
+### Arpeggio Series
+- **Arpeggios**: Three-note groups (sequence, zigzag), Four-note groups (sequence, zigzag), Skip one note (sequence, zigzag)
 
-### 音阶系列
-- **五声音阶**: 三音组（川、之）、四音组（川、之）、六音组（川、之）、隔一音（川、之）、隔两音（川、之）
-- **自然音阶**: 三音组（川、之）、四音组（川、之）、三度（川、之）、四度（川、之）
+### Scale Series
+- **Pentatonic Scales**: Three-note groups (sequence, zigzag), Four-note groups (sequence, zigzag), Six-note groups (sequence, zigzag), Skip one note (sequence, zigzag), Skip two notes (sequence, zigzag)
+- **Diatonic Scales**: Three-note groups (sequence, zigzag), Four-note groups (sequence, zigzag), Thirds (sequence, zigzag), Fourths (sequence, zigzag)
 
-### 技巧系列
-- **Legato**: 三音组（123、132）、四音组（1323、川）、六音组（132124、川）、三度（川）
+### Technique Series
+- **Legato**: Three-note groups (1-2-3, 1-3-2), Four-note groups (1-3-2-3, sequence), Six-note groups (1-3-2-1-2-3, sequence), Thirds (sequence)
 
-## 技术实现
+## Technical Implementation
 
-- 使用**字典树（Trie）**数据结构存储和组织即兴思路
-- 纯前端实现，无需服务器
-- 响应式设计，支持各种设备
-- 平滑的动画过渡效果
+- Uses **Trie (prefix tree)** data structure to store and organize improvisation ideas
+- Pure frontend implementation, no server required
+- Responsive design, supports various devices
+- Smooth animation transitions
 
-## 使用方法
+## Usage
 
-1. 设置练习间隔时间（5-300秒）
-2. 点击"开始练习"开始训练
-3. 系统会自动显示当前练习内容和下一个即将到来的内容
-4. 可随时点击"下一个"手动切换，或"停止练习"暂停
+1. Set practice interval time (5-300 seconds)
+2. Click "Start Practice" to begin training
+3. System will automatically display current practice content and the next upcoming content
+4. Can click "Next" to manually switch at any time, or "Stop Practice" to pause
 
-## 部署到 GitHub Pages
+## Deploy to GitHub Pages
 
-1. Fork 此项目到您的 GitHub 账户
-2. 在项目设置中启用 GitHub Pages
-3. 选择主分支作为发布源
-4. 访问 `https://yourusername.github.io/improv-prompt/` 即可使用
+1. Fork this project to your GitHub account
+2. Enable GitHub Pages in project settings
+3. Select main branch as publishing source
+4. Visit `https://yourusername.github.io/improv-prompt/` to use
 
-## 本地运行
+## Local Running
 
-直接在浏览器中打开 `index.html` 文件即可运行。
+Simply open the `index.html` file directly in your browser.
 
-## 自定义练习内容
+## Custom Practice Content
 
-如需添加或修改练习内容，请编辑 `js/data.js` 文件中的即兴练习数据结构。
+To add or modify practice content, please edit the improvisation practice data structure in `js/data.js`.
 
-## 项目结构
+## Project Structure
 
 ```
 .
-├── index.html          # 主页面
+├── index.html          # Main page
 ├── css/
-│   └── style.css      # 样式文件
+│   └── style.css      # Style file
 ├── js/
-│   ├── index.js       # 主逻辑
-│   ├── data.js        # 即兴练习数据
-│   └── audio-data.js  # 背景音轨数据
-└── audio/             # 音频文件目录
+│   ├── index.js       # Main logic
+│   ├── data.js        # Improvisation practice data
+│   └── audio-data.js  # Background track data
+└── audio/             # Audio files directory
 ```
 
-## 许可证
+## License
 
 MIT License
 
 ---
 
-享受您的即兴练习时光！🎵
+Enjoy your improvisation practice! 🎵

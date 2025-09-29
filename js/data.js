@@ -1,60 +1,60 @@
-// 即兴练习数据模块
+// Improvisation exercise data module
 export function createImprovisationData() {
-    // 创建树节点的辅助函数
+    // Helper function to create tree nodes
     const createNode = (name, children = []) => ({ name, children });
-    
-    // 创建叶子节点
+
+    // Create leaf nodes
     const createLeaf = (name) => ({ name, children: [] });
-    
-    // 创建上行下行模式
+
+    // Create directional patterns (ascending/descending)
     const createDirectionalPattern = (name) => createNode(name, [
-        createLeaf("上行"),
-        createLeaf("下行")
+        createLeaf("Ascending"),
+        createLeaf("Descending")
     ]);
-    
-    // 定义通用的模进结构
+
+    // Define common sequence structures
     const createSequencePatterns = () => [
-        createDirectionalPattern("模进"),
-        createDirectionalPattern("之字模进")
+        createDirectionalPattern("Sequence"),
+        createDirectionalPattern("Zigzag Sequence")
     ];
 
-    // 使用标准树节点结构
-    const improvisationTree = createNode("根节点", [
-        createNode("琶音", [
-            createNode("三音组", createSequencePatterns()),
-            createNode("四音组", createSequencePatterns()),
-            createNode("隔一音", createSequencePatterns())
+    // Using standard tree node structure
+    const improvisationTree = createNode("Root", [
+        createNode("Arpeggios", [
+            createNode("Three-Note Groups", createSequencePatterns()),
+            createNode("Four-Note Groups", createSequencePatterns()),
+            createNode("Skip One Note", createSequencePatterns())
         ]),
-        createNode("五声音阶", [
-            createNode("三音组", createSequencePatterns()),
-            createNode("四音组", createSequencePatterns()),
-            createNode("六音组", createSequencePatterns()),
-            createNode("隔一音", createSequencePatterns()),
-            createNode("隔两音", createSequencePatterns())
+        createNode("Pentatonic Scales", [
+            createNode("Three-Note Groups", createSequencePatterns()),
+            createNode("Four-Note Groups", createSequencePatterns()),
+            createNode("Six-Note Groups", createSequencePatterns()),
+            createNode("Skip One Note", createSequencePatterns()),
+            createNode("Skip Two Notes", createSequencePatterns())
         ]),
-        createNode("自然音阶", [
-            createNode("三音组", createSequencePatterns()),
-            createNode("四音组", createSequencePatterns()),
-            createNode("三度", createSequencePatterns()),
-            createNode("四度", createSequencePatterns())
+        createNode("Diatonic Scales", [
+            createNode("Three-Note Groups", createSequencePatterns()),
+            createNode("Four-Note Groups", createSequencePatterns()),
+            createNode("Thirds", createSequencePatterns()),
+            createNode("Fourths", createSequencePatterns())
         ]),
         createNode("Legato", [
-            createNode("三音组", [
-                createLeaf("123"),
-                createLeaf("132")
+            createNode("Three-Note Groups", [
+                createLeaf("1-2-3"),
+                createLeaf("1-3-2")
             ]),
-            createNode("四音组", [
-                createLeaf("1323"),
-                createLeaf("3231"),
-                createDirectionalPattern("模进")
+            createNode("Four-Note Groups", [
+                createLeaf("1-3-2-3"),
+                createLeaf("3-2-3-1"),
+                createDirectionalPattern("Sequence")
             ]),
-            createNode("六音组", [
-                createLeaf("132123"),
-                createLeaf("312321"),
-                createDirectionalPattern("模进")
+            createNode("Six-Note Groups", [
+                createLeaf("1-3-2-1-2-3"),
+                createLeaf("3-1-2-3-2-1"),
+                createDirectionalPattern("Sequence")
             ]),
-            createNode("三度", [
-                createDirectionalPattern("模进")
+            createNode("Thirds", [
+                createDirectionalPattern("Sequence")
             ])
         ])
     ]);

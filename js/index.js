@@ -1,7 +1,7 @@
 import { createImprovisationData } from './data.js';
 import { createAudioData } from './audio-data.js';
 
-// 字典树节点类
+// Trie node class
         class TrieNode {
             constructor() {
                 this.children = new Map();
@@ -10,7 +10,7 @@ import { createAudioData } from './audio-data.js';
             }
         }
 
-        // 字典树类
+        // Trie class
         class Trie {
             constructor() {
                 this.root = new TrieNode();
@@ -35,7 +35,7 @@ import { createAudioData } from './audio-data.js';
             }
         }
 
-        // 音频管理类
+        // Audio manager class
         class AudioManager {
             constructor() {
                 this.audioPlayer = document.getElementById('audioPlayer');
@@ -59,26 +59,26 @@ import { createAudioData } from './audio-data.js';
                 this.currentIndex = 0;
                 this.isPlaying = false;
                 
-                // 随机播放相关属性
-                this.randomIndexArray = []; // 存储随机索引数组
-                this.randomArrayIndex = 0;  // 当前在随机数组中的位置
-                this.generateRandomIndexArray(); // 初始化随机数组
+                // Random playback related properties
+                this.randomIndexArray = []; // Store random index array
+                this.randomArrayIndex = 0;  // Current position in random array
+                this.generateRandomIndexArray(); // Initialize random array
 
-                // 初始化音频事件和列表显示
+                // Initialize audio events and list display
                 this.initAudioEvents();
                 this.initTrackList();
             }
 
 
 
-            // 生成随机索引数组
+            // Generate random index array
             generateRandomIndexArray() {
                 this.randomIndexArray = Array.from({ length: this.audioFiles.length }, (_, i) => i);
                 this.shuffleArray(this.randomIndexArray);
                 this.randomArrayIndex = 0;
             }
 
-            // 获取随机播放模式下的当前索引
+            // Get current index in random playback mode
             getCurrentRandomIndex() {
                 if (this.randomIndexArray.length === 0) {
                     this.generateRandomIndexArray();
@@ -86,7 +86,7 @@ import { createAudioData } from './audio-data.js';
                 return this.randomIndexArray[this.randomArrayIndex];
             }
 
-            // 随机播放模式下移动到下一个索引
+            // Move to next index in random playback mode
             moveToNextRandomIndex() {
                 this.randomArrayIndex = (this.randomArrayIndex + 1) % this.randomIndexArray.length;
                 return this.getCurrentRandomIndex();
@@ -115,9 +115,9 @@ import { createAudioData } from './audio-data.js';
                 if (playMode === 'random') {
                     this.currentIndex = this.getCurrentRandomIndex();
                 } else if (playMode === 'sequential') {
-                    // 保持当前索引，顺序播放
+                    // Keep current index, sequential playback
                 }
-                // repeat 模式也保持当前索引
+                // repeat mode also keeps current index
                 this.playCurrentTrack();
             }
 
@@ -160,7 +160,7 @@ import { createAudioData } from './audio-data.js';
                     this.updateUI();
                     this.updateScaleHints(track);
                 }).catch(error => {
-                    console.error('播放失败:', error);
+                    console.error('Playback failed:', error);
                     this.handleError();
                 });
             }
@@ -193,7 +193,7 @@ import { createAudioData } from './audio-data.js';
                 if (playMode === 'random') {
                     this.currentIndex = this.moveToNextRandomIndex();
                 } else {
-                    // sequential 和 repeat 模式都使用顺序切换
+                    // sequential and repeat modes both use sequential switching
                     this.currentIndex = (this.currentIndex + 1) % this.audioFiles.length;
                 }
                 this.playCurrentTrack();
@@ -212,7 +212,7 @@ import { createAudioData } from './audio-data.js';
                 this.stopAudioBtn.disabled = !this.isPlaying && this.audioPlayer.currentTime === 0;
                 this.nextTrackBtn.disabled = !this.isPlaying && this.audioPlayer.currentTime === 0;
 
-                // 更新音频列表UI
+                // Update audio list UI
                 this.updateTrackListUI();
 
                 if (this.isPlaying) {
@@ -226,19 +226,19 @@ import { createAudioData } from './audio-data.js';
                 this.trackTitle.textContent = track.title;
                 this.trackTempo.textContent = track.tempo;
                 
-                // 生成和弦表格，每行4个
+                // Generate chord table, 4 per row
                 const chordNames = track.chordNames.split(' | ');
                 const chordFunctions = track.chordFunctions.split(' | ');
                 
-                // 清空现有内容
+                // Clear existing content
                 const chordTable = document.getElementById('chordTable');
                 chordTable.innerHTML = '';
                 
-                // 创建表格结构，每行4个和弦
+                // Create table structure, 4 chords per row
                 const chordsPerRow = 4;
                 
                 for (let i = 0; i < chordNames.length; i += chordsPerRow) {
-                    // 和弦名称行
+                    // Chord names row
                     const nameRow = document.createElement('tr');
                     nameRow.className = 'chord-names';
                     for (let j = 0; j < chordsPerRow && i + j < chordNames.length; j++) {
@@ -248,7 +248,7 @@ import { createAudioData } from './audio-data.js';
                     }
                     chordTable.appendChild(nameRow);
                     
-                    // 级数分析行
+                    // Roman numeral analysis row
                     const functionRow = document.createElement('tr');
                     functionRow.className = 'chord-functions';
                     for (let j = 0; j < chordsPerRow && i + j < chordFunctions.length; j++) {
@@ -311,20 +311,20 @@ import { createAudioData } from './audio-data.js';
                 const playMode = this.playModeSelect.value;
                 
                 if (playMode === 'repeat') {
-                    // 单曲循环，重新播放当前曲目
+                    // Repeat one, replay current track
                     this.playCurrentTrack();
                 } else if (playMode === 'sequential') {
-                    // 顺序播放下一首
+                    // Sequential play next track
                     this.nextTrack();
                 } else if (playMode === 'random') {
-                    // 按照随机数组播放下一首
+                    // Play next according to random array
                     this.currentIndex = this.moveToNextRandomIndex();
                     this.playCurrentTrack();
                 }
             }
         }
 
-        // 即兴提示工具类
+        // Improvisation practice tool class
         class ImprovisationTool {
             constructor() {
                 this.trie = new Trie();
@@ -332,40 +332,40 @@ import { createAudioData } from './audio-data.js';
                 this.isPlaying = false;
                 this.timer = null;
                 this.progressTimer = null;
-                this.intervalTime = 10000; // 默认10秒
+                this.intervalTime = 10000; // Default 10 seconds
                 this.startTime = 0;
-                this.allIdeas = []; // 存储所有练习内容
+                this.allIdeas = []; // Store all practice content
                 
-                // 先初始化UI，再初始化数据
+                // Initialize UI first, then initialize data
                 this.initializeUI();
                 this.initializeData();
                 
-                // 初始化音频管理器
+                // Initialize audio manager
                 this.audioManager = new AudioManager();
             }
 
             initializeData() {
-                // 获取即兴练习数据
+                // Get improvisation practice data
                 const improvisationTree = createImprovisationData();
 
-                // 递归遍历树结构，支持标准节点格式
+                // Recursively traverse tree structure, support standard node format
                 let index = 0;
                 const traverseTree = (node, path = []) => {
                     const currentPath = [...path, node.name];
                     
                     if (node.children.length === 0) {
-                        // 叶子节点
-                        const fullName = currentPath.slice(1).join(' - '); // 跳过根节点
+                        // Leaf node
+                        const fullName = currentPath.slice(1).join(' - '); // Skip root node
                         const itemData = { 
                             path: currentPath, 
                             index, 
                             fullName,
-                            category: currentPath[1] // 第一级分类，如"琶音"、"自然音阶"等
+                            category: currentPath[1] // First level category like "Arpeggios", "Natural Scales", etc.
                         };
                         this.trie.insert(currentPath, itemData);
                         index++;
                     } else {
-                        // 中间节点，继续递归遍历子节点
+                        // Intermediate node, continue recursive traversal of child nodes
                         node.children.forEach(child => {
                             traverseTree(child, currentPath);
                         });
@@ -377,7 +377,7 @@ import { createAudioData } from './audio-data.js';
                 this.ideas = [...this.allIdeas];
                 this.shuffleArray(this.ideas);
                 
-                // 数据初始化完成后更新显示
+                // Update display after data initialization is complete
                 if (this.currentPrompt && this.ideas.length > 0) {
                     this.updateDisplay();
                 }
@@ -404,14 +404,14 @@ import { createAudioData } from './audio-data.js';
                 this.nextBtn.addEventListener('click', () => this.next());
                 this.intervalInput.addEventListener('change', () => this.updateInterval());
 
-                // 初始显示
+                // Initial display
                 this.currentPrompt.innerHTML = `
-                    <h2>当前练习</h2>
-                    <div class="prompt-text">准备开始...</div>
+                    <h2>Current Exercise</h2>
+                    <div class="prompt-text">Ready to start...</div>
                 `;
                 this.nextPrompt.innerHTML = `
-                    <h3>即将到来</h3>
-                    <div class="prompt-text">等待中...</div>
+                    <h3>Coming Up</h3>
+                    <div class="prompt-text">Waiting...</div>
                 `;
             }
 
@@ -472,14 +472,14 @@ import { createAudioData } from './audio-data.js';
                 this.startTime = Date.now();
                 this.progressFill.style.width = '0%';
 
-                // 进度条更新
+                // Progress bar update
                 this.progressTimer = setInterval(() => {
                     const elapsed = Date.now() - this.startTime;
                     const progress = Math.min((elapsed / this.intervalTime) * 100, 100);
                     this.progressFill.style.width = `${progress}%`;
                 }, 100);
 
-                // 定时器
+                // Timer
                 this.timer = setTimeout(() => {
                     if (this.isPlaying) {
                         this.next();
@@ -491,9 +491,9 @@ import { createAudioData } from './audio-data.js';
                 const current = this.ideas[this.currentIndex];
                 const next = this.ideas[(this.currentIndex + 1) % this.ideas.length];
 
-                // 更新当前提示
+                // Update current prompt
                 this.currentPrompt.innerHTML = `
-                    <h2>当前练习 (${this.currentIndex + 1}/${this.ideas.length})</h2>
+                    <h2>Current Exercise (${this.currentIndex + 1}/${this.ideas.length})</h2>
                     <div class="prompt-text">${current.fullName}</div>
                 `;
                 this.currentPrompt.classList.add('fade-in');
@@ -501,16 +501,16 @@ import { createAudioData } from './audio-data.js';
                     this.currentPrompt.classList.remove('fade-in');
                 }, 500);
 
-                // 更新下一个提示
+                // Update next prompt
                 this.nextPrompt.innerHTML = `
-                    <h3>即将到来</h3>
+                    <h3>Coming Up</h3>
                     <div class="prompt-text">${next.fullName}</div>
                 `;
             }
 
         }
 
-        // 初始化应用
+        // Initialize application
         document.addEventListener('DOMContentLoaded', () => {
             new ImprovisationTool();
         });
