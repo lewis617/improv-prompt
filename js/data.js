@@ -36,7 +36,8 @@ export function createImprovisationData() {
             createNode("Three-Note Groups", createSequencePatterns()),
             createNode("Four-Note Groups", createSequencePatterns()),
             createNode("Thirds", createSequencePatterns()),
-            createNode("Fourths", createSequencePatterns())
+            createNode("Fourths", createSequencePatterns()),
+            createNode("Fifths", createSequencePatterns()),
         ]),
         createNode("Legato", [
             createNode("Three-Note Groups", [
