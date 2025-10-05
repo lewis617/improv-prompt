@@ -216,8 +216,8 @@ export function createAudioData() {
             title: 'Three-Chord Hard Rock in F# Minor',
             trackNumber: 125,
             tempo: '♩ = 140',
-            chordNames: 'F#5 | D5 | E5 | F#5',
-            chordFunctions: 'i | ♭VI | ♭VII | i',
+            chordNames: 'F#5 | F#5 | D5 | E5',
+            chordFunctions: 'i | i | ♭VI | ♭VII',
             scaleHints: {
                 primary: [
                     'F# minor scale',
