@@ -23,7 +23,6 @@ export function createImprovisationData() {
         createNode("Arpeggios", [
             createNode("Three-Note Groups", createSequencePatterns()),
             createNode("Four-Note Groups", createSequencePatterns()),
-            createNode("Skip One Note", createSequencePatterns())
         ]),
         createNode("Pentatonic Scales", [
             createNode("Three-Note Groups", createSequencePatterns()),
