@@ -332,7 +332,7 @@ import { createAudioData } from './audio-data.js';
                 this.isPlaying = false;
                 this.timer = null;
                 this.progressTimer = null;
-                this.intervalTime = 10000; // Default 10 seconds
+                this.intervalTime = 30000; // Default 30 seconds
                 this.startTime = 0;
                 this.allIdeas = []; // Store all practice content
                 
