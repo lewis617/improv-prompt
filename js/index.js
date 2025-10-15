@@ -399,7 +399,6 @@ import { createAudioData } from './audio-data.js';
                 this.nextBtn = document.getElementById('nextBtn');
                 this.intervalInput = document.getElementById('interval');
                 this.currentPrompt = document.getElementById('currentPrompt');
-                this.nextPrompt = document.getElementById('nextPrompt');
                 this.progressFill = document.getElementById('progressFill');
 
                 // Initialize display mode toggle
@@ -422,10 +421,6 @@ import { createAudioData } from './audio-data.js';
                 this.currentPrompt.innerHTML = `
                     <h2>Current Exercise</h2>
                     <div class="prompt-text">Ready to start...</div>
-                `;
-                this.nextPrompt.innerHTML = `
-                    <h3>Coming Up</h3>
-                    <div class="prompt-text">Waiting...</div>
                 `;
             }
 
@@ -503,7 +498,6 @@ import { createAudioData } from './audio-data.js';
 
             updateDisplay() {
                 const current = this.ideas[this.currentIndex];
-                const next = this.ideas[(this.currentIndex + 1) % this.ideas.length];
 
                 // Update current prompt
                 this.currentPrompt.innerHTML = `
@@ -514,12 +508,6 @@ import { createAudioData } from './audio-data.js';
                 setTimeout(() => {
                     this.currentPrompt.classList.remove('fade-in');
                 }, 500);
-
-                // Update next prompt
-                this.nextPrompt.innerHTML = `
-                    <h3>Coming Up</h3>
-                    <div class="prompt-text">${next.fullName}</div>
-                `;
             }
 
             toggleDisplayMode() {
