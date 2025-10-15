@@ -69,6 +69,12 @@ export function createImprovisationData() {
             createNode("Diatonic Scales"),
             createNode("Diatonic Scales Arpeggio Mixed"),
             createNode("Pentatonic Scales"),
+            createNode("Position Change Arpeggios", [
+                createNode("Major Thirds"),
+                createNode("Minor Thirds"),
+                createNode("Alternating Patterns")
+            ]),
+            createNode("Seventh Chord Arpeggios"),
         ]),
     ]);
 
