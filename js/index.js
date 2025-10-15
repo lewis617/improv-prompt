@@ -377,6 +377,9 @@ import { createAudioData } from './audio-data.js';
                 this.ideas = [...this.allIdeas];
                 this.shuffleArray(this.ideas);
                 
+                // Generate exercise list for display
+                this.generateExerciseList();
+                
                 // Update display after data initialization is complete
                 if (this.currentPrompt && this.ideas.length > 0) {
                     this.updateDisplay();
@@ -399,10 +402,21 @@ import { createAudioData } from './audio-data.js';
                 this.nextPrompt = document.getElementById('nextPrompt');
                 this.progressFill = document.getElementById('progressFill');
 
+                // Initialize display mode toggle
+                this.displayModeRadios = document.querySelectorAll('input[name="displayMode"]');
+                this.audioSection = document.getElementById('audioSection');
+                this.exerciseSection = document.getElementById('exerciseSection');
+                this.exerciseList = document.getElementById('exerciseList');
+
                 this.startBtn.addEventListener('click', () => this.start());
                 this.stopBtn.addEventListener('click', () => this.stop());
                 this.nextBtn.addEventListener('click', () => this.next());
                 this.intervalInput.addEventListener('change', () => this.updateInterval());
+
+                // Add display mode toggle listeners
+                this.displayModeRadios.forEach(radio => {
+                    radio.addEventListener('change', () => this.toggleDisplayMode());
+                });
 
                 // Initial display
                 this.currentPrompt.innerHTML = `
@@ -506,6 +520,49 @@ import { createAudioData } from './audio-data.js';
                     <h3>Coming Up</h3>
                     <div class="prompt-text">${next.fullName}</div>
                 `;
+            }
+
+            toggleDisplayMode() {
+                const selectedMode = document.querySelector('input[name="displayMode"]:checked').value;
+                
+                if (selectedMode === 'audio') {
+                    this.audioSection.style.display = 'block';
+                    this.exerciseSection.style.display = 'none';
+                } else {
+                    this.audioSection.style.display = 'none';
+                    this.exerciseSection.style.display = 'block';
+                }
+            }
+
+            generateExerciseList() {
+                if (!this.exerciseList || !this.allIdeas) return;
+                
+                // Group exercises by category
+                const categories = {};
+                this.allIdeas.forEach(idea => {
+                    const category = idea.category || 'Other';
+                    if (!categories[category]) {
+                        categories[category] = [];
+                    }
+                    categories[category].push(idea);
+                });
+
+                // Generate HTML for exercise list
+                let html = '';
+                Object.keys(categories).sort().forEach(category => {
+                    html += `<div class="exercise-category">`;
+                    html += `<h3>${category}</h3>`;
+                    html += `<ul class="exercise-items">`;
+                    
+                    categories[category].forEach(idea => {
+                        html += `<li class="exercise-item">${idea.fullName}</li>`;
+                    });
+                    
+                    html += `</ul>`;
+                    html += `</div>`;
+                });
+
+                this.exerciseList.innerHTML = html;
             }
 
         }

@@ -53,7 +53,23 @@ export function createImprovisationData() {
             createNode("Thirds", [
                 createDirectionalPattern("Sequence")
             ])
-        ])
+        ]),
+        createNode("Sweep Picking", [
+            createNode("Five Strings"),
+            createNode("Four Strings", [
+                createNode("Eight-Note Groups"),
+                createNode("Six-Note Groups"),
+            ]),
+            createNode("Two Strings", [
+                createNode("Down-Up-Up-Down"),
+                createNode("Down-Up-Up"),
+                createNode("Up-Down-Up"),
+                createNode("Down-Up-Down"),
+            ]),
+            createNode("Diatonic Scales"),
+            createNode("Diatonic Scales Arpeggio Mixed"),
+            createNode("Pentatonic Scales"),
+        ]),
     ]);
 
     return improvisationTree;
