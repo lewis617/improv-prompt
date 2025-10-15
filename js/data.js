@@ -17,10 +17,7 @@ export function createImprovisationData() {
 
     // Using standard tree node structure
     const improvisationTree = createNode("Root", [
-        createNode("Arpeggios", [
-            createNode("Three-Note Groups", createSequencePatterns()),
-            createNode("Four-Note Groups", createSequencePatterns()),
-        ]),
+
         createNode("Pentatonic Scales", [
             createNode("Three-Note Groups", createSequencePatterns()),
             createNode("Four-Note Groups", createSequencePatterns()),
@@ -55,26 +52,33 @@ export function createImprovisationData() {
             ])
         ]),
         createNode("Sweep Picking", [
-            createNode("Five Strings"),
+            createNode("Five Strings", [
+                createNode("Major Thirds", [
+                    createNode("Position Shifts"),
+                    createNode("No Position Shifts")
+                ]),
+                createNode("Minor Thirds", [
+                    createNode("Position Shifts"),
+                    createNode("No Position Shifts")
+                ]),
+                createNode("Alternating Patterns")
+            ]),
             createNode("Four Strings", [
                 createNode("Eight-Note Groups"),
                 createNode("Six-Note Groups"),
             ]),
+            createNode("Three Strings", [
+                createNode("Diatonic Scales Arpeggio Mixed"),
+                createNode("Pentatonic Scales"),
+                createNode("Seventh Chord Arpeggios"),
+            ]),
             createNode("Two Strings", [
-                createNode("Down-Up-Up-Down"),
-                createNode("Down-Up-Up"),
-                createNode("Up-Down-Up"),
-                createNode("Down-Up-Down"),
+                createNode("Down-Up-Up-Down-1122"),
+                createNode("Down-Up-Up-112"),
+                createNode("Up-Down-Up-211"),
+                createNode("Up-Down-Down-221"),
+                createNode("Diatonic Scales"),
             ]),
-            createNode("Diatonic Scales"),
-            createNode("Diatonic Scales Arpeggio Mixed"),
-            createNode("Pentatonic Scales"),
-            createNode("Position Change Arpeggios", [
-                createNode("Major Thirds"),
-                createNode("Minor Thirds"),
-                createNode("Alternating Patterns")
-            ]),
-            createNode("Seventh Chord Arpeggios"),
         ]),
     ]);
 

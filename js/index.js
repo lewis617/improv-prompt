@@ -537,7 +537,7 @@ import { createAudioData } from './audio-data.js';
 
                 // Generate HTML for exercise list
                 let html = '';
-                Object.keys(categories).sort().forEach(category => {
+                Object.keys(categories).forEach(category => {
                     html += `<div class="exercise-category">`;
                     html += `<h3>${category}</h3>`;
                     html += `<ul class="exercise-items">`;
