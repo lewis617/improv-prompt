@@ -3,13 +3,10 @@ export function createImprovisationData() {
     // Helper function to create tree nodes
     const createNode = (name, children = []) => ({ name, children });
 
-    // Create leaf nodes
-    const createLeaf = (name) => ({ name, children: [] });
-
     // Create directional patterns (ascending/descending)
     const createDirectionalPattern = (name) => createNode(name, [
-        createLeaf("Ascending"),
-        createLeaf("Descending")
+        createNode("Ascending"),
+        createNode("Descending")
     ]);
 
     // Define common sequence structures
@@ -40,17 +37,17 @@ export function createImprovisationData() {
         ]),
         createNode("Legato", [
             createNode("Three-Note Groups", [
-                createLeaf("1-2-3"),
-                createLeaf("1-3-2")
+                createNode("1-2-3"),
+                createNode("1-3-2")
             ]),
             createNode("Four-Note Groups", [
-                createLeaf("1-3-2-3"),
-                createLeaf("3-2-3-1"),
+                createNode("1-3-2-3"),
+                createNode("3-2-3-1"),
                 createDirectionalPattern("Sequence")
             ]),
             createNode("Six-Note Groups", [
-                createLeaf("1-3-2-1-2-3"),
-                createLeaf("3-1-2-3-2-1"),
+                createNode("1-3-2-1-2-3"),
+                createNode("3-1-2-3-2-1"),
                 createDirectionalPattern("Sequence")
             ]),
             createNode("Thirds", [
