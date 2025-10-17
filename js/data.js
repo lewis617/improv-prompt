@@ -64,11 +64,16 @@ export function createImprovisationData() {
                 createNode("Alternating Patterns")
             ]),
             createNode("Four Strings", [
-                createNode("Eight-Note Groups"),
-                createNode("Six-Note Groups"),
+                createNode("Eight-Note Groups", [
+                    createNode("Major Triads"),
+                    createNode("Minor Triads")
+                ]),
+                createNode("Six-Note Groups", [
+                    createNode("Major Triads"),
+                    createNode("Minor Triads")
+                ]),
             ]),
             createNode("Three Strings", [
-                createNode("Diatonic Scales Arpeggio Mixed"),
                 createNode("Pentatonic Scales"),
                 createNode("Seventh Chord Arpeggios"),
             ]),
