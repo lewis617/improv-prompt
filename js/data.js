@@ -3,16 +3,10 @@ export function createImprovisationData() {
     // Helper function to create tree nodes
     const createNode = (name, children = []) => ({ name, children });
 
-    // Create directional patterns (ascending/descending)
-    const createDirectionalPattern = (name) => createNode(name, [
-        createNode("Ascending"),
-        createNode("Descending")
-    ]);
-
     // Define common sequence structures
     const createSequencePatterns = () => [
-        createDirectionalPattern("Sequence"),
-        createDirectionalPattern("Zigzag Sequence")
+        createNode("Sequence"),
+        createNode("Zigzag Sequence")
     ];
 
     // Using standard tree node structure
@@ -40,38 +34,28 @@ export function createImprovisationData() {
             createNode("Four-Note Groups", [
                 createNode("1-3-2-3"),
                 createNode("3-2-3-1"),
-                createDirectionalPattern("Sequence")
+                createNode("Sequence")
             ]),
             createNode("Six-Note Groups", [
                 createNode("1-3-2-1-2-3"),
                 createNode("3-1-2-3-2-1"),
-                createDirectionalPattern("Sequence")
+                createNode("Sequence")
             ]),
             createNode("Thirds", [
-                createDirectionalPattern("Sequence")
+                createNode("Sequence")
             ])
         ]),
         createNode("Sweep Picking", [
             createNode("Five Strings", [
-                createNode("Major Thirds", [
+                createNode("Triads", [
                     createNode("Position Shifts"),
                     createNode("No Position Shifts")
                 ]),
-                createNode("Minor Thirds", [
-                    createNode("Position Shifts"),
-                    createNode("No Position Shifts")
-                ]),
-                createNode("Alternating Patterns")
+                createNode("Diatonic Triads")
             ]),
             createNode("Four Strings", [
-                createNode("Eight-Note Groups", [
-                    createNode("Major Triads"),
-                    createNode("Minor Triads")
-                ]),
-                createNode("Six-Note Groups", [
-                    createNode("Major Triads"),
-                    createNode("Minor Triads")
-                ]),
+                createNode("Eight-Note Groups"),
+                createNode("Six-Note Groups")
             ]),
             createNode("Three Strings", [
                 createNode("Pentatonic Scales"),
