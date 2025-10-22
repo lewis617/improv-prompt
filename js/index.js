@@ -508,6 +508,11 @@ import { createAudioData } from './audio-data.js';
                 setTimeout(() => {
                     this.currentPrompt.classList.remove('fade-in');
                 }, 500);
+
+                // Play text-to-speech
+                const utterance = new SpeechSynthesisUtterance(current.fullName);
+                utterance.lang = 'en-US';
+                speechSynthesis.speak(utterance);
             }
 
             toggleDisplayMode() {
