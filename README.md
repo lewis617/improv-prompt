@@ -44,6 +44,30 @@ A web-based tool specifically designed for music improvisation practice, helping
 3. Select main branch as publishing source
 4. Visit `https://yourusername.github.io/improv-prompt/` to use
 
+### CDN Acceleration for Audio Files
+
+When deployed to GitHub Pages, the application automatically detects the hosting environment and uses jsDelivr CDN to accelerate audio file loading. This provides faster audio loading speeds, especially in regions where GitHub's servers might be slower.
+
+**Features:**
+- 🚀 **Automatic CDN Detection**: Automatically uses CDN when running on GitHub Pages
+- 🔄 **Fallback Support**: If CDN fails, automatically falls back to direct GitHub hosting
+- ⚙️ **Configurable**: CDN settings can be customized in `js/index.js`
+- 🐛 **Debug Mode**: Enable logging to monitor which audio source is being used
+
+**CDN Configuration:**
+```javascript
+const CDN_CONFIG = {
+    // CDN base URL - you can change this to use different CDN providers
+    baseUrl: 'https://testingcf.jsdelivr.net/gh',
+    // Fallback to local files if CDN fails
+    enableFallback: true,
+    // Enable debug logging
+    debug: true
+};
+```
+
+The CDN uses the format: `https://testingcf.jsdelivr.net/gh/username/repo-name/audio/filename.mp3`
+
 ## Local Running
 
 Simply open the `index.html` file directly in your browser.

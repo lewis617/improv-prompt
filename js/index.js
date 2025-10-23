@@ -1,6 +1,48 @@
 import { createImprovisationData } from './data.js';
 import { createAudioData } from './audio-data.js';
 
+// Configuration
+const CDN_CONFIG = {
+    // CDN base URL - you can change this to use different CDN providers
+    baseUrl: 'https://testingcf.jsdelivr.net/gh',
+    // Fallback to local files if CDN fails
+    enableFallback: true,
+    // Enable debug logging
+    debug: true
+};
+
+// CDN and path utilities
+function isGitHubPages() {
+    return window.location.hostname.includes('github.io');
+}
+
+function getAudioBasePath() {
+    if (isGitHubPages()) {
+        // Extract username and repo name from GitHub Pages URL
+        // Format: https://username.github.io/repo-name/
+        const pathParts = window.location.pathname.split('/').filter(part => part);
+        const repoName = pathParts[0] || 'improv-prompt'; // fallback to default repo name
+        const username = window.location.hostname.split('.')[0];
+        
+        // Use jsDelivr CDN for faster loading in regions with slow GitHub access
+        const cdnPath = `${CDN_CONFIG.baseUrl}/${username}/${repoName}/audio/`;
+        if (CDN_CONFIG.debug) {
+            console.log('Using CDN for audio files:', cdnPath);
+        }
+        return cdnPath;
+    } else {
+        // Local development or other hosting
+        if (CDN_CONFIG.debug) {
+            console.log('Using local audio files: audio/');
+        }
+        return 'audio/';
+    }
+}
+
+function getAudioUrl(filename) {
+    return getAudioBasePath() + filename;
+}
+
 // Trie node class
         class TrieNode {
             constructor() {
@@ -153,15 +195,35 @@ import { createAudioData } from './audio-data.js';
 
             playCurrentTrack() {
                 const track = this.audioFiles[this.currentIndex];
-                this.audioPlayer.src = `audio/${track.file}`;
+                const primaryUrl = getAudioUrl(track.file);
+                this.audioPlayer.src = primaryUrl;
                 
                 this.audioPlayer.play().then(() => {
                     this.isPlaying = true;
                     this.updateUI();
                     this.updateScaleHints(track);
                 }).catch(error => {
-                    console.error('Playback failed:', error);
-                    this.handleError();
+                    if (CDN_CONFIG.debug) {
+                        console.error('Playback failed with primary URL:', primaryUrl, error);
+                    }
+                    
+                    // If we're using CDN and it fails, try fallback to local files
+                    if (CDN_CONFIG.enableFallback && isGitHubPages() && primaryUrl.includes('jsdelivr.net')) {
+                        if (CDN_CONFIG.debug) {
+                            console.log('Attempting fallback to local audio files...');
+                        }
+                        this.audioPlayer.src = `audio/${track.file}`;
+                        this.audioPlayer.play().then(() => {
+                            this.isPlaying = true;
+                            this.updateUI();
+                            this.updateScaleHints(track);
+                        }).catch(fallbackError => {
+                            console.error('Fallback playback also failed:', fallbackError);
+                            this.handleError();
+                        });
+                    } else {
+                        this.handleError();
+                    }
                 });
             }
 
@@ -562,5 +624,12 @@ import { createAudioData } from './audio-data.js';
 
         // Initialize application
         document.addEventListener('DOMContentLoaded', () => {
+            // Show audio source info
+            if (CDN_CONFIG.debug) {
+                console.log('Initializing Improvisation Tool...');
+                console.log('GitHub Pages detected:', isGitHubPages());
+                console.log('Audio base path:', getAudioBasePath());
+            }
+            
             new ImprovisationTool();
         });
