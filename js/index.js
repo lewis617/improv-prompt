@@ -25,7 +25,8 @@ function getAudioBasePath() {
         const username = window.location.hostname.split('.')[0];
         
         // Use jsDelivr CDN for faster loading in regions with slow GitHub access
-        const cdnPath = `${CDN_CONFIG.baseUrl}/${username}/${repoName}/audio/`;
+        // Format: https://testingcf.jsdelivr.net/gh/username/repo@main/audio/
+        const cdnPath = `${CDN_CONFIG.baseUrl}/${username}/${repoName}@main/audio/`;
         if (CDN_CONFIG.debug) {
             console.log('Using CDN for audio files:', cdnPath);
         }

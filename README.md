@@ -66,7 +66,7 @@ const CDN_CONFIG = {
 };
 ```
 
-The CDN uses the format: `https://testingcf.jsdelivr.net/gh/username/repo-name/audio/filename.mp3`
+The CDN uses the format: `https://testingcf.jsdelivr.net/gh/username/repo-name@main/audio/filename.mp3`
 
 ## Local Running
 
