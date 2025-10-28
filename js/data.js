@@ -47,11 +47,11 @@ export function createImprovisationData() {
         ]),
         createNode("Sweep Picking", [
             createNode("Five Strings", [
-                createNode("Triads", [
-                    createNode("Position Shifts"),
-                    createNode("No Position Shifts")
+                createNode("Position Shifts", [
+                    createNode("Same Triad"),
+                    createNode("Diatonic Triads"),
                 ]),
-                createNode("Diatonic Triads")
+                createNode("No Position Shifts")
             ]),
             createNode("Four Strings", [
                 createNode("Eight-Note Groups"),
@@ -62,10 +62,10 @@ export function createImprovisationData() {
                 createNode("Seventh Chord Arpeggios"),
             ]),
             createNode("Two Strings", [
-                createNode("Down-Up-Up-Down-1122"),
-                createNode("Down-Up-Up-112"),
-                createNode("Up-Down-Up-211"),
-                createNode("Up-Down-Down-221"),
+                createNode("Down-Up-Up-Down-1-1-2-2"),
+                createNode("Down-Up-Up-1-1-2"),
+                createNode("Up-Down-Up-2-1-1"),
+                createNode("Up-Down-Down-2-2-1"),
                 createNode("Diatonic Scales"),
             ]),
         ]),
