@@ -110,6 +110,30 @@ function getAudioUrl(filename) {
                 // Initialize audio events and list display
                 this.initAudioEvents();
                 this.initTrackList();
+                this.loadTrackFromUrl();
+            }
+
+            loadTrackFromUrl() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const trackFile = urlParams.get('track');
+                if (trackFile) {
+                    const index = this.audioFiles.findIndex(f => f.file === trackFile);
+                    if (index !== -1) {
+                        this.currentIndex = index;
+                        // Update UI to show track details without auto-playing
+                        const track = this.audioFiles[this.currentIndex];
+                        this.updateTrackDetails(track);
+                        this.updateScaleHints(track);
+                        this.updateTrackListUI();
+                    }
+                }
+            }
+
+            updateUrl() {
+                const track = this.audioFiles[this.currentIndex];
+                const url = new URL(window.location);
+                url.searchParams.set('track', track.file);
+                window.history.pushState({}, '', url);
             }
 
 
@@ -198,6 +222,8 @@ function getAudioUrl(filename) {
                 const track = this.audioFiles[this.currentIndex];
                 const primaryUrl = getAudioUrl(track.file);
                 this.audioPlayer.src = primaryUrl;
+                
+                this.updateUrl();
                 
                 this.audioPlayer.play().then(() => {
                     this.isPlaying = true;
