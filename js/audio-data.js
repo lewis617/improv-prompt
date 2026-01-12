@@ -86,18 +86,18 @@ export function createAudioData() {
             trackNumber: 32,
             tempo: '♩ = 108',
             chordNames: 'Am | - | - | - | Dm | - | Am | - | Fmaj7 | E7 | Am | -',
-            chordFunctions: 'i | - | - | - | iv | - | i | - | ♭VI | V | i | -',
+            chordFunctions: 'vi | - | - | - | ii | - | vi | - | IV | III | vi | -',
             scaleHints: {
                 primary: [
                     'A minor pentatonic scale',
                     'A blues scale',
-                    'A minor scale (over the ♭VI chord)',
-                    'A harmonic minor scale (over the V chord)'
+                    'A minor scale (over the IV chord)',
+                    'A harmonic minor scale (over the III chord)'
                 ],
                 alternate: [
-                    'A Dorian (over the i chord)',
-                    'D minor pentatonic scale (over the iv chord)',
-                    'E minor pentatonic scale (over the V chord)'
+                    'A Dorian (over the vi chord)',
+                    'D minor pentatonic scale (over the ii chord)',
+                    'E minor pentatonic scale (over the III chord)'
                 ]
             }
         },
@@ -129,7 +129,7 @@ export function createAudioData() {
             trackNumber: 105,
             tempo: '♩ = 108',
             chordNames: 'Em | A | Em | A',
-            chordFunctions: 'i | IV | i | IV',
+            chordFunctions: 'ii | V | ii | V',
             scaleHints: {
                 primary: [
                     'E Dorian'
@@ -148,7 +148,7 @@ export function createAudioData() {
             trackNumber: 106,
             tempo: '♩ = 80',
             chordNames: 'Dm | G | Dm | G',
-            chordFunctions: 'i | IV | i | IV',
+            chordFunctions: 'ii | V | ii | V',
             scaleHints: {
                 primary: [
                     'D Dorian'
@@ -199,7 +199,7 @@ export function createAudioData() {
             trackNumber: 124,
             tempo: '♩ = 126',
             chordNames: 'E5 | D5 | C5 | D5',
-            chordFunctions: 'i | ♭VII | ♭VI | ♭VII',
+            chordFunctions: 'vi | V | IV | V',
             scaleHints: {
                 primary: [
                     'E minor scale',
@@ -217,7 +217,7 @@ export function createAudioData() {
             trackNumber: 125,
             tempo: '♩ = 140',
             chordNames: 'F#5 | F#5 | D5 | E5',
-            chordFunctions: 'i | i | ♭VI | ♭VII',
+            chordFunctions: 'vi | vi | IV | V',
             scaleHints: {
                 primary: [
                     'F# minor scale',
@@ -235,7 +235,7 @@ export function createAudioData() {
             trackNumber: 126,
             tempo: '♩ = 108',
             chordNames: 'A5 | F5 | G5 | A5',
-            chordFunctions: 'i | ♭VI | ♭VII | i',
+            chordFunctions: 'vi | IV | V | vi',
             scaleHints: {
                 primary: [
                     'A minor scale',
@@ -253,12 +253,12 @@ export function createAudioData() {
             trackNumber: 128,
             tempo: '♩ = 126',
             chordNames: 'Am | G | F | E',
-            chordFunctions: 'i | ♭VII | ♭VI | V',
+            chordFunctions: 'vi | V | IV | III',
             scaleHints: {
                 primary: [
                     'A minor scale',
                     'A minor pentatonic scale',
-                    'A harmonic minor scale (over the V chord)'
+                    'A harmonic minor scale (over the III chord)'
                 ],
                 alternate: [
                     'A blues scale (for a bluesy sound)'
@@ -272,12 +272,12 @@ export function createAudioData() {
             trackNumber: 129,
             tempo: '♩ = 120',
             chordNames: 'Cm | B♭ | A♭ | G',
-            chordFunctions: 'i | ♭VII | ♭VI | V',
+            chordFunctions: 'vi | V | IV | III',
             scaleHints: {
                 primary: [
                     'C minor scale',
                     'C minor pentatonic scale',
-                    'C harmonic minor scale (over the V chord)'
+                    'C harmonic minor scale (over the III chord)'
                 ],
                 alternate: [
                     'C blues scale (for a bluesy sound)'
@@ -327,7 +327,7 @@ export function createAudioData() {
             trackNumber: 149,
             tempo: '♩ = 88',
             chordNames: 'Bm7',
-            chordFunctions: 'i',
+            chordFunctions: 'vi',
             scaleHints: {
                 primary: [
                     'B Dorian',
@@ -335,6 +335,48 @@ export function createAudioData() {
                 ],
                 alternate: [
                     'B blues scale (for a bluesy sound)'
+                ]
+            }
+        },
+        {
+            file: 'Hotel-California.mp3',
+            name: 'Hotel California',
+            title: 'Hotel California - B Minor',
+            trackNumber: 150,
+            tempo: '♩ = 75',
+            chordNames: 'Bm | F#7 | A | E | G | D | Em | F#7',
+            chordFunctions: 'vi | III7 | V | II | IV | I | ii | III7',
+            scaleHints: {
+                primary: [
+                    'B minor pentatonic scale',
+                    'B blues scale',
+                    'B natural minor (Aeolian)'
+                ],
+                alternate: [
+                    'B harmonic minor (over the III7 chord)',
+                    'B Dorian (over the II chord)',
+                    'D major pentatonic scale'
+                ]
+            }
+        },
+        {
+            file: 'Just-The-Two-Of-Us.mp3',
+            name: 'Just The Two Of Us',
+            title: 'Just The Two Of Us - F Minor',
+            trackNumber: 151,
+            tempo: '♩ = 90',
+            chordNames: 'D♭maj7 | C7 | Fm | E♭m7 A♭7 | D♭maj7 | C7 | Fm | -',
+            chordFunctions: 'IVmaj7 | III7 | vi | v7 I7 | IVmaj7 | III7 | vi | -',
+            scaleHints: {
+                primary: [
+                    'F minor pentatonic scale',
+                    'F blues scale',
+                    'F natural minor (Aeolian)'
+                ],
+                alternate: [
+                    'F Harmonic Minor (over the III7 chord)',
+                    'F Dorian',
+                    'A♭ major pentatonic scale'
                 ]
             }
         }
