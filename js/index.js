@@ -445,10 +445,12 @@ function getAudioUrl(filename) {
                     if (node.children.length === 0) {
                         // Leaf node
                         const fullName = currentPath.slice(1).join(' - '); // Skip root node
+                        const displayName = currentPath.slice(2).join(' - ') || fullName;
                         const itemData = { 
                             path: currentPath, 
                             index, 
                             fullName,
+                            displayName,
                             category: currentPath[1] // First level category like "Arpeggios", "Natural Scales", etc.
                         };
                         this.trie.insert(currentPath, itemData);
@@ -637,7 +639,7 @@ function getAudioUrl(filename) {
                     html += `<ul class="exercise-items">`;
                     
                     categories[category].forEach(idea => {
-                        html += `<li class="exercise-item">${idea.fullName}</li>`;
+                        html += `<li class="exercise-item">${idea.displayName}</li>`;
                     });
                     
                     html += `</ul>`;
