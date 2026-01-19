@@ -113,18 +113,32 @@ function getAudioUrl(filename) {
                 this.loadTrackFromUrl();
             }
 
+            setCurrentTrack(index) {
+                this.currentIndex = index;
+                
+                // Update random sequence to include this track at current position
+                // so that "Next" will work correctly from here
+                const rIndex = this.randomIndexArray.indexOf(index);
+                if (rIndex !== -1) {
+                    // Swap current random index with the found index
+                    [this.randomIndexArray[this.randomArrayIndex], this.randomIndexArray[rIndex]] = 
+                    [this.randomIndexArray[rIndex], this.randomIndexArray[this.randomArrayIndex]];
+                }
+                
+                // Update UI to show track details
+                const track = this.audioFiles[this.currentIndex];
+                this.updateTrackDetails(track);
+                this.updateScaleHints(track);
+                this.updateTrackListUI();
+            }
+
             loadTrackFromUrl() {
                 const urlParams = new URLSearchParams(window.location.search);
                 const trackFile = urlParams.get('track');
                 if (trackFile) {
                     const index = this.audioFiles.findIndex(f => f.file === trackFile);
                     if (index !== -1) {
-                        this.currentIndex = index;
-                        // Update UI to show track details without auto-playing
-                        const track = this.audioFiles[this.currentIndex];
-                        this.updateTrackDetails(track);
-                        this.updateScaleHints(track);
-                        this.updateTrackListUI();
+                        this.setCurrentTrack(index);
                     }
                 }
             }
@@ -203,7 +217,7 @@ function getAudioUrl(filename) {
                     `;
                     
                     trackItem.addEventListener('click', () => {
-                        this.currentIndex = index;
+                        this.setCurrentTrack(index);
                         this.playCurrentTrack();
                     });
                     
@@ -364,36 +378,6 @@ function getAudioUrl(filename) {
                         <div class="scale-list">${alternateHtml}</div>
                     </div>
                 `;
-            }
-
-            initTrackList() {
-                const trackList = document.getElementById('trackList');
-                trackList.innerHTML = '';
-
-                this.audioFiles.forEach((track, index) => {
-                    const trackItem = document.createElement('div');
-                    trackItem.className = 'track-item';
-                    trackItem.dataset.index = index;
-                    
-                    trackItem.innerHTML = `
-                        <div class="track-name">${track.name}</div>
-                        <div class="track-meta">${track.tempo} | ${track.title}</div>
-                    `;
-                    
-                    trackItem.addEventListener('click', () => {
-                        this.currentIndex = index;
-                        this.playCurrentTrack();
-                    });
-                    
-                    trackList.appendChild(trackItem);
-                });
-            }
-
-            updateTrackListUI() {
-                const trackItems = document.querySelectorAll('.track-item');
-                trackItems.forEach((item, index) => {
-                    item.classList.toggle('active', index === this.currentIndex && this.isPlaying);
-                });
             }
 
             handleTrackEnd() {
