@@ -77,7 +77,7 @@ export function createImprovisationData() {
                 createNode("Sextuplet (T-p-T-p-p-h)"),
                 createNode("Triad with Open String (T-p-h-h)")
             ]),
-            createNode("Triad & Scale", [
+            createNode("Triad & Diatonic", [
                 createNode("Descending (T-p-p-p)"),
                 createNode("Eruption Style (T-p-h-h)"),
                 createNode("Descending & Ascending (T-p-p-p-h-h)"),
@@ -91,19 +91,22 @@ export function createImprovisationData() {
                 createNode("Tap on Bent String (b-T-p-r)"),
                 createNode("Bend Tapped Note (h-T-b)")
             ]),
-            createNode("Pentatonic Tapping", [
+            createNode("Pentatonic & Diatonic", [
                 createNode("3 Tapped Positions - 2 Strings (T-p-h)"),
                 createNode("2 Tapped Positions - 6 Strings (T-p-h)")
             ]),
             createNode("Pedal Point Tapping", [
                 createNode("Descending 3rds & 4ths & 5ths (T-p-T-p-T-p)"),
+                createNode("Ascending 5ths & 4ths & 3rds (T-p-T-p-T-p)"),
                 createNode("Movable Nut (T-h-h-p-h-h)")
             ]),
             createNode("Hammer-on from Nowhere", [
                 createNode("Triad (h-h-h-T-p-p)"),
                 createNode("Tapped Slide Extension (h-h-h-T-sl-sl-p-p)"),
                 createNode("Multi-String Extension (h-h-h-h-T-p-p-h)")
-            ])
+            ]),
+            createNode("Legato Tapping: Ascending 4, Descending 5"),
+            createNode("Sweep Tapping: Sweep Up & Tapped Sequence Down"),
         ]),
     ]);
 
