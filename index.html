@@ -65,6 +65,10 @@
                 <button class="audio-button" id="resumeBtn" disabled>▶️ Resume</button>
                 <button class="audio-button" id="stopAudioBtn" disabled>⏹️ Stop</button>
                 <button class="audio-button" id="nextTrackBtn" disabled>⏭️ Next Track</button>
+                <div class="control-group">
+                    <label for="volumeControl">🔊 Volume:</label>
+                    <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
+                </div>
             </div>
             <div class="track-details" id="trackDetails" style="display: none;">
                 <div class="track-title" id="trackTitle"></div>

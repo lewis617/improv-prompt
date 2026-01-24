@@ -96,11 +96,22 @@ function getAudioUrl(filename) {
                 this.resumeBtn = document.getElementById('resumeBtn');
                 this.stopAudioBtn = document.getElementById('stopAudioBtn');
                 this.nextTrackBtn = document.getElementById('nextTrackBtn');
+                this.volumeControl = document.getElementById('volumeControl');
 
                 this.audioFiles = createAudioData();
 
                 this.currentIndex = 0;
                 this.isPlaying = false;
+                
+                // Load saved volume or use default
+                const savedVolume = localStorage.getItem('audioVolume');
+                if (savedVolume !== null) {
+                    this.audioPlayer.volume = parseFloat(savedVolume);
+                    this.volumeControl.value = savedVolume;
+                } else {
+                    this.audioPlayer.volume = 1.0;
+                    this.volumeControl.value = 1.0;
+                }
                 
                 // Random playback related properties
                 this.randomIndexArray = []; // Store random index array
@@ -186,6 +197,11 @@ function getAudioUrl(filename) {
                 this.resumeBtn.addEventListener('click', () => this.resume());
                 this.stopAudioBtn.addEventListener('click', () => this.stop());
                 this.nextTrackBtn.addEventListener('click', () => this.nextTrack());
+                this.volumeControl.addEventListener('input', (e) => {
+                    const volume = e.target.value;
+                    this.audioPlayer.volume = volume;
+                    localStorage.setItem('audioVolume', volume);
+                });
 
                 this.audioPlayer.addEventListener('ended', () => this.handleTrackEnd());
                 this.audioPlayer.addEventListener('error', () => this.handleError());
