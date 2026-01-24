@@ -96,8 +96,8 @@ export function createImprovisationData() {
                 createNode("2 Tapped Positions - 6 Strings (T-p-h)")
             ]),
             createNode("Pedal Point Tapping", [
-                createNode("Descending 3rds & 4ths & 5ths (T-p-T-p-T-p)"),
-                createNode("Ascending 5ths & 4ths & 3rds (T-p-T-p-T-p)"),
+                createNode("5-3-5-2-5-1 (T-p-T-p-T-p)"),
+                createNode("5-1-5-2-5-3 (T-p-T-p-T-p)"),
                 createNode("Movable Nut (T-h-h-p-h-h)")
             ]),
             createNode("Hammer-on from Nowhere", [
