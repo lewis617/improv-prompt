@@ -337,48 +337,6 @@ export function createAudioData() {
                     'B blues scale (for a bluesy sound)'
                 ]
             }
-        },
-        {
-            file: 'Hotel-California.mp3',
-            name: 'Hotel California',
-            title: 'Hotel California - B Minor',
-            trackNumber: 150,
-            tempo: '♩ = 75',
-            chordNames: 'Bm | F#7 | A | E | G | D | Em | F#7',
-            chordFunctions: 'vi | III7 | V | II | IV | I | ii | III7',
-            scaleHints: {
-                primary: [
-                    'B minor pentatonic scale',
-                    'B blues scale',
-                    'B natural minor (Aeolian)'
-                ],
-                alternate: [
-                    'B harmonic minor (over the III7 chord)',
-                    'B Dorian (over the II chord)',
-                    'D major pentatonic scale'
-                ]
-            }
-        },
-        {
-            file: 'Just-The-Two-Of-Us.mp3',
-            name: 'Just The Two Of Us',
-            title: 'Just The Two Of Us - F Minor',
-            trackNumber: 151,
-            tempo: '♩ = 90',
-            chordNames: 'D♭maj7 | C7 | Fm | E♭m7 A♭7 | D♭maj7 | C7 | Fm | -',
-            chordFunctions: 'IVmaj7 | III7 | vi | v7 I7 | IVmaj7 | III7 | vi | -',
-            scaleHints: {
-                primary: [
-                    'F minor pentatonic scale',
-                    'F blues scale',
-                    'F natural minor (Aeolian)'
-                ],
-                alternate: [
-                    'F Harmonic Minor (over the III7 chord)',
-                    'F Dorian',
-                    'A♭ major pentatonic scale'
-                ]
-            }
         }
     ];
 }
