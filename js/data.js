@@ -12,7 +12,11 @@ export function createImprovisationData() {
     // Using standard tree node structure
     const improvisationTree = createNode("Root", [
 
-        createNode("Accompaniment"),
+        createNode("Accompaniment", [
+            createNode("Strumming"),
+            createNode("Arpeggio"),
+            createNode("Block Chords")
+        ]),
         createNode("Pentatonic Scales", [
             createNode("Three-Note Groups", createSequencePatterns()),
             createNode("Four-Note Groups", createSequencePatterns()),
