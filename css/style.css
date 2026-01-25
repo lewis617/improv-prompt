@@ -219,6 +219,30 @@
             align-items: center;
         }
 
+        /* Container for mutually exclusive buttons to occupy the same space */
+        .button-stack {
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-pause-stack {
+            display: inline-grid;
+            grid-template-areas: "stack";
+            align-items: center;
+            justify-items: center;
+        }
+
+        .play-pause-stack button {
+            grid-area: stack;
+        }
+
+        .play-pause-stack button[style*="display: none"],
+        .button-stack button[style*="display: none"] {
+            display: none !important;
+        }
+
         label {
             font-weight: bold;
             color: #555;

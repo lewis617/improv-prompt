@@ -17,8 +17,10 @@
                 <input type="number" id="interval" value="30" min="5" max="300">
             </div>
             <div class="button-group">
-                <button id="startBtn">Start Practice</button>
-                <button id="stopBtn" disabled>Stop Practice</button>
+                <div class="button-stack">
+                    <button id="startBtn">Start Practice</button>
+                    <button id="stopBtn" style="display: none;">Stop Practice</button>
+                </div>
                 <button id="nextBtn" disabled>Next</button>
             </div>
         </div>
@@ -60,10 +62,14 @@
                         <option value="repeat">🔂 Repeat One</option>
                     </select>
                 </div>
-                <button class="audio-button" id="playBtn">▶️ Play</button>
-                <button class="audio-button" id="pauseBtn" disabled>⏸️ Pause</button>
-                <button class="audio-button" id="resumeBtn" disabled>▶️ Resume</button>
-                <button class="audio-button" id="stopAudioBtn" disabled>⏹️ Stop</button>
+                <div class="button-stack">
+                    <div class="play-pause-stack">
+                        <button class="audio-button" id="playBtn">▶️ Play</button>
+                        <button class="audio-button" id="pauseBtn" style="display: none;">⏸️ Pause</button>
+                        <button class="audio-button" id="resumeBtn" style="display: none;">▶️ Resume</button>
+                    </div>
+                    <button class="audio-button" id="stopAudioBtn" style="display: none;">⏹️ Stop</button>
+                </div>
                 <button class="audio-button" id="nextTrackBtn" disabled>⏭️ Next Track</button>
                 <div class="control-group">
                     <label for="volumeControl">🔊 Volume:</label>

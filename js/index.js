@@ -325,11 +325,28 @@ function getAudioUrl(filename) {
             }
 
             updateUI() {
-                this.playBtn.disabled = this.isPlaying;
-                this.pauseBtn.disabled = !this.isPlaying;
-                this.resumeBtn.disabled = this.isPlaying;
-                this.stopAudioBtn.disabled = !this.isPlaying && this.audioPlayer.currentTime === 0;
-                this.nextTrackBtn.disabled = !this.isPlaying && this.audioPlayer.currentTime === 0;
+                // Toggle Play/Pause/Resume/Stop visibility
+                if (!this.isPlaying && this.audioPlayer.currentTime === 0) {
+                    // Initial state
+                    this.playBtn.style.display = 'inline-block';
+                    this.pauseBtn.style.display = 'none';
+                    this.resumeBtn.style.display = 'none';
+                    this.stopAudioBtn.style.display = 'none';
+                } else if (this.isPlaying) {
+                    // Playing state
+                    this.playBtn.style.display = 'none';
+                    this.pauseBtn.style.display = 'inline-block';
+                    this.resumeBtn.style.display = 'none';
+                    this.stopAudioBtn.style.display = 'inline-block';
+                } else {
+                    // Paused state
+                    this.playBtn.style.display = 'none';
+                    this.pauseBtn.style.display = 'none';
+                    this.resumeBtn.style.display = 'inline-block';
+                    this.stopAudioBtn.style.display = 'inline-block';
+                }
+
+                this.nextTrackBtn.disabled = false; // Always allow next track if we have tracks
 
                 // Update audio list UI
                 this.updateTrackListUI();
@@ -525,8 +542,8 @@ function getAudioUrl(filename) {
 
             start() {
                 this.isPlaying = true;
-                this.startBtn.disabled = true;
-                this.stopBtn.disabled = false;
+                this.startBtn.style.display = 'none';
+                this.stopBtn.style.display = 'inline-block';
                 this.nextBtn.disabled = false;
                 this.intervalInput.disabled = true;
 
@@ -536,8 +553,8 @@ function getAudioUrl(filename) {
 
             stop() {
                 this.isPlaying = false;
-                this.startBtn.disabled = false;
-                this.stopBtn.disabled = true;
+                this.startBtn.style.display = 'inline-block';
+                this.stopBtn.style.display = 'none';
                 this.nextBtn.disabled = true;
                 this.intervalInput.disabled = false;
 
