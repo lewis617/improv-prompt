@@ -21,7 +21,7 @@
             border-radius: 20px;
             padding: 25px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            max-width: 900px;
+            max-width: 1200px;
             width: 100%;
         }
 
@@ -135,19 +135,27 @@
         }
 
         .track-list {
-            max-height: 300px;
+            max-height: 500px;
             overflow-y: auto;
             margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+            padding: 5px;
         }
 
         .track-item {
             background: white;
             padding: 12px;
-            margin-bottom: 8px;
+            margin-bottom: 0;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.2s ease;
             border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
         }
 
         .track-item:hover {
@@ -331,6 +339,14 @@
         }
 
         @media (max-width: 600px) {
+            .track-list {
+                grid-template-columns: 1fr;
+            }
+
+            .exercise-items {
+                grid-template-columns: 1fr;
+            }
+
             .container {
                 padding: 15px;
                 max-width: 100%;
@@ -437,11 +453,18 @@
         }
 
         /* Exercise Section Styles */
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
         .exercise-category {
             margin-bottom: 25px;
             background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             padding: 15px;
+            height: 100%;
         }
 
         .exercise-category h3 {
@@ -455,15 +478,21 @@
         .exercise-items {
             list-style: none;
             padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
         }
 
         .exercise-item {
             padding: 8px 12px;
-            margin: 5px 0;
+            margin: 0;
             background: rgba(102, 126, 234, 0.1);
             border-radius: 8px;
             border-left: 4px solid #667eea;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            height: 100%;
         }
 
         .exercise-item:hover {
