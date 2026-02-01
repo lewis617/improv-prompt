@@ -101,16 +101,13 @@ export function createImprovisationData() {
                 createNode("Sequence")
             ]),
             createNode("Slides", [
-                createNode("Five-Note Groups"),
-                createNode("Sextuplet"),
-                createNode("Two Strings", [
-                    createNode("Two Positions"),
-                    createNode("More Positions"),
-                ]),
+                createNode("Five-Note Groups(sl-h-h-p-p)"),
+                createNode("Sextuplet(sl-h-h-p-h-p-p-sl-h-h-p-p)"),
+                createNode("Two Strings(sl-h-h-p-p-h-p-p)"),
             ]),
             createNode("Hammer-on from nowhere", [
-                createNode("Ascending & Descending"),
-                createNode("Ascending & Descending & Descending & Ascending"),
+                createNode("d-h-h-p-p-h2"),
+                createNode("d-h-h-p-p-h2 & u-h-p-p-h-h"),
                 createNode("Ascending & Descending & Arpeggio"),
                 createNode("Six Strings"),
             ]),
