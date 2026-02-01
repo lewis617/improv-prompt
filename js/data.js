@@ -18,11 +18,20 @@ export function createImprovisationData() {
             createNode("Block Chords")
         ]),
         createNode("Pentatonic Scales", [
-            createNode("Three-Note Groups", createSequencePatterns()),
+            createNode("Three-Note Groups", createSequencePatterns().concat([
+                createNode("Zigzag at the end")
+            ])),
             createNode("Four-Note Groups", createSequencePatterns()),
             createNode("Six-Note Groups", createSequencePatterns()),
             createNode("Skip One Note", createSequencePatterns()),
-            createNode("Skip Two Notes", createSequencePatterns())
+            createNode("Skip Two Notes", createSequencePatterns()),
+            createNode("Two Strings", [
+                createNode("2-2-1-1-1-1-2-2"),
+                createNode("1-1-1-1-2-1"),
+            ]),
+            createNode("Bending", [
+                createNode("Ascending 2 Dscending 4")
+            ])
         ]),
         createNode("Alternate Picking", [
             createNode("Three-Note Groups", createSequencePatterns().concat([
