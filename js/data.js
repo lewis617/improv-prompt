@@ -25,6 +25,9 @@ export function createImprovisationData() {
             createNode("Six-Note Groups", createSequencePatterns()),
             createNode("Skip One Note", createSequencePatterns()),
             createNode("Skip Two Notes", createSequencePatterns()),
+            createNode("Up One Down Two"),
+            createNode("Down One Up Two"),
+            createNode("Skip Two Notes"),
             createNode("Two Strings", [
                 createNode("2-2-1-1-1-1-2-2"),
                 createNode("1-1-1-1-2-1"),
