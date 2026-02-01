@@ -34,7 +34,10 @@ export function createImprovisationData() {
         createNode("Legato", [
             createNode("Three-Note Groups", [
                 createNode("1-2-3"),
-                createNode("1-3-2")
+                createNode("3-2-1"),
+                createNode("1-3-2"),
+                createNode("3-1-2"),
+                createNode("in 16th notes"),
             ]),
             createNode("Four-Note Groups", [
                 createNode("1-3-2-3"),
@@ -48,7 +51,21 @@ export function createImprovisationData() {
             ]),
             createNode("Thirds", [
                 createNode("Sequence")
-            ])
+            ]),
+            createNode("Slides", [
+                createNode("Five-Note Groups"),
+                createNode("Sextuplet"),
+                createNode("Two Strings", [
+                    createNode("Two Positions"),
+                    createNode("More Positions"),
+                ]),
+            ]),
+            createNode("Hammer-on from nowhere", [
+                createNode("Ascending & Descending"),
+                createNode("Ascending & Descending & Descending & Ascending"),
+                createNode("Ascending & Descending & Arpeggio"),
+                createNode("Six Strings"),
+            ]),
         ]),
         createNode("Sweep Picking", [
             createNode("Five Strings", [
