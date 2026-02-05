@@ -27,7 +27,6 @@ export function createImprovisationData() {
             createNode("Skip Two Notes", createSequencePatterns()),
             createNode("Up One Down Two"),
             createNode("Down One Up Two"),
-            createNode("Skip Two Notes"),
             createNode("Two Strings", [
                 createNode("2-2-1-1-1-1-2-2"),
                 createNode("1-1-1-1-2-1"),
@@ -55,6 +54,7 @@ export function createImprovisationData() {
             createNode("Fifths", createSequencePatterns()),
             createNode("Sixths", createSequencePatterns()),
             createNode("Sevenths", createSequencePatterns()),
+            /*
             createNode("Four String Chord", [
                 createNode("16th nodes"),
                 createNode("12th nodes"),
@@ -63,6 +63,7 @@ export function createImprovisationData() {
                 createNode("12th nodes"),
                 createNode("Skip One Node"),
             ]),
+            */
             createNode("Two Strings", [
                 createNode("1-2-2-2-2-2"),
                 createNode("1-1-2-2-2-1"),
