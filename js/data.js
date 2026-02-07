@@ -25,8 +25,8 @@ export function createImprovisationData() {
             createNode("Six-Note Groups", createSequencePatterns()),
             createNode("Skip One Note", createSequencePatterns()),
             createNode("Skip Two Notes", createSequencePatterns()),
+            createNode("Down Two Up One"),
             createNode("Up One Down Two"),
-            createNode("Down One Up Two"),
             createNode("Two Strings", [
                 createNode("2-2-1-1-1-1-2-2"),
                 createNode("1-1-1-1-2-1"),
@@ -37,48 +37,46 @@ export function createImprovisationData() {
         ]),
         createNode("Alternate Picking", [
             createNode("Three-Note Groups", createSequencePatterns().concat([
-                createNode("in 16th nodes")
+                // createNode("in 16th nodes")
             ])),
             createNode("Four-Note Groups", createSequencePatterns().concat([
-                createNode("reverse 2nd"),
+                // createNode("reverse 2nd"),
             ])),
-            createNode("Six-Note Groups", [
-                createNode("Sequence"),
-            ]),
-            createNode("Five-Note Groups", [
-                createNode("Sequence"),
-                createNode("reverse 2nd"),
-            ]),
+            // createNode("Six-Note Groups", [
+            //     createNode("Sequence"),
+            // ]),
+            // createNode("Five-Note Groups", [
+            //     createNode("Sequence"),
+            //     createNode("reverse 2nd"),
+            // ]),
             createNode("Thirds", createSequencePatterns()),
             createNode("Fourths", createSequencePatterns()),
             createNode("Fifths", createSequencePatterns()),
-            createNode("Sixths", createSequencePatterns()),
-            createNode("Sevenths", createSequencePatterns()),
-            /*
-            createNode("Four String Chord", [
-                createNode("16th nodes"),
-                createNode("12th nodes"),
-            ]),
-            createNode("Six String Chord", [
-                createNode("12th nodes"),
-                createNode("Skip One Node"),
-            ]),
-            */
-            createNode("Two Strings", [
-                createNode("1-2-2-2-2-2"),
-                createNode("1-1-2-2-2-1"),
-                createNode("1-2-1-2-2-2-2-2"),
-                createNode("1-2-2-2-2-2-1-2"),
-            ]),
-            createNode("One String", [
-                createNode("Three-Node Groups", createSequencePatterns().concat([
-                    createNode("2 Positions Shifting")
-                ])),
-                 createNode("Four-Node Groups", [
-                    createNode("Shifting in the middle of a beat"),
-                    createNode("1-2-3-2"),
-                ]),
-            ])
+            // createNode("Sixths", createSequencePatterns()),
+            // createNode("Sevenths", createSequencePatterns()),
+            // createNode("Four String Chord", [
+            //     createNode("16th nodes"),
+            //     createNode("12th nodes"),
+            // ]),
+            // createNode("Six String Chord", [
+            //     createNode("12th nodes"),
+            //     createNode("Skip One Node"),
+            // ]),
+            // createNode("Two Strings", [
+            //     createNode("1-2-2-2-2-2"),
+            //     createNode("1-1-2-2-2-1"),
+            //     createNode("1-2-1-2-2-2-2-2"),
+            //     createNode("1-2-2-2-2-2-1-2"),
+            // ]),
+            // createNode("One String", [
+            //     createNode("Three-Node Groups", createSequencePatterns().concat([
+            //         createNode("2 Positions Shifting")
+            //     ])),
+            //      createNode("Four-Node Groups", [
+            //         createNode("Shifting in the middle of a beat"),
+            //         createNode("1-2-3-2"),
+            //     ]),
+            // ]),
         ]),
         createNode("Legato", [
             createNode("Three-Note Groups", [
@@ -106,12 +104,12 @@ export function createImprovisationData() {
                 createNode("Sextuplet(sl-h-h-p-h-p-p-sl-h-h-p-p)"),
                 createNode("Two Strings(sl-h-h-p-p-h-p-p)"),
             ]),
-            createNode("Hammer-on from nowhere", [
-                createNode("d-h-h-p-p-h2"),
-                createNode("d-h-h-p-p-h2 & u-h-p-p-h-h"),
-                createNode("Ascending & Descending & Arpeggio"),
-                createNode("Six Strings"),
-            ]),
+            // createNode("Hammer-on from nowhere", [
+            //     createNode("d-h-h-p-p-h2"),
+            //     createNode("d-h-h-p-p-h2 & u-h-p-p-h-h"),
+            //     createNode("Ascending & Descending & Arpeggio"),
+            //     createNode("Six Strings"),
+            // ]),
         ]),
         createNode("Sweep Picking", [
             createNode("Five Strings", [
