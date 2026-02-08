@@ -162,9 +162,9 @@ export function createImprovisationData() {
                 // T-p-h-h & T-p-p-p
                 createNode("Alternating")
             ]),
-            createNode("Tapped Slides", [
+            createNode("Slides", [
                 // T-sl-sl-p-p-h
-                createNode("Two-Pitch Slide"),
+                createNode("Two-Pitch Slide with Triad"),
                 // T-p-p-p-sl-h-h
                 createNode("Sliding between different positions")
             ]),
