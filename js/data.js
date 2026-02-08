@@ -28,7 +28,9 @@ export function createImprovisationData() {
             createNode("Down Two Up One"),
             createNode("Up One Down Two"),
             createNode("Two Strings", [
+                // d h d h d p d p
                 createNode("2-2-1-1-1-1-2-2"),
+                // d p d p d u
                 createNode("1-1-1-1-2-1"),
             ]),
             createNode("Bending", [
@@ -100,9 +102,9 @@ export function createImprovisationData() {
                 createNode("Sequence")
             ]),
             createNode("Slides", [
-                createNode("Five-Note Groups(sl-h-h-p-p)"),
-                createNode("Sextuplet(sl-h-h-p-h-p-p-sl-h-h-p-p)"),
-                createNode("Two Strings(sl-h-h-p-p-h-p-p)"),
+                createNode("Five-Note Groups"),
+                createNode("Sextuplet"),
+                createNode("Eight-Note Groups"),
             ]),
             // createNode("Hammer-on from nowhere", [
             //     createNode("d-h-h-p-p-h2"),
@@ -129,49 +131,70 @@ export function createImprovisationData() {
                 createNode("Scale and Arpeggios"),
             ]),
             createNode("Two Strings", [
-                createNode("Down-Up-Up-Down-1-1-2-2"),
-                createNode("Down-Up-Up-1-1-2"),
-                createNode("Up-Down-Up-2-1-1"),
-                createNode("Up-Down-Down-2-2-1"),
+                createNode("1-1-2-2"),
+                createNode("1-1-2"),
+                createNode("2-1-1"),
+                createNode("2-2-1"),
                 createNode("Fourths & Fifths"),
                 createNode("Diatonic Scales"),
             ]),
         ]),
         createNode("Tapping", [
             createNode("Triad", [
-                createNode("Descending (T-p-p)"),
-                createNode("Eruption Style (T-p-h)"),
-                createNode("Descending & Ascending (T-p-p-h)"),
-                createNode("Sextuplet (T-p-T-p-p-h)"),
-                createNode("Triad with Open String (T-p-h-h)")
+                // T-p-p
+                createNode("Descending"),
+                // T-p-h
+                createNode("Eruption Style"),
+                // T-p-p-h
+                createNode("Descending & Ascending"),
+                // T-p-T-p-p-h
+                createNode("Sextuplet"),
+                // T-p-h-h
+                createNode("Triad with Open String")
             ]),
             createNode("Triad & Diatonic", [
-                createNode("Descending (T-p-p-p)"),
-                createNode("Eruption Style (T-p-h-h)"),
-                createNode("Descending & Ascending (T-p-p-p-h-h)"),
-                createNode("Alternating (T-p-h-h & T-p-p-p)")
+                // T-p-p-p
+                createNode("Descending"),
+                // T-p-h-h
+                createNode("Eruption Style"),
+                // T-p-p-p-h-h
+                createNode("Descending & Ascending"),
+                // T-p-h-h & T-p-p-p
+                createNode("Alternating")
             ]),
             createNode("Tapped Slides", [
-                createNode("Two-Pitch Slide (T-sl-sl-p-p-h)"),
-                createNode("Sliding between different positions (T-p-p-p-sl-h-h)")
+                // T-sl-sl-p-p-h
+                createNode("Two-Pitch Slide"),
+                // T-p-p-p-sl-h-h
+                createNode("Sliding between different positions")
             ]),
             createNode("Tapped Bends", [
-                createNode("Tap on Bent String (b-T-p-r)"),
-                createNode("Bend Tapped Note (h-T-b)")
+                // b-T-p-r
+                createNode("Tap on Bent String"),
+                // h-T-b
+                createNode("Bend Tapped Note")
             ]),
             createNode("Pentatonic & Diatonic", [
-                createNode("3 Tapped Positions - 2 Strings (T-p-h)"),
-                createNode("2 Tapped Positions - 6 Strings (T-p-h)")
+                // T-p-h
+                createNode("3 Tapped Positions - 2 Strings"),
+                // T-p-h
+                createNode("2 Tapped Positions - 6 Strings")
             ]),
             createNode("Pedal Point Tapping", [
-                createNode("5-3-5-2-5-1 (T-p-T-p-T-p)"),
-                createNode("5-1-5-2-5-3 (T-p-T-p-T-p)"),
-                createNode("Movable Nut (T-h-h-p-h-h)")
+                // 5-3-5-2-5-1 (T-p-T-p-T-p)
+                createNode("5-3-5-2-5-1"),
+                // 5-1-5-2-5-3 (T-p-T-p-T-p)
+                createNode("5-1-5-2-5-3"),
+                // T-h-h-p-h-h
+                createNode("Movable Nut")
             ]),
             createNode("Hammer-on from Nowhere", [
-                createNode("Triad (h-h-h-T-p-p)"),
-                createNode("Tapped Slide Extension (h-h-h-T-sl-sl-p-p)"),
-                createNode("Multi-String Extension (h-h-h-h-T-p-p-h)")
+                // h-h-h-T-p-p
+                createNode("Triad"),
+                // h-h-h-T-sl-sl-p-p
+                createNode("Tapped Slide Extension"),
+                // h-h-h-h-T-p-p-h
+                createNode("Multi-String Extension")
             ]),
             createNode("Legato Tapping: Ascending 4, Descending 5"),
             createNode("Sweep Tapping: Sweep Up & Tapped Sequence Down"),
