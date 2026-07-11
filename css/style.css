@@ -25,14 +25,33 @@
             width: 100%;
         }
 
-        h1 {
-            text-align: center;
-            color: #333;
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
             font-size: 2.2em;
             background: linear-gradient(45deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        .github-link {
+            color: #333;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .github-link:hover {
+            opacity: 1;
         }
 
         .audio-section {
