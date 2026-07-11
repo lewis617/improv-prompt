@@ -3,12 +3,6 @@ export function createImprovisationData() {
     // Helper function to create tree nodes
     const createNode = (name, children = []) => ({ name, children });
 
-    // Define common sequence structures
-    const createSequencePatterns = () => [
-        createNode("Sequence"),
-        createNode("Zigzag Sequence")
-    ];
-
     // Using standard tree node structure
     const improvisationTree = createNode("Root", [
 
@@ -22,8 +16,14 @@ export function createImprovisationData() {
                 createNode("Zigzag Sequence"),
                 createNode("Zigzag at the end"),
             ]),
-            createNode("Four-Note Groups Descending", createSequencePatterns()),
-            createNode("Six-Note Groups Descending", createSequencePatterns()),
+            createNode("Four-Note Groups Descending", [
+                createNode("Sequence"),
+                createNode("Zigzag Sequence")
+            ]),
+            createNode("Six-Note Groups Descending", [
+                createNode("Sequence"),
+                createNode("Zigzag Sequence")
+            ]),
             createNode("Down Two Up One"),
             createNode("Up One Down Two"),
             createNode("Up Three Down Two"),
@@ -38,12 +38,16 @@ export function createImprovisationData() {
             ])
         ]),
         createNode("Alternate Picking", [
-            createNode("Three-Note Groups", createSequencePatterns().concat([
+            createNode("Three-Note Groups", [
+                createNode("Sequence"),
+                createNode("Zigzag Sequence")
+            ].concat([
                 // createNode("in 16th nodes")
             ])),
-            createNode("Four-Note Groups", createSequencePatterns().concat([
+            createNode("Four-Note Groups", [
+                createNode("Sequence"),
                 // createNode("reverse 2nd"),
-            ])),
+            ]),
             // createNode("Six-Note Groups", [
             //     createNode("Sequence"),
             // ]),
@@ -51,11 +55,11 @@ export function createImprovisationData() {
             //     createNode("Sequence"),
             //     createNode("reverse 2nd"),
             // ]),
-            createNode("Thirds", createSequencePatterns()),
-            createNode("Fourths", createSequencePatterns()),
-            createNode("Fifths", createSequencePatterns()),
-            // createNode("Sixths", createSequencePatterns()),
-            // createNode("Sevenths", createSequencePatterns()),
+            createNode("Thirds", [createNode("Sequence")]),
+            createNode("Fourths", [createNode("Sequence")]),
+            createNode("Fifths", [createNode("Sequence")]),
+            // createNode("Sixths", [createNode("Sequence")]),
+            // createNode("Sevenths", [createNode("Sequence")]),
             // createNode("Four String Chord", [
             //     createNode("16th nodes"),
             //     createNode("12th nodes"),
