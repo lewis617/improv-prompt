@@ -1,7 +1,7 @@
 // Improvisation exercise data module
 export function createImprovisationData() {
     // Helper function to create tree nodes
-    const createNode = (name, children = []) => ({ name, children });
+    const createNode = (name, children = [], tooltip = '') => ({ name, children, tooltip });
 
     // Using standard tree node structure
     const improvisationTree = createNode("Root", [
@@ -28,10 +28,8 @@ export function createImprovisationData() {
             createNode("Up One Down Two"),
             createNode("Up Three Down Two"),
             createNode("Two Strings", [
-                // d h d h d p d p
-                createNode("2-2-1-1-1-1-2-2"),
-                // d p d p d u
-                createNode("1-1-1-1-2-1"),
+                createNode("2-2-1-1-1-1-2-2", [], "Zigzag: d h d h d p d p"),
+                createNode("1-1-1-1-2-1", [], "d p d p d u"),
             ]),
             createNode("Bending", [
                 createNode("Ascending 2 Dscending 4")
@@ -145,63 +143,42 @@ export function createImprovisationData() {
         ]),
         createNode("Tapping", [
             createNode("Triad", [
-                // T-p-p
-                createNode("Descending"),
-                // T-p-h
-                createNode("Eruption Style"),
-                // T-p-p-h
-                createNode("Descending & Ascending"),
-                // T-p-T-p-p-h
-                createNode("Sextuplet"),
-                // T-p-h-h
-                createNode("Triad with Open String")
-            ]),
+                createNode("Descending", [], "T-p-p"),
+                createNode("Ascending", [], "T-p-h"),
+                createNode("Descending & Ascending", [], "T-p-p-h"),
+                createNode("Sextuplet", [], "T-p-T-p-p-h"),
+                createNode("Triad with Open String", [], "T-p-h-h")
+            ], "Tapped notes outlined by pull-offs"),
             createNode("Triad & Diatonic", [
-                // T-p-p-p
-                createNode("Descending"),
-                // T-p-h-h
-                createNode("Eruption Style"),
-                // T-p-p-p-h-h
-                createNode("Descending & Ascending"),
-                // T-p-h-h & T-p-p-p
-                createNode("Alternating")
-            ]),
+                createNode("Descending", [], "T-p-p-p"),
+                createNode("Ascending", [], "T-p-h-h"),
+                createNode("Descending & Ascending", [], "T-p-p-p-h-h"),
+                createNode("Alternating", [], "T-p-h-h & T-p-p-p")
+            ], "Tapped notes outlined by pull-offs and hammer-ons"),
             createNode("Slides", [
-                // T-sl-sl-p-p-h
-                createNode("Two-Pitch Slide with Triad"),
-                // T-p-p-p-sl-h-h
-                createNode("Sliding between different positions")
+                createNode("Two-Pitch Slide with Triad", [], "T-sl-sl-p-p-h"),
+                createNode("Sliding between different positions", [], "T-p-p-p-sl-h-h")
             ]),
             createNode("Tapped Bends", [
-                // b-T-p-r
-                createNode("Tap on Bent String"),
-                // h-T-b
-                createNode("Bend Tapped Note")
+                createNode("Tap on Bent String", [], "b-T-p-r"),
+                createNode("Bend Tapped Note", [], "h-T-b")
             ]),
             createNode("Pentatonic & Diatonic", [
-                // T-p-h
-                createNode("3 Tapped Positions - 2 Strings"),
-                // T-p-h
-                createNode("2 Tapped Positions - 6 Strings")
+                createNode("2 Strings", [], "T-p-h"),
+                createNode("6 Strings", [], "T-p-h")
             ]),
             createNode("Pedal Point Tapping", [
-                // 5-3-5-2-5-1 (T-p-T-p-T-p)
-                createNode("5-3-5-2-5-1"),
-                // 5-1-5-2-5-3 (T-p-T-p-T-p)
-                createNode("5-1-5-2-5-3"),
-                // T-h-h-p-h-h
-                createNode("Movable Nut")
+                createNode("5-3-5-2-5-1", [], "5-3-5-2-5-1 (T-p-T-p-T-p)"),
+                createNode("5-1-5-2-5-3", [], "5-1-5-2-5-3 (T-p-T-p-T-p)"),
+                createNode("Movable Nut", [], "T-h-h-p-h-h")
             ]),
             createNode("Hammer-on from Nowhere", [
-                // h-h-h-T-p-p
-                createNode("Triad"),
-                // h-h-h-T-sl-sl-p-p
-                createNode("Tapped Slide Extension"),
-                // h-h-h-h-T-p-p-h
-                createNode("Multi-String Extension")
-            ]),
+                createNode("Triad", [], "h-h-h-T-p-p"),
+                createNode("Tapped Slide Extension", [], "h-h-h-T-sl-sl-p-p"),
+                createNode("Multi-String Extension", [], "h-h-h-h-T-p-p-h")
+            ], "Major triad shapes"),
             // createNode("Legato Tapping: Ascending 4, Descending 5"),
-            createNode("Sweep Tapping: Sweep Up & Tapped Sequence Down"),
+            createNode("Sweep Tapping: Sweep Up & Tapped Sequence Down", [], "Major triad shapes"),
         ]),
     ]);
 

@@ -44,6 +44,16 @@ function getAudioUrl(filename) {
     return getAudioBasePath() + filename;
 }
 
+// Escape values before interpolating them into HTML templates
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 // Trie node class
         class TrieNode {
             constructor() {
@@ -456,9 +466,11 @@ function getAudioUrl(filename) {
 
                 // Recursively traverse tree structure, support standard node format
                 let index = 0;
-                const traverseTree = (node, path = []) => {
+                const traverseTree = (node, path = [], tooltips = []) => {
                     const currentPath = [...path, node.name];
-                    
+                    // Inherit tooltips from ancestors so every leaf has an explanation
+                    const currentTooltips = node.tooltip ? [...tooltips, node.tooltip] : tooltips;
+
                     if (node.children.length === 0) {
                         // Leaf node
                         const fullName = currentPath.slice(1).join(' - '); // Skip root node
@@ -468,14 +480,16 @@ function getAudioUrl(filename) {
                             index, 
                             fullName,
                             displayName,
-                            category: currentPath[1] // First level category like "Arpeggios", "Natural Scales", etc.
+                            category: currentPath[1], // First level category like "Arpeggios", "Natural Scales", etc.
+                            tooltip: node.tooltip || currentTooltips[currentTooltips.length - 1] || '',
+                            tooltipChain: currentTooltips
                         };
                         this.trie.insert(currentPath, itemData);
                         index++;
                     } else {
                         // Intermediate node, continue recursive traversal of child nodes
                         node.children.forEach(child => {
-                            traverseTree(child, currentPath);
+                            traverseTree(child, currentPath, currentTooltips);
                         });
                     }
                 };
@@ -606,11 +620,15 @@ function getAudioUrl(filename) {
 
             updateDisplay() {
                 const current = this.ideas[this.currentIndex];
+                const tooltipHtml = current.tooltipChain.length
+                    ? `<div class="prompt-tooltip">${current.tooltipChain.map(escapeHtml).join('<br>')}</div>`
+                    : '';
 
                 // Update current prompt
                 this.currentPrompt.innerHTML = `
                     <h2>Current Exercise (${this.currentIndex + 1}/${this.ideas.length})</h2>
-                    <div class="prompt-text">${current.fullName}</div>
+                    <div class="prompt-text">${escapeHtml(current.fullName)}</div>
+                    ${tooltipHtml}
                 `;
                 this.currentPrompt.classList.add('fade-in');
                 setTimeout(() => {
@@ -656,7 +674,11 @@ function getAudioUrl(filename) {
                     html += `<ul class="exercise-items">`;
                     
                     categories[category].forEach(idea => {
-                        html += `<li class="exercise-item">${idea.displayName}</li>`;
+                        const tooltipAttr = idea.tooltipChain.length
+                            ? ` title="${escapeHtml(idea.tooltipChain.join('\n'))}"`
+                            : '';
+                        const tooltipClass = idea.tooltip ? ' has-tooltip' : '';
+                        html += `<li class="exercise-item${tooltipClass}"${tooltipAttr}>${escapeHtml(idea.displayName)}</li>`;
                     });
                     
                     html += `</ul>`;
