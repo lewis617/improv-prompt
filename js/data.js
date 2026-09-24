@@ -200,7 +200,7 @@ export function createImprovisationData() {
                 // h-h-h-h-T-p-p-h
                 createNode("Multi-String Extension")
             ]),
-            createNode("Legato Tapping: Ascending 4, Descending 5"),
+            // createNode("Legato Tapping: Ascending 4, Descending 5"),
             createNode("Sweep Tapping: Sweep Up & Tapped Sequence Down"),
         ]),
     ]);
