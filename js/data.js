@@ -168,9 +168,8 @@ export function createImprovisationData() {
                 createNode("6 Strings", [], "T-p-h")
             ]),
             createNode("Pedal Point Tapping", [
-                createNode("5-3-5-2-5-1", [], "5-3-5-2-5-1 (T-p-T-p-T-p)"),
-                createNode("5-1-5-2-5-3", [], "5-1-5-2-5-3 (T-p-T-p-T-p)"),
-                createNode("Movable Nut", [], "T-h-h-p-h-h")
+                createNode("Triad & Diatonic", [], "53-52-51 51-52-53 T-p-T-p-T-p"),
+                createNode("Movable Nut", [], "123-723-623-723 T-h-h-p-h-h")
             ]),
             createNode("Hammer-on from Nowhere", [
                 createNode("Triad", [], "h-h-h-T-p-p"),
