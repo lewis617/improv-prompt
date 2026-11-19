@@ -112,6 +112,10 @@ function escapeHtml(value) {
 
                 this.currentIndex = 0;
                 this.isPlaying = false;
+
+                // Current exercise, mirrored to the lock screen player
+                this.currentIdeaText = '';
+                this.ideaPosition = '';
                 
                 // Load saved volume or use default
                 const savedVolume = localStorage.getItem('audioVolume');
@@ -132,6 +136,53 @@ function escapeHtml(value) {
                 this.initAudioEvents();
                 this.initTrackList();
                 this.loadTrackFromUrl();
+                this.initMediaSession();
+            }
+
+            // Lock screen / control centre player. Without this the system only knows about the
+            // backing track, so a locked phone shows the track but not the exercise being played.
+            initMediaSession() {
+                if (!('mediaSession' in navigator)) return;
+
+                const setHandler = (action, handler) => {
+                    try {
+                        navigator.mediaSession.setActionHandler(action, handler);
+                    } catch (error) {
+                        // Action unsupported on this browser - harmless.
+                    }
+                };
+
+                setHandler('play', () => this.resume());
+                setHandler('pause', () => this.pause());
+                setHandler('nexttrack', () => this.nextTrack());
+            }
+
+            updateMediaSession() {
+                if (!('mediaSession' in navigator) || typeof window.MediaMetadata === 'undefined') return;
+
+                const track = this.audioFiles[this.currentIndex];
+                if (!track) return;
+
+                try {
+                    const hasIdea = Boolean(this.currentIdeaText);
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: hasIdea ? this.currentIdeaText : track.name,
+                        artist: `${hasIdea ? track.name : (track.title || track.name)} · ${track.tempo}`,
+                        album: this.ideaPosition ? `Improv Practice · ${this.ideaPosition}` : 'Improv Practice',
+                        artwork: [{ src: './favicon.svg', sizes: 'any', type: 'image/svg+xml' }]
+                    });
+                } catch (error) {
+                    if (CDN_CONFIG.debug) {
+                        console.warn('Media Session metadata failed:', error);
+                    }
+                }
+            }
+
+            // Called by the practice tool every time the exercise changes.
+            setIdeaText(text, position) {
+                this.currentIdeaText = text || '';
+                this.ideaPosition = position || '';
+                this.updateMediaSession();
             }
 
             setCurrentTrack(index) {
@@ -151,6 +202,7 @@ function escapeHtml(value) {
                 this.updateTrackDetails(track);
                 this.updateScaleHints(track);
                 this.updateTrackListUI();
+                this.updateMediaSession();
             }
 
             loadTrackFromUrl() {
@@ -264,6 +316,7 @@ function escapeHtml(value) {
                 this.audioPlayer.src = primaryUrl;
                 
                 this.updateUrl();
+                this.updateMediaSession();
                 
                 this.audioPlayer.play().then(() => {
                     this.isPlaying = true;
@@ -640,6 +693,11 @@ function escapeHtml(value) {
                 // about a second every time an idea is spoken (AudioContext goes to 'interrupted').
                 // There is no web API to request mixing with it, and for timing-critical practice a
                 // dropped beat is worse than not hearing the idea read aloud.
+
+                // Mirror the exercise onto the lock screen / control centre player.
+                if (this.audioManager) {
+                    this.audioManager.setIdeaText(current.fullName, `${this.currentIndex + 1}/${this.ideas.length}`);
+                }
             }
 
             toggleDisplayMode() {
