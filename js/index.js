@@ -88,6 +88,58 @@ function escapeHtml(value) {
             }
         }
 
+        // Keeps the screen awake while the tool is on screen. iOS dims and locks the screen after
+        // a while even when audio is playing, which blanks the exercise mid-practice.
+        //
+        // Two hard limits worth knowing:
+        //  - the Screen Wake Lock API requires a secure context (https, or localhost for dev)
+        //  - it cannot help once the user locks the phone; iOS owns the lock screen, so a locked
+        //    device will always go dark after the auto-lock delay
+        class WakeLockKeeper {
+            constructor() {
+                this._sentinel = null;
+                this._wanted = false;
+
+                // Browsers drop the lock whenever the page is hidden, so take it again on return.
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden && this._wanted) this.request();
+                });
+            }
+
+            get supported() {
+                return typeof navigator !== 'undefined' && 'wakeLock' in navigator;
+            }
+
+            async request() {
+                this._wanted = true;
+                if (!this.supported || this._sentinel) return Boolean(this._sentinel);
+                try {
+                    this._sentinel = await navigator.wakeLock.request('screen');
+                    this._sentinel.addEventListener('release', () => {
+                        this._sentinel = null;
+                    });
+                    return true;
+                } catch (error) {
+                    if (CDN_CONFIG.debug) {
+                        console.warn('Screen wake lock unavailable:', error && error.name);
+                    }
+                    return false;
+                }
+            }
+
+            async release() {
+                this._wanted = false;
+                const sentinel = this._sentinel;
+                this._sentinel = null;
+                if (!sentinel) return;
+                try {
+                    await sentinel.release();
+                } catch (error) {
+                    // Already released by the browser.
+                }
+            }
+        }
+
         // Audio manager class
         class AudioManager {
             constructor() {
@@ -511,6 +563,39 @@ function escapeHtml(value) {
                 
                 // Initialize audio manager
                 this.audioManager = new AudioManager();
+
+                // Keep the screen on while practising (see WakeLockKeeper for the caveats).
+                this.wakeLock = new WakeLockKeeper();
+                this.requestWakeLock();
+
+                // Safari is more willing to grant the lock once the user has interacted.
+                document.addEventListener('click', () => this.requestWakeLock(true));
+            }
+
+            requestWakeLock(reportFailure = false) {
+                if (!this.wakeLock) return;
+                this.wakeLock.request().then((granted) => {
+                    if (!granted && reportFailure) this.showWakeLockHint();
+                });
+            }
+
+            // Explains why the screen still dims when the API is out of reach (plain http pages)
+            // or refuses the request even after a user gesture.
+            showWakeLockHint() {
+                if (this._wakeLockHintShown) return;
+                this._wakeLockHintShown = true;
+                const reason = this.wakeLock.supported
+                    ? 'the browser refused the request'
+                    : 'the page must be served over https';
+                const hint = document.createElement('div');
+                hint.id = 'wakeLockHint';
+                hint.textContent = `Screen wake lock unavailable: ${reason}. ` +
+                    'Meanwhile, raise iOS Settings > Display & Brightness > Auto-Lock.';
+                hint.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;' +
+                    'background:rgba(0,0,0,.85);color:#ffd979;padding:10px 12px;border-radius:8px;' +
+                    'font:13px/1.5 -apple-system,system-ui,sans-serif;text-align:center';
+                document.body.appendChild(hint);
+                setTimeout(() => hint.remove(), 10000);
             }
 
             initializeData() {
