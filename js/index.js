@@ -635,10 +635,11 @@ function escapeHtml(value) {
                     this.currentPrompt.classList.remove('fade-in');
                 }, 500);
 
-                // Play text-to-speech
-                const utterance = new SpeechSynthesisUtterance(current.fullName);
-                utterance.lang = 'en-US';
-                speechSynthesis.speak(utterance);
+                // Text-to-speech was removed on purpose. On iOS, window.speechSynthesis hands the
+                // audio session over to AVSpeechSynthesizer, which interrupts the backing track for
+                // about a second every time an idea is spoken (AudioContext goes to 'interrupted').
+                // There is no web API to request mixing with it, and for timing-critical practice a
+                // dropped beat is worse than not hearing the idea read aloud.
             }
 
             toggleDisplayMode() {
