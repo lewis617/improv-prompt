@@ -198,7 +198,7 @@ button, select, input, label {
     background: linear-gradient(45deg, #28a745, #20c997);
 }
 
-/* Icon-only player buttons: square and padding-free so play / stop / next /
+/* Icon-only player buttons: square and padding-free so play / pause / next /
    volume all fit on one phone row. Labels live in title + aria-label. */
 .icon-button {
     width: 34px;

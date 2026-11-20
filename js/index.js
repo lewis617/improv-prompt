@@ -155,7 +155,6 @@ function escapeHtml(value) {
                 this.playBtn = document.getElementById('playBtn');
                 this.pauseBtn = document.getElementById('pauseBtn');
                 this.resumeBtn = document.getElementById('resumeBtn');
-                this.stopAudioBtn = document.getElementById('stopAudioBtn');
                 this.nextTrackBtn = document.getElementById('nextTrackBtn');
                 this.volumeControl = document.getElementById('volumeControl');
                 this.trackSelect = document.getElementById('trackSelect');
@@ -309,7 +308,6 @@ function escapeHtml(value) {
                 this.playBtn.addEventListener('click', () => this.play());
                 this.pauseBtn.addEventListener('click', () => this.pause());
                 this.resumeBtn.addEventListener('click', () => this.resume());
-                this.stopAudioBtn.addEventListener('click', () => this.stop());
                 this.nextTrackBtn.addEventListener('click', () => this.nextTrack());
                 this.volumeControl.addEventListener('input', (e) => {
                     const volume = e.target.value;
@@ -399,15 +397,6 @@ function escapeHtml(value) {
                 });
             }
 
-            stop() {
-                this.audioPlayer.pause();
-                this.audioPlayer.currentTime = 0;
-                this.isPlaying = false;
-                this.updateUI();
-                this.trackDetails.style.display = 'none';
-                this.scaleHints.style.display = 'none';
-            }
-
             nextTrack() {
                 const playMode = this.playModeSelect.value;
                 
@@ -427,26 +416,13 @@ function escapeHtml(value) {
             }
 
             updateUI() {
-                // Toggle Play/Pause/Resume/Stop visibility
-                if (!this.isPlaying && this.audioPlayer.currentTime === 0) {
-                    // Initial state
-                    this.playBtn.style.display = 'inline-block';
-                    this.pauseBtn.style.display = 'none';
-                    this.resumeBtn.style.display = 'none';
-                    this.stopAudioBtn.style.display = 'none';
-                } else if (this.isPlaying) {
-                    // Playing state
-                    this.playBtn.style.display = 'none';
-                    this.pauseBtn.style.display = 'inline-block';
-                    this.resumeBtn.style.display = 'none';
-                    this.stopAudioBtn.style.display = 'inline-block';
-                } else {
-                    // Paused state
-                    this.playBtn.style.display = 'none';
-                    this.pauseBtn.style.display = 'none';
-                    this.resumeBtn.style.display = 'inline-block';
-                    this.stopAudioBtn.style.display = 'inline-block';
-                }
+                // Two states only, so the stack never shows two buttons at once:
+                // a paused track keeps its position and offers Resume, anything
+                // else (before the first play, or after a load error) offers Play.
+                const isPaused = !this.isPlaying && this.audioPlayer.currentTime > 0;
+                this.playBtn.style.display = !this.isPlaying && !isPaused ? 'inline-block' : 'none';
+                this.pauseBtn.style.display = this.isPlaying ? 'inline-block' : 'none';
+                this.resumeBtn.style.display = isPaused ? 'inline-block' : 'none';
 
                 this.nextTrackBtn.disabled = false; // Always allow next track if we have tracks
 
