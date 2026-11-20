@@ -1,559 +1,559 @@
- * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 15px;
-            padding-top: 20px;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            max-width: 1200px;
-            width: 100%;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            color: #333;
-            font-size: 2.2em;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .github-link {
-            color: #333;
-            opacity: 0.5;
-            transition: opacity 0.2s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .github-link:hover {
-            opacity: 1;
-        }
-
-        .audio-section {
-            background: #f8f9fa;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .audio-section h2 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        .audio-controls {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 10px;
-        }
-
-        .audio-info {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .audio-info h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .current-track {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-
-        .track-details {
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 15px;
-            background: white;
-        }
-
-        .track-title {
-            font-weight: bold;
-            color: #333;
-            font-size: 1.1em;
-            text-align: center;
-            margin-bottom: 8px;
-        }
-
-        .track-tempo {
-            color: #555;
-            font-size: 0.95em;
-            font-weight: bold;
-            text-align: left;
-            margin-bottom: 8px;
-        }
-
-        .track-chords-container {
-            margin-top: 10px;
-        }
-
-        .chord-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 5px;
-        }
-
-        .chord-table td {
-            padding: 4px 8px;
-            border: 1px solid #ddd;
-            text-align: center;
-            font-size: 0.9em;
-        }
-
-        .chord-names td {
-            background: #f8f9fa;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .chord-functions td {
-            background: #e9ecef;
-            color: #555;
-        }
-
-        .scale-hints {
-            text-align: left;
-            padding-top: 15px;
-        }
-
-        .track-list {
-            max-height: 500px;
-            overflow-y: auto;
-            margin-top: 15px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 12px;
-            padding: 5px;
-        }
-
-        .track-item {
-            background: white;
-            padding: 12px;
-            margin-bottom: 0;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 2px solid transparent;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: left;
-        }
-
-        .track-item:hover {
-            background: #e9ecef;
-            transform: translateX(5px);
-        }
-
-        .track-item.active {
-            background: #d4edda;
-            border-color: #28a745;
-        }
-
-        .track-name {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 4px;
-        }
-
-        .track-meta {
-            font-size: 0.85em;
-            color: #666;
-        }
-
-        .scale-category {
-            margin-bottom: 10px;
-        }
-
-        .scale-category h4 {
-            color: #333;
-            margin-bottom: 5px;
-            font-size: 1em;
-        }
-
-        .scale-list {
-            color: #555;
-            font-size: 0.9em;
-            line-height: 1.4;
-            margin-left: 10px;
-        }
-
-        .controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .control-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Container for mutually exclusive buttons to occupy the same space */
-        .button-stack {
-            display: inline-flex;
-            gap: 10px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .play-pause-stack {
-            display: inline-grid;
-            grid-template-areas: "stack";
-            align-items: center;
-            justify-items: center;
-        }
-
-        .play-pause-stack button {
-            grid-area: stack;
-        }
-
-        .play-pause-stack button[style*="display: none"],
-        .button-stack button[style*="display: none"] {
-            display: none !important;
-        }
-
-        label {
-            font-weight: bold;
-            color: #555;
-            font-size: 14px;
-        }
-
-        input[type="range"] {
-            padding: 0;
-            height: 8px;
-            -webkit-appearance: none;
-            background: #e9ecef;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            background: #667eea;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        input[type="range"]::-webkit-slider-thumb:hover {
-            background: #764ba2;
-        }
-
-        input, button, select {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-
-        input, select {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        select {
-            cursor: pointer;
-        }
-
-        button {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: bold;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .audio-button {
-            background: linear-gradient(45deg, #28a745, #20c997);
-        }
-
-        .display-area {
-            margin-bottom: 20px;
-        }
-
-        .current-prompt {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 10px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .current-prompt h2 {
-            font-size: 1em;
-            margin-bottom: 8px;
-            opacity: 0.9;
-        }
-
-        .current-prompt .prompt-text {
-            font-size: 1.4em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .current-prompt .prompt-tooltip {
-            font-size: 0.9em;
-            opacity: 0.85;
-            line-height: 1.6;
-            margin-bottom: 5px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: #e9ecef;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-bottom: 15px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            width: 0%;
-            transition: width 0.1s linear;
-        }
-
-        @media (max-width: 600px) {
-            .track-list {
-                grid-template-columns: 1fr;
-            }
-
-            .exercise-items {
-                grid-template-columns: 1fr;
-            }
-
-            .container {
-                padding: 15px;
-                max-width: 100%;
-            }
-            
-            h1 {
-                font-size: 1.8em;
-                margin-bottom: 20px;
-            }
-            
-            .controls, .audio-controls {
-                flex-direction: row;
-                gap: 10px;
-                margin-bottom: 15px;
-                justify-content: center;
-            }
-            
-            .control-group {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .button-group, .audio-controls {
-                width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            .button-group button, .audio-controls button {
-                flex: 0 1 auto;
-                min-width: 80px;
-                font-size: 12px;
-                padding: 8px 12px;
-                margin: 2px;
-            }
-
-            .current-prompt .prompt-text {
-                font-size: 1.4em;
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Section Toggle Styles */
-        .section-toggle {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .section-toggle h2 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        .toggle-controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .toggle-controls label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            font-size: 1em;
-            color: #555;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.7);
-            border: 2px solid transparent;
-        }
-
-        .toggle-controls label:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-2px);
-        }
-
-        .toggle-controls input[type="radio"] {
-            margin-right: 8px;
-            transform: scale(1.2);
-        }
-
-        .toggle-controls input[type="radio"]:checked + span {
-            font-weight: bold;
-        }
-
-        .toggle-controls label:has(input:checked) {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: 2px solid #667eea;
-        }
-
-        /* Exercise Section Styles */
-        .exercise-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .exercise-category {
-            margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 15px;
-            height: 100%;
-        }
-
-        .exercise-category h3 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.3em;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #667eea;
-        }
-
-        .exercise-items {
-            list-style: none;
-            padding: 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 10px;
-        }
-
-        .exercise-item {
-            padding: 8px 12px;
-            margin: 0;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
-
-        .exercise-item.has-tooltip {
-            cursor: help;
-        }
-
-        .exercise-item:hover {
-            background: rgba(102, 126, 234, 0.2);
-            transform: translateX(5px);
-        }
-
-        .content-section {
-            animation: fadeIn 0.5s ease-in;
-        }
+/* Layout padding is intentionally removed: this page is used on phones, where
+   every wasted pixel costs visible content. Only the tap targets keep the
+   minimum padding needed to stay clickable. */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* The styled :active state below replaces iOS's blue tap flash */
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    /* iOS Safari sizes 100vh to the tall (address-bar hidden) viewport, so the layout
+       jumps every time the address bar collapses. dvh tracks the real viewport. */
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.container {
+    background: #fff;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.controls {
+    display: flex;
+    gap: 4px 8px;
+    margin-bottom: 2px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.button-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container for mutually exclusive buttons to occupy the same space */
+.button-stack {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+}
+
+.play-pause-stack {
+    display: inline-grid;
+    grid-template-areas: "stack";
+    align-items: center;
+    justify-items: center;
+}
+
+.play-pause-stack button {
+    grid-area: stack;
+}
+
+.play-pause-stack button[style*="display: none"],
+.button-stack button[style*="display: none"] {
+    display: none !important;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+    font-size: 13px;
+}
+
+/* The element itself is the touch target (24px tall). The visible groove is the
+   runnable-track, so the 16px thumb no longer pokes out of an 8px box and gets
+   painted over by the buttons above it. */
+input[type="range"] {
+    padding: 0;
+    /* 100px normally, shrinks to 70px on narrow phones so the row stays on one
+       line; flex-shrink keeps it from hugging the screen edge. */
+    width: 90px;
+    min-width: 70px;
+    flex: 0 1 auto;
+    height: 24px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    /* centre the 16px thumb on the 6px groove: -(16-6)/2 */
+    margin-top: -5px;
+    background: #667eea;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: #764ba2;
+}
+
+input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border: none;
+    background: #667eea;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+input, button, select {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+/* No decorative padding, but keep a thumb-sized target (a guitarist taps
+   with the picking hand while playing). */
+button {
+    min-height: 32px;
+}
+
+input, select {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    transition: border-color 0.3s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+select {
+    cursor: pointer;
+}
+
+button {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-weight: bold;
+}
+
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Feedback without a transform (transforms can push content past the edges) */
+button:hover:not(:disabled) {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+/* Tap feedback that also works on touch (no hover there) */
+button:active:not(:disabled) {
+    filter: brightness(0.88);
+}
+
+/* Kill the ~300ms click delay and double-tap zoom on the tap targets */
+button, select, input, label {
+    touch-action: manipulation;
+}
+
+.audio-button {
+    background: linear-gradient(45deg, #28a745, #20c997);
+}
+
+/* Icon-only player buttons: square and padding-free so play / stop / next /
+   volume all fit on one phone row. Labels live in title + aria-label. */
+.icon-button {
+    width: 34px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.display-area {
+    margin-bottom: 4px;
+}
+
+.current-prompt {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.current-prompt .prompt-text {
+    font-size: 1.35em;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.current-prompt .prompt-counter {
+    font-size: 0.6em;
+    font-weight: normal;
+    opacity: 0.75;
+    margin-left: 6px;
+}
+
+/* The tip is no longer printed under the prompt: it pops up instead, so the
+   prompt block keeps one line's height. Mouse users get it on hover, phones on
+   tap (a tap has no hover, and iOS ignores title="" tooltips entirely). */
+.tooltip {
+    position: fixed;
+    left: 0;
+    top: -9999px;
+    z-index: 1000;
+    max-width: 260px;
+    padding: 6px 9px;
+    border-radius: 6px;
+    background: rgba(45, 45, 54, 0.96);
+    color: #fff;
+    font-size: 0.82em;
+    line-height: 1.45;
+    white-space: pre-line;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s ease;
+}
+
+.tooltip.visible {
+    opacity: 1;
+}
+
+/* Nothing on screen says "tappable" any more, so the prompt has to hint it */
+.current-prompt.has-tooltip {
+    cursor: help;
+}
+
+.current-prompt.has-tooltip:active {
+    filter: brightness(1.08);
+}
+
+.current-prompt .prompt-tip-icon {
+    font-size: 0.55em;
+    font-weight: normal;
+    opacity: 0.7;
+    margin-left: 4px;
+    vertical-align: 0.35em;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: #e9ecef;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+/* Tracks and ideas live on one page, so this is the single scrolling surface
+   underneath the pinned controls. */
+.audio-section {
+    background: #f8f9fa;
+    text-align: center;
+}
+
+.audio-controls {
+    display: flex;
+    gap: 4px 6px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #f8f9fa;
+    margin-bottom: 2px;
+    /* Just enough so the row never sits flush against the screen edges when it
+       exactly fills the width */
+    padding: 0 4px;
+}
+
+.track-details {
+    padding: 3px 4px;
+    margin-bottom: 2px;
+    background: white;
+}
+
+/* BPM + descriptive title share this line now that the heading is gone, so it
+   carries more weight than a caption: 13.6px was too small to read on a phone.
+   Centred: the title is the thing you glance at, tempo is secondary. */
+.track-tempo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 2px 10px;
+    color: #444;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* A long title wraps rather than getting cut — the whole name is the point */
+.track-tempo-title {
+    min-width: 0;
+}
+
+.track-tempo-bpm {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.track-chords-container {
+    margin-top: 2px;
+}
+
+.chord-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.chord-table td {
+    padding: 1px 4px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 0.85em;
+}
+
+.chord-names td {
+    background: #f8f9fa;
+    font-weight: bold;
+    color: #333;
+}
+
+.chord-functions td {
+    background: #e9ecef;
+    color: #555;
+}
+
+.scale-hints {
+    text-align: left;
+    padding-top: 2px;
+}
+
+/* One hint per line again: space stopped being the constraint, and a list scans
+   faster than " · " separated runs when you are reading it while playing.
+   Hints and their Primary/Alt labels now share one size — the label used to come
+   out smaller than the text it labels, which read as a hierarchy inversion. */
+.scale-group {
+    font-size: 0.85em;
+    line-height: 1.45;
+    color: #444;
+    margin-bottom: 2px;
+}
+
+/* Distinguished by colour and weight, not by size */
+.scale-label {
+    font-weight: bold;
+    color: #667eea;
+    margin-right: 4px;
+}
+
+.scale-hint {
+    padding-left: 9px;
+}
+
+/* Play mode shows only its icon; the picker still lists 🔀/🔄/🔂 */
+.mode-select {
+    padding: 4px 2px;
+    font-size: 16px;
+}
+
+/* Takes whatever width is left on the control row; long names get ellipsised,
+   the picker itself shows them in full. A small flex-basis (90px) is what keeps
+   the whole row on one line at 375px once the stop button appears; the leftover
+   space then grows it back. min-width covers the iOS native picker, which renders
+   wider than Chrome's. */
+.track-select {
+    flex: 1 1 90px;
+    min-width: 88px;
+    max-width: 220px;
+    text-overflow: ellipsis;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Exercise Section Styles */
+.exercise-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.exercise-category {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* Section headings stand on their own: the tinted rows below already separate
+   the groups, so the rule under each heading was just extra ink. */
+.exercise-category h3 {
+    color: #333;
+    font-size: 1.05em;
+    padding: 2px 0 3px;
+}
+
+.exercise-items {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 2px;
+}
+
+.exercise-item {
+    /* Roomier rows: this list is scrolled with a thumb, not read on a desktop,
+       and the 3px version still felt shoulder to shoulder */
+    padding: 6px 6px;
+    margin: 0;
+    background: rgba(102, 126, 234, 0.1);
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    font-size: 0.85em;
+    line-height: 1.25;
+}
+
+.exercise-item.has-tooltip {
+    cursor: help;
+}
+
+/* Small marker so the rows that open a tip are recognisable on a phone,
+   where there is no hover to discover them */
+.exercise-item.has-tooltip::after {
+    content: 'ⓘ';
+    margin-left: auto;
+    padding-left: 4px;
+    font-size: 0.8em;
+    opacity: 0.35;
+}
+
+.exercise-item.has-tooltip:active {
+    background: rgba(102, 126, 234, 0.3);
+}
+
+.exercise-item:hover {
+    background: rgba(102, 126, 234, 0.2);
+}
+
+@media (max-width: 600px) {
+    /* One scrolling surface only: the page is pinned to the viewport, the
+       practice controls and the current idea stay put, and everything below
+       them (track details, all tracks, all ideas) scrolls as one stream.
+       Nested page-scroll + list-scroll is easy to grab wrong with a thumb. */
+    html, body {
+        height: 100%;
+    }
+
+    body {
+        height: 100dvh;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .container {
+        height: 100%;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .audio-section {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .exercise-items {
+        grid-template-columns: 1fr;
+    }
+
+    .controls, .audio-controls {
+        flex-direction: row;
+        gap: 3px 6px;
+        margin-bottom: 2px;
+        justify-content: center;
+    }
+
+    /* Keep the practice buttons on the same row as the interval input. The audio
+       row now fits too, since every player button is icon-only. */
+    .audio-controls {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .button-group {
+        flex-wrap: wrap;
+    }
+
+    .button-group button, .audio-controls button:not(.icon-button) {
+        flex: 0 1 auto;
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    /* Beats the padding rule above, which is more specific than .icon-button */
+    .audio-controls button.icon-button {
+        width: 34px;
+        padding: 0;
+        font-size: 16px;
+    }
+
+    .current-prompt .prompt-text {
+        font-size: 1.3em;
+    }
+}

@@ -148,7 +148,6 @@ function escapeHtml(value) {
                 this.isPlaying = false;
                 this.scaleHints = document.getElementById('scaleHints');
                 this.trackDetails = document.getElementById('trackDetails');
-                this.trackTitle = document.getElementById('trackTitle');
                 this.trackTempo = document.getElementById('trackTempo');
 
                 
@@ -159,6 +158,7 @@ function escapeHtml(value) {
                 this.stopAudioBtn = document.getElementById('stopAudioBtn');
                 this.nextTrackBtn = document.getElementById('nextTrackBtn');
                 this.volumeControl = document.getElementById('volumeControl');
+                this.trackSelect = document.getElementById('trackSelect');
 
                 this.audioFiles = createAudioData();
 
@@ -186,7 +186,7 @@ function escapeHtml(value) {
 
                 // Initialize audio events and list display
                 this.initAudioEvents();
-                this.initTrackList();
+                this.initTrackSelect();
                 this.loadTrackFromUrl();
                 this.initMediaSession();
             }
@@ -253,7 +253,7 @@ function escapeHtml(value) {
                 const track = this.audioFiles[this.currentIndex];
                 this.updateTrackDetails(track);
                 this.updateScaleHints(track);
-                this.updateTrackListUI();
+                this.updateTrackSelectUI();
                 this.updateMediaSession();
             }
 
@@ -332,34 +332,21 @@ function escapeHtml(value) {
                 this.playCurrentTrack();
             }
 
-            initTrackList() {
-                const trackList = document.getElementById('trackList');
-                trackList.innerHTML = '';
+            // One native picker instead of a 17-row list: selecting a track is a
+            // once-per-session action, and the list cost ~440px of the phone screen.
+            initTrackSelect() {
+                this.trackSelect.innerHTML = this.audioFiles
+                    .map((track, index) => `<option value="${index}">${escapeHtml(track.name)}</option>`)
+                    .join('');
 
-                this.audioFiles.forEach((track, index) => {
-                    const trackItem = document.createElement('div');
-                    trackItem.className = 'track-item';
-                    trackItem.dataset.index = index;
-                    
-                    trackItem.innerHTML = `
-                        <div class="track-name">${track.name}</div>
-                        <div class="track-meta">${track.tempo} | ${track.title}</div>
-                    `;
-                    
-                    trackItem.addEventListener('click', () => {
-                        this.setCurrentTrack(index);
-                        this.playCurrentTrack();
-                    });
-                    
-                    trackList.appendChild(trackItem);
+                this.trackSelect.addEventListener('change', () => {
+                    this.setCurrentTrack(Number(this.trackSelect.value));
+                    this.playCurrentTrack();
                 });
             }
 
-            updateTrackListUI() {
-                const trackItems = document.querySelectorAll('.track-item');
-                trackItems.forEach((item, index) => {
-                    item.classList.toggle('active', index === this.currentIndex && this.isPlaying);
-                });
+            updateTrackSelectUI() {
+                this.trackSelect.value = String(this.currentIndex);
             }
 
             playCurrentTrack() {
@@ -464,7 +451,7 @@ function escapeHtml(value) {
                 this.nextTrackBtn.disabled = false; // Always allow next track if we have tracks
 
                 // Update audio list UI
-                this.updateTrackListUI();
+                this.updateTrackSelectUI();
 
                 if (this.isPlaying) {
                     const track = this.audioFiles[this.currentIndex];
@@ -474,8 +461,12 @@ function escapeHtml(value) {
 
             updateTrackDetails(track) {
                 this.trackDetails.style.display = 'block';
-                this.trackTitle.textContent = track.title;
-                this.trackTempo.textContent = track.tempo;
+                // Title on the left, tempo on the right: the picker above already
+                // says which file it is, so this line is about the music itself.
+                this.trackTempo.innerHTML = `
+                    <span class="track-tempo-title">${escapeHtml(track.title)}</span>
+                    <span class="track-tempo-bpm">${escapeHtml(track.tempo)}</span>
+                `;
                 
                 // Generate chord table, 4 per row
                 const chordNames = track.chordNames.split(' | ');
@@ -513,19 +504,20 @@ function escapeHtml(value) {
 
             updateScaleHints(track) {
                 this.scaleHints.style.display = 'block';
-                const primaryHtml = track.scaleHints.primary.map(hint => `${hint}`).join('<br>');
-                const alternateHtml = track.scaleHints.alternate.map(hint => `${hint}`).join('<br>');
 
-                this.scaleHints.innerHTML = `
-                    <div class="scale-category">
-                        <h4>Primary Scale Options</h4>
-                        <div class="scale-list">${primaryHtml}</div>
-                    </div>
-                    <div class="scale-category">
-                        <h4>Alternate Scale Options</h4>
-                        <div class="scale-list">${alternateHtml}</div>
+                // Back to one hint per line. Squeezing each group onto a single wrapped
+                // line saved ~200px, but space is no longer scarce and a list is far
+                // easier to scan mid-practice than " · " separated runs.
+                const toGroup = (label, hints) => `
+                    <div class="scale-group">
+                        <div class="scale-label">${label}</div>
+                        ${hints.map((hint) => `<div class="scale-hint">${escapeHtml(hint)}</div>`).join('')}
                     </div>
                 `;
+
+                this.scaleHints.innerHTML =
+                    toGroup('Primary', track.scaleHints.primary) +
+                    toGroup('Alt', track.scaleHints.alternate);
             }
 
             handleTrackEnd() {
@@ -661,10 +653,7 @@ function escapeHtml(value) {
                 this.currentPrompt = document.getElementById('currentPrompt');
                 this.progressFill = document.getElementById('progressFill');
 
-                // Initialize display mode toggle
-                this.displayModeRadios = document.querySelectorAll('input[name="displayMode"]');
-                this.audioSection = document.getElementById('audioSection');
-                this.exerciseSection = document.getElementById('exerciseSection');
+                // Tracks and ideas now share one page, so there is no display mode to switch
                 this.exerciseList = document.getElementById('exerciseList');
 
                 this.startBtn.addEventListener('click', () => this.start());
@@ -672,16 +661,100 @@ function escapeHtml(value) {
                 this.nextBtn.addEventListener('click', () => this.next());
                 this.intervalInput.addEventListener('change', () => this.updateInterval());
 
-                // Add display mode toggle listeners
-                this.displayModeRadios.forEach(radio => {
-                    radio.addEventListener('change', () => this.toggleDisplayMode());
-                });
+                this.initTooltip();
 
                 // Initial display
                 this.currentPrompt.innerHTML = `
-                    <h2>Current Exercise</h2>
                     <div class="prompt-text">Ready to start...</div>
                 `;
+            }
+
+            initTooltip() {
+                this.tooltipEl = document.getElementById('tooltip');
+                if (!this.tooltipEl) return;
+
+                // Devices that hover get it for free; touch devices toggle on tap.
+                const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+                let lastPointerType = 'mouse';
+
+                // Both the prompt up top and every idea row in the list carry
+                // data-tooltip, so one delegated pair of handlers serves them all.
+                const tipSourceOf = (node) => (
+                    node instanceof Element ? node.closest('[data-tooltip]') : null
+                );
+
+                document.addEventListener('pointerdown', (e) => {
+                    lastPointerType = e.pointerType || 'mouse';
+                    if (!tipSourceOf(e.target)) {
+                        this.hideTooltip();
+                    }
+                }, true);
+
+                if (canHover) {
+                    document.addEventListener('pointerover', (e) => {
+                        if (e.pointerType !== 'mouse') return;
+                        const src = tipSourceOf(e.target);
+                        if (src) this.showTooltip(src);
+                    });
+                    document.addEventListener('pointerout', (e) => {
+                        if (e.pointerType !== 'mouse') return;
+                        const src = tipSourceOf(e.target);
+                        const stillInside = e.relatedTarget instanceof Element && src && src.contains(e.relatedTarget);
+                        if (src && !stillInside) this.hideTooltip();
+                    });
+                }
+
+                document.addEventListener('click', (e) => {
+                    const src = tipSourceOf(e.target);
+                    if (!src) return;
+                    // A mouse click adds nothing: hover already showed it.
+                    if (canHover && lastPointerType === 'mouse') return;
+                    if (this.tooltipEl.classList.contains('visible') && this.tipAnchor === src) {
+                        this.hideTooltip();
+                    } else {
+                        this.showTooltip(src);
+                    }
+                });
+
+                const scroller = document.querySelector('.audio-section');
+                if (scroller) {
+                    scroller.addEventListener('scroll', () => this.hideTooltip(), { passive: true });
+                }
+                window.addEventListener('resize', () => this.hideTooltip());
+            }
+
+            showTooltip(anchor) {
+                const text = anchor && anchor.dataset ? anchor.dataset.tooltip : '';
+                if (!text || !this.tooltipEl) return;
+                if (this.tooltipEl.classList.contains('visible') && this.tipAnchor === anchor) return;
+                this.tipAnchor = anchor;
+                this.tooltipEl.textContent = text;
+                this.tooltipEl.classList.add('visible');
+                this.positionTooltip(anchor);
+            }
+
+            hideTooltip() {
+                if (!this.tooltipEl) return;
+                this.tooltipEl.classList.remove('visible');
+                this.tipAnchor = null;
+            }
+
+            positionTooltip(anchor) {
+                const el = this.tooltipEl;
+                const rect = anchor.getBoundingClientRect();
+                const box = el.getBoundingClientRect();
+
+                // Below the anchor, flipped above if it would run off the bottom,
+                // and clamped horizontally so it never leaves the viewport.
+                let left = rect.left + (rect.width - box.width) / 2;
+                left = Math.max(6, Math.min(left, window.innerWidth - box.width - 6));
+                let top = rect.bottom + 6;
+                if (top + box.height > window.innerHeight - 6) {
+                    top = rect.top - box.height - 6;
+                }
+
+                el.style.left = `${Math.round(left)}px`;
+                el.style.top = `${Math.round(top)}px`;
             }
 
             updateInterval() {
@@ -758,15 +831,23 @@ function escapeHtml(value) {
 
             updateDisplay() {
                 const current = this.ideas[this.currentIndex];
-                const tooltipHtml = current.tooltipChain.length
-                    ? `<div class="prompt-tooltip">${current.tooltipChain.map(escapeHtml).join('<br>')}</div>`
-                    : '';
+                const hasTip = current.tooltipChain.length > 0;
 
-                // Update current prompt
+                // Replaced the always-on tooltip line that used to sit under the prompt:
+                // the text now waits in a data attribute and shows on hover / tap.
+                this.hideTooltip();
+                this.currentPrompt.classList.toggle('has-tooltip', hasTip);
+                if (hasTip) {
+                    this.currentPrompt.dataset.tooltip = current.tooltipChain.join('\n');
+                } else {
+                    delete this.currentPrompt.dataset.tooltip;
+                }
+
+                const tipIcon = hasTip ? '<span class="prompt-tip-icon" aria-hidden="true">ⓘ</span>' : '';
+
+                // Update current prompt (counter is inline so it costs no extra line)
                 this.currentPrompt.innerHTML = `
-                    <h2>Current Exercise (${this.currentIndex + 1}/${this.ideas.length})</h2>
-                    <div class="prompt-text">${escapeHtml(current.fullName)}</div>
-                    ${tooltipHtml}
+                    <div class="prompt-text">${escapeHtml(current.fullName)}<span class="prompt-counter">${this.currentIndex + 1}/${this.ideas.length}</span>${tipIcon}</div>
                 `;
                 this.currentPrompt.classList.add('fade-in');
                 setTimeout(() => {
@@ -782,18 +863,6 @@ function escapeHtml(value) {
                 // Mirror the exercise onto the lock screen / control centre player.
                 if (this.audioManager) {
                     this.audioManager.setIdeaText(current.fullName, `${this.currentIndex + 1}/${this.ideas.length}`);
-                }
-            }
-
-            toggleDisplayMode() {
-                const selectedMode = document.querySelector('input[name="displayMode"]:checked').value;
-                
-                if (selectedMode === 'audio') {
-                    this.audioSection.style.display = 'block';
-                    this.exerciseSection.style.display = 'none';
-                } else {
-                    this.audioSection.style.display = 'none';
-                    this.exerciseSection.style.display = 'block';
                 }
             }
 
@@ -818,10 +887,13 @@ function escapeHtml(value) {
                     html += `<ul class="exercise-items">`;
                     
                     categories[category].forEach(idea => {
-                        const tooltipAttr = idea.tooltipChain.length
-                            ? ` title="${escapeHtml(idea.tooltipChain.join('\n'))}"`
+                        const hasTip = idea.tooltipChain.length > 0;
+                        // data-tooltip, not title: iOS never renders native title
+                        // tooltips, so a tap has to open the shared popup instead.
+                        const tooltipAttr = hasTip
+                            ? ` data-tooltip="${escapeHtml(idea.tooltipChain.join('\n'))}"`
                             : '';
-                        const tooltipClass = idea.tooltip ? ' has-tooltip' : '';
+                        const tooltipClass = hasTip ? ' has-tooltip' : '';
                         html += `<li class="exercise-item${tooltipClass}"${tooltipAttr}>${escapeHtml(idea.displayName)}</li>`;
                     });
                     
