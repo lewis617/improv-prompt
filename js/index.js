@@ -168,15 +168,31 @@ function escapeHtml(value) {
                 this.currentIdeaText = '';
                 this.ideaPosition = '';
                 
-                // Load saved volume or use default
+                // Volume is applied through a Web Audio gain node, not the element: iOS
+                // accepts HTMLMediaElement.volume, reads the value back, and then plays
+                // at full scale anyway, so the slider did nothing on a phone. The graph
+                // is built on the first play (iOS only starts a context from a gesture);
+                // until then applyVolume() falls back to the element property, which is
+                // all desktop browsers need.
+                //
+                // crossOrigin has to be set before src: the track comes from the jsDelivr
+                // CDN, and a cross-origin element without CORS cannot feed a Web Audio
+                // graph (it plays but goes silent once routed through the gain node).
+                //
+                // Accepted trade-off: iOS interrupts the context while the screen is locked,
+                // so the backing track goes quiet on the lock screen and comes back on
+                // unlock. Everything else about the app assumes the screen stays on anyway
+                // (see WakeLockKeeper), and a working in-app volume has no other route on iOS.
+                this.audioPlayer.crossOrigin = 'anonymous';
+                this.volume = 1;
+                this.gainNode = null;
                 const savedVolume = localStorage.getItem('audioVolume');
                 if (savedVolume !== null) {
-                    this.audioPlayer.volume = parseFloat(savedVolume);
-                    this.volumeControl.value = savedVolume;
-                } else {
-                    this.audioPlayer.volume = 1.0;
-                    this.volumeControl.value = 1.0;
+                    const parsed = parseFloat(savedVolume);
+                    if (!Number.isNaN(parsed)) this.volume = Math.min(1, Math.max(0, parsed));
                 }
+                this.volumeControl.value = String(this.volume);
+                this.applyVolume();
                 
                 // Random playback related properties
                 this.randomIndexArray = []; // Store random index array
@@ -188,6 +204,64 @@ function escapeHtml(value) {
                 this.initTrackSelect();
                 this.loadTrackFromUrl();
                 this.initMediaSession();
+
+                // A locked phone interrupts the audio context; take it back on return so the
+                // backing track is not silent for the rest of the session.
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden && this.isPlaying) this.resumeAudioContext();
+                });
+            }
+
+            // Builds the volume graph once: element -> gain -> speakers. Called from every
+            // play path because iOS refuses to start an AudioContext outside a gesture.
+            ensureAudioGraph() {
+                if (this.gainNode || this.mediaSource) return;
+                const AudioCtor = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtor) return;
+                try {
+                    this.audioContext = new AudioCtor();
+                    this.mediaSource = this.audioContext.createMediaElementSource(this.audioPlayer);
+                    this.gainNode = this.audioContext.createGain();
+                    this.mediaSource.connect(this.gainNode);
+                    this.gainNode.connect(this.audioContext.destination);
+                    this.applyVolume();
+                } catch (error) {
+                    // Element volume is the only remaining lever (fine on desktop).
+                    this.gainNode = null;
+                    if (CDN_CONFIG.debug) {
+                        console.warn('Web Audio volume unavailable:', error);
+                    }
+                }
+            }
+
+            // iOS suspends or interrupts the context when the page is hidden; without this
+            // the backing track comes back silent after a lock screen.
+            resumeAudioContext() {
+                if (!this.audioContext) return;
+                if (this.audioContext.state === 'running') return;
+                const attempt = this.audioContext.resume();
+                if (attempt && typeof attempt.catch === 'function') {
+                    attempt.catch(() => {});
+                }
+            }
+
+            // The gain node owns the level once it exists, so the element stays at full
+            // scale - otherwise the two would multiply.
+            applyVolume() {
+                if (this.gainNode) {
+                    this.gainNode.gain.value = this.volume;
+                    this.audioPlayer.volume = 1;
+                } else {
+                    this.audioPlayer.volume = this.volume;
+                }
+            }
+
+            setVolume(value) {
+                const parsed = parseFloat(value);
+                if (Number.isNaN(parsed)) return;
+                this.volume = Math.min(1, Math.max(0, parsed));
+                this.applyVolume();
+                localStorage.setItem('audioVolume', String(this.volume));
             }
 
             // Lock screen / control centre player. Without this the system only knows about the
@@ -309,11 +383,7 @@ function escapeHtml(value) {
                 this.pauseBtn.addEventListener('click', () => this.pause());
                 this.resumeBtn.addEventListener('click', () => this.resume());
                 this.nextTrackBtn.addEventListener('click', () => this.nextTrack());
-                this.volumeControl.addEventListener('input', (e) => {
-                    const volume = e.target.value;
-                    this.audioPlayer.volume = volume;
-                    localStorage.setItem('audioVolume', volume);
-                });
+                this.volumeControl.addEventListener('input', (e) => this.setVolume(e.target.value));
 
                 this.audioPlayer.addEventListener('ended', () => this.handleTrackEnd());
                 this.audioPlayer.addEventListener('error', () => this.handleError());
@@ -350,6 +420,8 @@ function escapeHtml(value) {
             playCurrentTrack() {
                 const track = this.audioFiles[this.currentIndex];
                 const primaryUrl = getAudioUrl(track.file);
+                this.ensureAudioGraph();
+                this.resumeAudioContext();
                 this.audioPlayer.src = primaryUrl;
                 
                 this.updateUrl();
@@ -391,6 +463,8 @@ function escapeHtml(value) {
             }
 
             resume() {
+                this.ensureAudioGraph();
+                this.resumeAudioContext();
                 this.audioPlayer.play().then(() => {
                     this.isPlaying = true;
                     this.updateUI();
